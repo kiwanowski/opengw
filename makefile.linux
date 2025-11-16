@@ -25,7 +25,7 @@ COMPILER = g++
 #COMPILER = clang++
 
 all: $(NAME)
-	$(NAME)
+	./$(NAME)
 
 # dependencies
 $(OBJDIR)/%.d : %.cpp | $(OBJDIR)
