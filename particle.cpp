@@ -16,6 +16,7 @@
 
 static SDL_Thread* mRunThread = NULL;
 static std::atomic_bool mRunFlag { false };
+static std::atomic_bool quitFlag { false };
 
 particle::PARTICLE* particle::mParticles = NULL;
 int particle::mNumParticles = 0;
@@ -25,12 +26,14 @@ static std::mutex m;
 
 static int runThread(void *ptr)
 {
-    while(1)
+    printf("Particle thread running\n");
+
+    while(!quitFlag)
     {
-        while (!mRunFlag)
+        while (!mRunFlag && !quitFlag)
         {
             SDL_Delay(1);
-        };
+        }
         mRunFlag = false;
 
         std::unique_lock<std::mutex> lock(m);
@@ -123,6 +126,8 @@ static int runThread(void *ptr)
 
     }
 
+    printf("Particle thread exiting\n");
+
     return 0;
 }
 
@@ -145,7 +150,7 @@ particle::particle()
     if (!mRunThread)
     {
 #ifdef USE_SDL
-		printf("Couldn't create particle run thread: %s\n", SDL_GetError());
+        printf("Couldn't create particle run thread: %s\n", SDL_GetError());
 #else
         OutputDebugString(L"Couldn't create particle run thread\n");
 #endif
@@ -154,6 +159,13 @@ particle::particle()
 
 particle::~particle()
 {
+    quitFlag = true;
+
+    int status = 0;
+    SDL_WaitThread(mRunThread, &status);
+
+    printf("Particle thread exited with status %d\n", status);
+
     if (mParticles)
     {
         for (int i=0; i<mNumParticles; i++)

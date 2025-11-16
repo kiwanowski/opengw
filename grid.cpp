@@ -46,6 +46,7 @@ static SDL_mutex* mDrawMutex;
 
 static SDL_Thread* mRunThread = NULL;
 static std::atomic_bool mRunFlag { false };
+static std::atomic_bool quitFlag { false };
 
 static float q;
 static float damping;
@@ -68,12 +69,14 @@ static int runThread(void *ptr)
 {
     int x,y;
 
-    while(1)
+    printf("Grid thread running\n");
+
+    while(!quitFlag)
     {
-        while (!mRunFlag)
+        while (!mRunFlag && !quitFlag)
         {
             SDL_Delay(1);
-        };
+        }
         mRunFlag = false;
 
         std::unique_lock<std::mutex> lock(m);
@@ -160,6 +163,8 @@ static int runThread(void *ptr)
             }
         }
     }
+
+    printf("Grid thread exiting\n");
 
     return 0;
 }
@@ -309,7 +314,7 @@ grid::grid()
     if (!mRunThread)
     {
 #ifdef USE_SDL
-		printf("Couldn't create grid run thread: %s\n", SDL_GetError());
+        printf("Couldn't create grid run thread: %s\n", SDL_GetError());
 #else
         OutputDebugString(L"Couldn't create grid run thread\n");
 #endif
@@ -318,6 +323,13 @@ grid::grid()
 
 grid::~grid()
 {
+    quitFlag = true;
+
+    int status = 0;
+    SDL_WaitThread(mRunThread, &status);
+
+    printf("Grid thread exited with status %d\n", status);
+
     delete [] gridVertexArrayX;
     delete [] gridVertexArrayY;
     delete [] gridColorArrayX;
