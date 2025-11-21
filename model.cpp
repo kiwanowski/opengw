@@ -10,7 +10,7 @@ model::model()
     mNumVertex = 0;
     mNumEdges = 0;
 
-    mIsLineLoop = FALSE;
+    mIsLineLoop = false;
 }
 
 model::~model()

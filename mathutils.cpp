@@ -176,7 +176,7 @@ namespace mathutils
 
 	bool pointInPolygon(const Point3d& testPoint, Point3d poly[], int numPoints, float scale)
 	{
-		bool oddNodes=FALSE;
+		bool oddNodes=false;
 
 		Point3d from(poly[0] * scale);
 	    for (int i=1; i<numPoints; i++)

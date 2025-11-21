@@ -204,7 +204,7 @@ public:
         pen.b *= 1.2;
         pen.a = .8;
         pen.lineRadius=5;
-        game::mParticles.emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, TRUE, TRUE, .98, TRUE);
+        game::mParticles.emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, true, true, .98, true);
 
         // Explode the object into line entities
         theGame->mEnemies->explodeEntity(*this);
@@ -236,7 +236,7 @@ entitySnake::entitySnake()
     setState(ENTITY_STATE_INACTIVE);
 
     mPen = vector::pen(.5, .5, 1, 2, 12);
-    mModel.mIsLineLoop = TRUE;
+    mModel.mIsLineLoop = true;
 
     int i=0;
 

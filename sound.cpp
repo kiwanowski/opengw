@@ -20,8 +20,8 @@ sound::sound()
     for (int i=0; i < NUM_TRACKS; i++)
     {
         mTracks[i].data = NULL;
-        mTracks[i].playing = FALSE;
-        mTracks[i].paused = FALSE;
+        mTracks[i].playing = false;
+        mTracks[i].paused = false;
         mTracks[i].speed = 1;
     }
 
@@ -120,7 +120,7 @@ void sound::bufferCallback(void *unused, Uint8 *stream, int len)
                     else
                     {
                         track->pos = 0;
-                        track->playing = FALSE;
+                        track->playing = false;
                         break;
                     }
 			    }
@@ -209,7 +209,7 @@ void sound::loadTrack(const char *file, int track, float volume, bool loop/*=fal
     mTracks[track].pos = 0;
     mTracks[track].loop = loop;
     mTracks[track].vol = volume;
-    mTracks[track].playing = FALSE;
+    mTracks[track].playing = false;
     SDL_UnlockAudio();
 
     if ( SDL_OpenAudio(&desired, NULL) < 0 )
@@ -232,7 +232,7 @@ void sound::playTrack(int track)
 {
     SDL_LockAudio();
     mTracks[track].pos = 0;
-    mTracks[track].playing = TRUE;
+    mTracks[track].playing = true;
     SDL_UnlockAudio();
 }
 
@@ -240,7 +240,7 @@ void sound::stopTrack(int track)
 {
     SDL_LockAudio();
     mTracks[track].pos = 0;
-    mTracks[track].playing = FALSE;
+    mTracks[track].playing = false;
     SDL_UnlockAudio();
 }
 
@@ -250,7 +250,7 @@ void sound::stopAllTracks()
     for (int i=0; i<NUM_TRACKS; i++)
     {
         mTracks[i].pos = 0;
-        mTracks[i].playing = FALSE;
+        mTracks[i].playing = false;
     }
     SDL_UnlockAudio();
 }
@@ -263,7 +263,7 @@ void sound::stopAllTracksBut(int track)
         if (i != track)
         {
             mTracks[i].pos = 0;
-            mTracks[i].playing = FALSE;
+            mTracks[i].playing = false;
         }
     }
     SDL_UnlockAudio();
@@ -272,14 +272,14 @@ void sound::stopAllTracksBut(int track)
 void sound::pauseTrack(int track)
 {
     SDL_LockAudio();
-    mTracks[track].paused = TRUE;
+    mTracks[track].paused = true;
     SDL_UnlockAudio();
 }
 
 void sound::unpauseTrack(int track)
 {
     SDL_LockAudio();
-    mTracks[track].paused = FALSE;
+    mTracks[track].paused = false;
     SDL_UnlockAudio();
 }
 
@@ -288,7 +288,7 @@ void sound::pauseAllTracks()
     SDL_LockAudio();
     for (int i=0; i<NUM_TRACKS; i++)
     {
-        mTracks[i].paused = TRUE;
+        mTracks[i].paused = true;
     }
     SDL_UnlockAudio();
 }
@@ -300,7 +300,7 @@ void sound::pauseAllTracksBut(int track)
     {
         if (i != track)
         {
-            mTracks[i].paused = TRUE;
+            mTracks[i].paused = true;
         }
     }
     SDL_UnlockAudio();
@@ -311,7 +311,7 @@ void sound::unpauseAllTracks()
     SDL_LockAudio();
     for (int i=0; i<NUM_TRACKS; i++)
     {
-        mTracks[i].paused = FALSE;
+        mTracks[i].paused = false;
     }
     SDL_UnlockAudio();
 }

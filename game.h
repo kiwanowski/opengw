@@ -148,7 +148,7 @@ public:
 
     static GameType mGameType;
 
-    static BOOL mPaused;
+    static bool mPaused;
 
     static int mCredits;
     static int mLevel;
@@ -163,7 +163,7 @@ private:
         vector::pen pen;
         char message[128];
         int timer;
-        BOOL enabled;
+        bool enabled;
     }PointDisplay;
 
     static PointDisplay* mPointDisplays;

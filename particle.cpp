@@ -179,7 +179,7 @@ particle::~particle()
 }
 
 void particle::emitter(Point3d* position, Point3d* angle, float speed, float spread, int num, vector::pen* color, int timeToLive,
-                       BOOL gravity, BOOL gridBound, float drag, BOOL glowPass)
+                       bool gravity, bool gridBound, float drag, bool glowPass)
 {
 
     // Emit a number of random thrust particles from the nozzle
@@ -207,7 +207,7 @@ void particle::emitter(Point3d* position, Point3d* angle, float speed, float spr
 
 void particle::assignParticle(Point3d* position,
                               float aSpeedX, float aSpeedY, float aSpeedZ,
-                              int aTime, vector::pen* aColor, BOOL gravity, BOOL gridBound, float drag, BOOL glowPass)
+                              int aTime, vector::pen* aColor, bool gravity, bool gridBound, float drag, bool glowPass)
 {
     PARTICLE* particle = &mParticles[mIndex++];
     if (mIndex >= mNumParticles) mIndex = 0;

@@ -6,8 +6,8 @@ entityLine::entityLine(void)
     mScale = 1;
     mRadius = 1;
 
-    mEdgeBounce = TRUE;
-    mGridBound = TRUE;
+    mEdgeBounce = true;
+    mGridBound = true;
 
     mTimeToLive = 0;
     mSpawnTime = 0;

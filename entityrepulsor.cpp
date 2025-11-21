@@ -18,8 +18,8 @@ public:
         mType = ENTITY_TYPE_REPULSOR_SHIELD;
         setState(ENTITY_STATE_INACTIVE);
 
-        mEdgeBounce = FALSE;
-        mGridBound = FALSE;
+        mEdgeBounce = false;
+        mGridBound = false;
 
         mPen = vector::pen(.96, .51, .35, .7, 12);
 
@@ -56,8 +56,8 @@ public:
             entityLine* line = theGame->mEnemies->getUnusedLine();
             if (line)
             {
-                line->setEdgeBounce(FALSE);
-                line->setGridBound(FALSE);
+                line->setEdgeBounce(false);
+                line->setGridBound(false);
 
                 vector::pen pen = mPen;
                 pen.a = 1;
@@ -123,8 +123,8 @@ entityRepulsor::entityRepulsor(const game& gameRef)
 
     mScoreValue = 100;
 
-    mEdgeBounce = FALSE;
-    mGridBound = FALSE;
+    mEdgeBounce = false;
+    mGridBound = false;
 
     mAIState = State_Aiming;
     mTimer = 0;

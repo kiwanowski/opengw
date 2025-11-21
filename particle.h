@@ -23,13 +23,13 @@ public:
         int timeToLive;
         float fadeStep;
 
-        BOOL gravity;
-        BOOL gridBound;
+        bool gravity;
+        bool gridBound;
         float drag;
 
-        BOOL hitGrid;
+        bool hitGrid;
 
-        BOOL glowPass;
+        bool glowPass;
 
     }PARTICLE;
 
@@ -40,7 +40,7 @@ public:
     void run();
 
     void emitter(Point3d* position, Point3d* angle, float speed, float spread, int num, vector::pen* color, int timeToLive,
-        BOOL gravity=TRUE, BOOL gridBound=TRUE, float drag=.93, BOOL glowPass=TRUE);
+        bool gravity=true, bool gridBound=true, float drag=.93, bool glowPass=true);
 
     void killAll();
 
@@ -52,7 +52,7 @@ private:
 
     void assignParticle(Point3d* position,
                                   float aSpeedX, float aSpeedY, float aSpeedZ,
-                                  int aTime, vector::pen* aColor, BOOL gravity, BOOL gridBound, float drag, BOOL glowPass);
+                                  int aTime, vector::pen* aColor, bool gravity, bool gridBound, float drag, bool glowPass);
 
 };
 

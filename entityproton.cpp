@@ -8,7 +8,7 @@ entityProton::entityProton(void)
     mScale = 1;
     mRadius = 1.2;
 
-    mEdgeBounce = TRUE;
+    mEdgeBounce = true;
 
     mSpawnTime = 0;
 

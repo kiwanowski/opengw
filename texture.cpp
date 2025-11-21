@@ -9,7 +9,7 @@ texture::texture(void)
     mWidth = 0;
     mHeight = 0;
     mTextureId = 0;
-    mLoaded = FALSE;
+    mLoaded = false;
 }
 
 texture::~texture(void)
@@ -18,7 +18,7 @@ texture::~texture(void)
 
 void texture::load(const char* filename)
 {
-    mLoaded = TRUE;
+    mLoaded = true;
 
     // Load file and decode image.
     static std::vector<unsigned char> image;

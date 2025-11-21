@@ -37,7 +37,7 @@ static void OGLSize(int cx, int cy);
 
 std::unique_ptr<scene> oglScene;
 
-static BOOL oglInited = FALSE;
+static bool oglInited = false;
 
 //our OpenGL texture handles
 static unsigned int texOffscreen;
@@ -128,12 +128,12 @@ static void OGLCreate()
 		printf("SDL_GL_MakeCurrent failed: %s\n", SDL_GetError());
 	}
 
-    oglInited = TRUE;
+    oglInited = true;
 }
 
 static void OGLDestroy()
 {
-    oglInited = FALSE;
+    oglInited = false;
 
 	SDL_GL_MakeCurrent(nullptr, 0);
 	SDL_GL_DeleteContext(context);

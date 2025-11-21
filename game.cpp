@@ -29,7 +29,7 @@ int game::mSkillLevel;
 game::GameMode game::mGameMode;
 game::GameType game::mGameType;
 game::PointDisplay* game::mPointDisplays;
-BOOL game::mPaused = FALSE;
+bool game::mPaused = false;
 int game::mCredits = 0;
 int game::mLevel = 0;
 int game::m2PlayerNumLives = 0;
@@ -106,7 +106,7 @@ game::game()
     mPointDisplays = new PointDisplay[NUM_POINT_DISPLAYS];
     for (int i=0; i<NUM_POINT_DISPLAYS; i++)
     {
-        mPointDisplays[i].enabled = FALSE;
+        mPointDisplays[i].enabled = false;
     }
 
     // Tag 4 black holes for attract mode
@@ -114,7 +114,7 @@ game::game()
     {
         mAttractModeBlackHoles[i].reset(new entity());
         mAttractModeBlackHoles[i]->setPos(Point3d(mathutils::frandFrom0To1() * mGrid.extentX(), mathutils::frandFrom0To1() * mGrid.extentY(), 0));
-        mAttractModeBlackHoles[i]->setEdgeBounce(FALSE);
+        mAttractModeBlackHoles[i]->setEdgeBounce(false);
 
         static float heading=mathutils::frandFrom0To1() * (2*PI);
         if ((mathutils::frandFrom0To1() * 40) < 1)
@@ -145,8 +145,8 @@ game::~game()
 void game::run()
 {
     // Credits
-    static bool creditButtonLast = FALSE;
-    bool creditButton = FALSE; // mControls.getCreditButton();
+    static bool creditButtonLast = false;
+    bool creditButton = false; // mControls.getCreditButton();
     if (creditButton && !creditButtonLast)
     {
         ++mCredits;
@@ -161,7 +161,7 @@ void game::run()
     // Pause functionality
     if (mGameMode == GAMEMODE_PLAYING)
     {
-        static bool pauseLast = FALSE;
+        static bool pauseLast = false;
         bool pause = mControls.getPauseButton(0) || mControls.getPauseButton(1) || mControls.getPauseButton(2) || mControls.getPauseButton(3);
         if (pause && !pauseLast)
         {
@@ -422,8 +422,8 @@ void game::run()
                 att->strength = (explosionTimer > 980) ? 1000 : -40;
                 att->radius = 40;
                 att->pos = pos;
-                att->enabled = TRUE;
-                att->attractsParticles = TRUE;
+                att->enabled = true;
+                att->attractsParticles = true;
 
                 if (mGameMode == GAMEMODE_CHOOSE_GAMETYPE)
                 {
@@ -535,7 +535,7 @@ void game::run()
 
                     pen.a = 100;
                     pen.lineRadius=4;
-                    mParticles.emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, TRUE, FALSE, .98, TRUE);
+                    mParticles.emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, true, false, .98, true);
                 }
             }
         }
@@ -805,7 +805,7 @@ void game::showMessageAtLocation(char* message, const Point3d& pos, const vector
     {
         if (!mPointDisplays[i].enabled)
         {
-            mPointDisplays[i].enabled = TRUE;
+            mPointDisplays[i].enabled = true;
             mPointDisplays[i].pos = pos;
             mPointDisplays[i].pen = pen;
             snprintf(mPointDisplays[i].message, sizeof(mPointDisplays[i].message), "%s", message);
@@ -828,7 +828,7 @@ void game::runPointDisplays()
             mPointDisplays[i].timer--;
             if (mPointDisplays[i].timer <= 0)
             {
-                mPointDisplays[i].enabled = FALSE;
+                mPointDisplays[i].enabled = false;
             }
         }
     }
@@ -860,7 +860,7 @@ void game::clearPointDisplays()
 {
     for (int i=0; i<NUM_POINT_DISPLAYS; i++)
     {
-        mPointDisplays[i].enabled = FALSE;
+        mPointDisplays[i].enabled = false;
     }
 }
 

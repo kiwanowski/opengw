@@ -65,7 +65,7 @@ protected:
     int mBombCounter;
     int mLifeCounter;
 
-    BOOL mDrawSheild;
+    bool mDrawSheild;
 
     int mFiringTimer;
     int mSheildTimer;

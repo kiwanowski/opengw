@@ -147,8 +147,8 @@ void entityPlayerMissile::run()
                     att->strength = 10;
                     att->radius = 5;
                     att->pos = mPos;
-                    att->enabled = TRUE;
-                    att->attractsParticles = FALSE;
+                    att->enabled = true;
+                    att->attractsParticles = false;
                 }
             }
             else if (mType == 1)
@@ -159,8 +159,8 @@ void entityPlayerMissile::run()
                     att->strength = 20;
                     att->radius = 5;
                     att->pos = mPos;
-                    att->enabled = TRUE;
-                    att->attractsParticles = FALSE;
+                    att->enabled = true;
+                    att->attractsParticles = false;
                 }
             }
             else if (mType == 2)
@@ -171,8 +171,8 @@ void entityPlayerMissile::run()
 					att->strength = 30;
 					att->radius = 5;
 					att->pos = mPos;
-					att->enabled = TRUE;
-					att->attractsParticles = FALSE;
+					att->enabled = true;
+					att->attractsParticles = false;
                 }
             }
         }

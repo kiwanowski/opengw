@@ -9,7 +9,7 @@ entityBlackHole::entityBlackHole(const game& gameRef) : mGame(gameRef)
     mScale = 1.5;
     mRadius = 2.5;
 
-    mEdgeBounce = TRUE;
+    mEdgeBounce = true;
 
     mScoreValue = 50;
 
@@ -18,7 +18,7 @@ entityBlackHole::entityBlackHole(const game& gameRef) : mGame(gameRef)
     mType = ENTITY_TYPE_BLACKHOLE;
     setState(ENTITY_STATE_INACTIVE);
 
-    mActivated = FALSE;
+    mActivated = false;
     mDestroyTime = 0;
     mAnimationIndex = 0;
     mAnimationSpeed = 0;
@@ -135,8 +135,8 @@ void entityBlackHole::run()
             att->radius = 6;
 
             att->pos = mPos;
-            att->enabled = TRUE;
-            att->attractsParticles = TRUE;
+            att->enabled = true;
+            att->attractsParticles = true;
         }
     }
 
@@ -232,7 +232,7 @@ void entityBlackHole::spawnTransition()
 {
     entity::spawnTransition();
 
-    mActivated = FALSE;
+    mActivated = false;
     mRadius = 2.5;
     mStrength = 1.5;
     mBalance = 0;
@@ -284,8 +284,8 @@ void entityBlackHole::destroyTransition()
         att->strength = 100;
         att->radius = 50;
         att->pos = mPos;
-        att->enabled = TRUE;
-        att->attractsParticles = FALSE;
+        att->enabled = true;
+        att->attractsParticles = false;
     }
 }
 
@@ -333,7 +333,7 @@ void entityBlackHole::hit(entity* aEntity)
         }
         else
         {
-            mActivated = TRUE;
+            mActivated = true;
 
             if (mGame.mGameMode == game::GAMEMODE_PLAYING)
             {
@@ -352,7 +352,7 @@ void entityBlackHole::hit(entity* aEntity)
                 att->strength = 20;
                 att->radius = 20;
                 att->pos = mPos;
-                att->enabled = TRUE;
+                att->enabled = true;
                 att->attractsParticles = FALSE;
             }
 */
@@ -382,7 +382,7 @@ void entityBlackHole::hit(entity* aEntity)
             pen.b = mathutils::frandFrom0To1();
             pen.a = .4;
             pen.lineRadius=5;
-            game::mParticles.emitter(&mPos, &angle, speed, spread, num, &pen, timeToLive, TRUE, TRUE, .92, TRUE);
+            game::mParticles.emitter(&mPos, &angle, speed, spread, num, &pen, timeToLive, true, true, .92, true);
         }
 */
         for (int i=0; i<360; i++)
@@ -405,7 +405,7 @@ void entityBlackHole::hit(entity* aEntity)
                 pen.b = 1;//mathutils::frandFrom0To1() + .5;
                 pen.a = .5;
                 pen.lineRadius=5;
-                game::mParticles.emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, FALSE, TRUE, .95);
+                game::mParticles.emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, false, true, .95);
             }
         }
 
@@ -417,7 +417,7 @@ void entityBlackHole::hit(entity* aEntity)
         // This code can probably go away
         // This code can probably go away
 
-        mActivated = TRUE;
+        mActivated = true;
 
         mBalance = 2;
         mBalanceRate = 0;
@@ -429,8 +429,8 @@ void entityBlackHole::hit(entity* aEntity)
             att->strength = 20;
             att->radius = 20;
             att->pos = mPos;
-            att->enabled = TRUE;
-            att->attractsParticles = FALSE;
+            att->enabled = true;
+            att->attractsParticles = false;
         }
 
         // This code can probably go away
@@ -528,7 +528,7 @@ void entityBlackHole::draw()
 
 void entityBlackHole::drawRing()
 {
-    BOOL activated = (this->getState() == entity::ENTITY_STATE_INDICATING) ? false : mActivated;
+    bool activated = (this->getState() == entity::ENTITY_STATE_INDICATING) ? false : mActivated;
 
     float delta_theta = 0.05;
 

@@ -98,9 +98,9 @@ public:
 
     const float getAggression() const { return mAggression; }
 
-    void setEdgeBounce(BOOL bounce) { mEdgeBounce = bounce; }
+    void setEdgeBounce(bool bounce) { mEdgeBounce = bounce; }
 
-    void setGridBound(BOOL gridBound) { mGridBound = gridBound; }
+    void setGridBound(bool gridBound) { mGridBound = gridBound; }
 
     virtual void runTransition();
     virtual void run();
@@ -131,8 +131,8 @@ protected:
     float mRotationRate { 0.0f };
     Point3d mScale;
     float mRadius { 0.0f };
-    BOOL mEdgeBounce;
-    BOOL mGridBound;
+    bool mEdgeBounce;
+    bool mGridBound;
     vector::pen mPen;
 
     float mAggression;

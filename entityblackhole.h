@@ -25,7 +25,7 @@ public:
 
     const float getRadius() const;
 
-    BOOL mActivated;
+    bool mActivated;
     float mAnimationIndex;
     float mAnimationSpeed;
     float mAnimationDepth;

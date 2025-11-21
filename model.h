@@ -34,7 +34,7 @@ public:
 
     matrix mMatrix;
 
-    BOOL mIsLineLoop;
+    bool mIsLineLoop;
 
 };
 

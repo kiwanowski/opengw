@@ -27,8 +27,8 @@ entity::entity()
     mIndicateTime = 75;
     mStateTimer = 0;
     mAggression = 1;
-    mEdgeBounce = FALSE;
-    mGridBound = TRUE;
+    mEdgeBounce = false;
+    mGridBound = true;
     mGenId = 0;
 }
 
@@ -263,7 +263,7 @@ void entity::destroy()
     pen.b *= 1.2;
     pen.a = 200;
     pen.lineRadius=5;
-    game::mParticles.emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, TRUE, TRUE, .97, TRUE);
+    game::mParticles.emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, true, true, .97, true);
 }
 
 void entity::indicateTransition()

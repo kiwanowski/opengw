@@ -3,10 +3,6 @@
 
 #pragma once
 
-#define BOOL bool
-#define TRUE true
-#define FALSE false
-
 #include "SDL_opengl.h" // TODO: move to .cpps
 
 #define PI (3.14159)

@@ -53,8 +53,8 @@ void bomb::run()
                 att->radius = mRings[i].radius;
 
                 att->pos = mRings[i].pos;
-                att->enabled = TRUE;
-                att->attractsParticles = TRUE;
+                att->enabled = true;
+                att->attractsParticles = true;
             }
 
             // Look for any enemies within the blast radius and destroy them
@@ -152,7 +152,7 @@ void bomb::startBomb(Point3d pos, float radius, float thickness, float speed, in
         int timeToLive = ring->timeToLive;
         pen.lineRadius=5;
         pen.a = .3;
-        game::mParticles.emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, FALSE, FALSE, 1, TRUE);
+        game::mParticles.emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, false, false, 1, true);
 
     }
 }

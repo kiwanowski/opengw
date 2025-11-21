@@ -28,7 +28,7 @@ scene::scene()
 	theGame.reset(new game);
 
 	mAttractModeTimer = 0;
-	mShowHighScores = FALSE;
+	mShowHighScores = false;
 
     // Create the model for the shield symbol
 
@@ -484,7 +484,7 @@ void scene::drawNumBombs()
 
 void scene::drawScores()
 {
-    BOOL gameover = (theGame->mGameMode != game::GAMEMODE_PLAYING);
+    bool gameover = (theGame->mGameMode != game::GAMEMODE_PLAYING);
 
     if (theGame->mGameType == game::GAMETYPE_SINGLEPLAYER)
     {
@@ -612,5 +612,5 @@ void scene::showHighScores()
 		game::mGameMode = game::GAMEMODE_ATTRACT;
 	}
 	mAttractModeTimer = -200;
-	mShowHighScores = TRUE;
+	mShowHighScores = true;
 }

@@ -140,8 +140,8 @@ void blackholes::run()
                                     att->strength = 1.5;
                                     att->radius = 30;
                                     att->pos = blackHole->getPos();
-                                    att->enabled = TRUE;
-                                    att->attractsParticles = FALSE;
+                                    att->enabled = true;
+                                    att->attractsParticles = false;
                                 }
                             }
                             else

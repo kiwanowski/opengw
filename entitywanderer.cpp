@@ -10,7 +10,7 @@ entityWanderer::entityWanderer()
 
    mScoreValue = 25;
 
-   mEdgeBounce = TRUE;
+   mEdgeBounce = true;
 
    mType = ENTITY_TYPE_WANDERER;
    setState(ENTITY_STATE_INACTIVE);

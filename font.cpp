@@ -18,7 +18,7 @@ static float _bottomAscentOffset = 0;
 
 namespace font
 {
-    static inline void drawText(float scale, Point3d* p, vector::pen* color, BOOL lower=FALSE);
+    static inline void drawText(float scale, Point3d* p, vector::pen* color, bool lower=false);
 
     static Point3d charA[] =
     {
@@ -953,139 +953,139 @@ namespace font
             }
             else
             {
-                BOOL lower = FALSE;
+                bool lower = false;
 
                 switch (text[i])
                 {
                 case ' ':
                     break;
                 case 'a':
-                    lower = TRUE;
+                    lower = true;
                 case 'A':
                     drawText(scale, &charA[0], color, lower);
                     break;
                 case 'b':
-                    lower = TRUE;
+                    lower = true;
                 case 'B':
                     drawText(scale, &charB[0], color, lower);
                     break;
                 case 'c':
-                    lower = TRUE;
+                    lower = true;
                 case 'C':
                     drawText(scale, &charC[0], color, lower);
                     break;
                 case 'd':
-                    lower = TRUE;
+                    lower = true;
                 case 'D':
                     drawText(scale, &charD[0], color, lower);
                     break;
                 case 'e':
-                    lower = TRUE;
+                    lower = true;
                 case 'E':
                     drawText(scale, &charE[0], color, lower);
                     break;
                 case 'f':
-                    lower = TRUE;
+                    lower = true;
                 case 'F':
                     drawText(scale, &charF[0], color, lower);
                     break;
                 case 'g':
-                    lower = TRUE;
+                    lower = true;
                 case 'G':
                     drawText(scale, &charG[0], color, lower);
                     break;
                 case 'h':
-                    lower = TRUE;
+                    lower = true;
                 case 'H':
                     drawText(scale, &charH[0], color, lower);
                     break;
                 case 'i':
-                    lower = TRUE;
+                    lower = true;
                 case 'I':
                     drawText(scale, &charI[0], color, lower);
                     break;
                 case 'j':
-                    lower = TRUE;
+                    lower = true;
                 case 'J':
                     drawText(scale, &charJ[0], color, lower);
                     break;
                 case 'k':
-                    lower = TRUE;
+                    lower = true;
                 case 'K':
                     drawText(scale, &charK[0], color, lower);
                     break;
                 case 'l':
-                    lower = TRUE;
+                    lower = true;
                 case 'L':
                     drawText(scale, &charL[0], color, lower);
                     break;
                 case 'm':
-                    lower = TRUE;
+                    lower = true;
                 case 'M':
                     drawText(scale, &charM[0], color, lower);
                     break;
                 case 'n':
-                    lower = TRUE;
+                    lower = true;
                 case 'N':
                     drawText(scale, &charN[0], color, lower);
                     break;
                 case 'o':
-                    lower = TRUE;
+                    lower = true;
                 case 'O':
                     drawText(scale, &charO[0], color, lower);
                     break;
                 case 'p':
-                    lower = TRUE;
+                    lower = true;
                 case 'P':
                     drawText(scale, &charP[0], color, lower);
                     break;
                 case 'q':
-                    lower = TRUE;
+                    lower = true;
                 case 'Q':
                     drawText(scale, &charQ[0], color, lower);
                     break;
                 case 'r':
-                    lower = TRUE;
+                    lower = true;
                 case 'R':
                     drawText(scale, &charR[0], color, lower);
                     break;
                 case 's':
-                    lower = TRUE;
+                    lower = true;
                 case 'S':
                     drawText(scale, &charS[0], color, lower);
                     break;
                 case 't':
-                    lower = TRUE;
+                    lower = true;
                 case 'T':
                     drawText(scale, &charT[0], color, lower);
                     break;
                 case 'u':
-                    lower = TRUE;
+                    lower = true;
                 case 'U':
                     drawText(scale, &charU[0], color, lower);
                     break;
                 case 'v':
-                    lower = TRUE;
+                    lower = true;
                 case 'V':
                     drawText(scale, &charV[0], color, lower);
                     break;
                 case 'w':
-                    lower = TRUE;
+                    lower = true;
                 case 'W':
                     drawText(scale, &charW[0], color, lower);
                     break;
                 case 'x':
-                    lower = TRUE;
+                    lower = true;
                 case 'X':
                     drawText(scale, &charX[0], color, lower);
                     break;
                 case 'y':
-                    lower = TRUE;
+                    lower = true;
                 case 'Y':
                     drawText(scale, &charY[0], color, lower);
                     break;
                 case 'z':
-                    lower = TRUE;
+                    lower = true;
                 case 'Z':
                     drawText(scale, &charZ[0], color, lower);
                     break;
@@ -1194,7 +1194,7 @@ namespace font
         glEnd();
     }
 
-    static inline void drawText(float scale, Point3d* p, vector::pen* color, BOOL lower)
+    static inline void drawText(float scale, Point3d* p, vector::pen* color, bool lower)
     {
         Point3d start, end;
 

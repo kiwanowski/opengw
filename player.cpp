@@ -8,7 +8,7 @@ const int player::mMaxMissiles = 500;
 player::player()
     : entity()
 {
-    mDrawSheild = FALSE;
+    mDrawSheild = false;
 
     mScoreValue = 0;
 
@@ -16,7 +16,7 @@ player::player()
 
     mSheildTimer = PLAYER_SHEILD_TIME;
 
-    mJoined = FALSE;
+    mJoined = false;
 
     mDestroyTime = 40;
 
@@ -71,12 +71,12 @@ void player::initPlayerForGame()
 
     setState(entity::ENTITY_STATE_SPAWN_TRANSITION);
 
-    mJoined = TRUE;
+    mJoined = true;
 }
 
 void player::deinitPlayerForGame()
 {
-    mJoined = TRUE;
+    mJoined = true;
 }
 
 void player::run()
@@ -155,7 +155,7 @@ void player::run()
                 float spread = .1;
                 exhaustOffset = mathutils::rotate2dPoint(Point3d(0, -2, 0), currentAngle);
                 exhaustOffset += getPos();
-                game::mParticles.emitter(&exhaustOffset, &exhaustAngle, speed, spread, num, &pen, timeToLive, TRUE, TRUE, .92, FALSE);
+                game::mParticles.emitter(&exhaustOffset, &exhaustAngle, speed, spread, num, &pen, timeToLive, true, true, .92, false);
             }
             // First swirl
             {
@@ -163,7 +163,7 @@ void player::run()
                 exhaustOffset += getPos();
 
                 float spread = 0;
-                game::mParticles.emitter(&exhaustOffset, &exhaustAngle, speed, spread, num, &pen, timeToLive, TRUE, TRUE, .92, FALSE);
+                game::mParticles.emitter(&exhaustOffset, &exhaustAngle, speed, spread, num, &pen, timeToLive, true, true, .92, false);
             }
             // Second swirl
             {
@@ -171,7 +171,7 @@ void player::run()
                 exhaustOffset += getPos();
 
                 float spread = 0;
-                game::mParticles.emitter(&exhaustOffset, &exhaustAngle, speed, spread, num, &pen, timeToLive, TRUE, TRUE, .92, FALSE);
+                game::mParticles.emitter(&exhaustOffset, &exhaustAngle, speed, spread, num, &pen, timeToLive, true, true, .92, false);
             }
             mExhaustSpreadIndex += .18;
 
@@ -236,7 +236,7 @@ void player::run()
 
     runMissiles();
 
-    mDrawSheild = FALSE;
+    mDrawSheild = false;
 
     if (mSheildTimer > 0)
         --mSheildTimer;
@@ -245,7 +245,7 @@ void player::run()
     {
         mDrawSheild = (mSheildTimer/6) & 1;
     }
-    else mDrawSheild = TRUE;
+    else mDrawSheild = true;
 
     if (mSheildTimer == 60)
     {
@@ -260,8 +260,8 @@ void player::run()
             att->strength = 100;
             att->radius = 3.5;
             att->pos = mPos;
-            att->enabled = TRUE;
-            att->attractsParticles = FALSE;
+            att->enabled = true;
+            att->attractsParticles = false;
         }
     }
 
@@ -351,7 +351,7 @@ void player::spawnTransition()
     entity::spawnTransition();
     setAngle(angle);
 
-    mDrawSheild = TRUE;
+    mDrawSheild = true;
 
     game::mSound.playTrack(SOUNDID_PLAYERSPAWN);
 }
@@ -360,7 +360,7 @@ void player::spawn()
 {
     entity::spawn();
 
-    mDrawSheild = TRUE;
+    mDrawSheild = true;
 
     // Rez-up grid distortion
 
@@ -373,8 +373,8 @@ void player::spawn()
         att->strength = 20;
         att->radius = 28 * b;
         att->pos = mPos;
-        att->enabled = TRUE;
-        att->attractsParticles = TRUE;
+        att->enabled = true;
+        att->attractsParticles = true;
     }
     att = game::mAttractors.getAttractor();
     if (att)
@@ -382,8 +382,8 @@ void player::spawn()
         att->strength = -20;
         att->radius = 30 * b;
         att->pos = mPos;
-        att->enabled = TRUE;
-        att->attractsParticles = TRUE;
+        att->enabled = true;
+        att->attractsParticles = true;
     }
 }
 
@@ -468,7 +468,7 @@ void player::firePattern2(const Point3d& fireAngle, const Point3d& playerSpeed)
 {
     if (--mFiringTimer <= 0)
     {
-        static BOOL alternate = TRUE;
+        static bool alternate = true;
         alternate = !alternate;
         if (alternate)
             mFiringTimer = 4;
@@ -761,8 +761,8 @@ void player::destroyTransition()
         att->strength = 200;
         att->radius = 30;
         att->pos = mPos;
-        att->enabled = TRUE;
-        att->attractsParticles = TRUE;
+        att->enabled = true;
+        att->attractsParticles = true;
     }
 
     // Throw out some particles
@@ -778,7 +778,7 @@ void player::destroyTransition()
     pen.b *= 1.2;
     pen.a = 200;
     pen.lineRadius=5;
-    game::mParticles.emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, TRUE, TRUE, .97, TRUE);
+    game::mParticles.emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, true, true, .97, true);
 
     setState(ENTITY_STATE_DESTROYED);
 
