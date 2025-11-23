@@ -148,21 +148,17 @@ static void OGLSize(int cx, int cy)
 
 static void createOffscreens()
 {
-    // new array
-    char* colorBits = new char[ blurBufferWidth * blurBufferHeight * 3 ];
+    std::vector<char> colorBits(blurBufferWidth * blurBufferHeight * 3);
 
     // texture creation..
     glGenTextures(1, &texOffscreen);
     glBindTexture(GL_TEXTURE_2D, texOffscreen);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, blurBufferWidth, blurBufferHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, colorBits);
-    gluBuild2DMipmaps(GL_TEXTURE_2D, 3, blurBufferWidth, blurBufferHeight, GL_RGB, GL_UNSIGNED_BYTE, colorBits);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, blurBufferWidth, blurBufferHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, colorBits.data());
+    gluBuild2DMipmaps(GL_TEXTURE_2D, 3, blurBufferWidth, blurBufferHeight, GL_RGB, GL_UNSIGNED_BYTE, colorBits.data());
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    // clean up
-    delete[] colorBits;
 
     glBindTexture(GL_TEXTURE_2D, 0);
 }
