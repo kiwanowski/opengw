@@ -69,7 +69,7 @@ protected:
 
     int mFiringTimer;
     int mSheildTimer;
-    int mBombInterimTimer;
+    int mBombInterimTimer = 0;
 
     int mKillCounter;
     int mLevelAdvanceCounter;
