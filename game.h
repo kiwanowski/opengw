@@ -113,6 +113,7 @@ public:
 
     game();
     ~game();
+    void quitThreads();
 
     void run();
     void draw(int pass);
@@ -127,15 +128,14 @@ public:
     int numPlayers() const;
 
     static sound mSound;
-    static grid mGrid;
-    static particle mParticles;
+    std::unique_ptr<grid> mGrid;
+    std::unique_ptr<enemies> mEnemies;
+    std::unique_ptr<particle> mParticles;
     std::unique_ptr<camera> mCamera;
     static attractor mAttractors;
     static controls mControls;
-    //static enemies mEnemies;
-    std::unique_ptr<enemies> mEnemies;
     std::unique_ptr<stars> mStars;
-    std::unique_ptr<players> mPlayers; 
+    std::unique_ptr<players> mPlayers;
     static blackholes mBlackHoles;
     static spawner mSpawner;
     static bomb mBomb;
@@ -185,7 +185,6 @@ private:
     std::unique_ptr<entity> mAttractModeBlackHoles[4];
 };
 
-//extern game theGame;
 extern std::unique_ptr<game> theGame;
 
 #endif // GAME_H

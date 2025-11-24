@@ -65,6 +65,13 @@ scene::scene()
     mShieldSymbol.mEdgeList[i].from = 10; mShieldSymbol.mEdgeList[i++].to = 11;
 }
 
+scene::~scene()
+{
+    printf("%s\n", __func__);
+    theGame->quitThreads();
+    theGame.reset();
+}
+
 void scene::run()
 {
 	theGame->run();

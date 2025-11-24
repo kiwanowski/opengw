@@ -158,8 +158,8 @@ void entityBlackHole::run()
 
     const float leftEdge = getRadius();
     const float bottomEdge = getRadius();
-    const float rightEdge = (mGame.mGrid.extentX() - getRadius())-1;
-    const float topEdge = (mGame.mGrid.extentY() - getRadius())-1;
+    const float rightEdge = (mGame.mGrid->extentX() - getRadius())-1;
+    const float topEdge = (mGame.mGrid->extentY() - getRadius())-1;
 
     if (mPos.x < leftEdge)
     {
@@ -207,7 +207,7 @@ void entityBlackHole::run()
                 pen.a = 100;
 
                 pen.lineRadius=5;
-                game::mParticles.emitter(&pos, &direction, speed, spread, num, &pen, timeToLive, true, true, .95);
+                theGame->mParticles->emitter(&pos, &direction, speed, spread, num, &pen, timeToLive, true, true, .95);
             }
         }
 /*
@@ -222,7 +222,7 @@ void entityBlackHole::run()
             int timeToLive = mathutils::frandFrom0To1() * 300;
             vector::pen pen = mPen;
             pen.lineRadius=5;
-            game::mParticles.emitter(&pos, &angle, speed, spread, num, &pen, timeToLive);
+            theGame->mParticles->emitter(&pos, &angle, speed, spread, num, &pen, timeToLive);
         }
 */
     }
@@ -275,7 +275,7 @@ void entityBlackHole::destroyTransition()
         int timeToLive = mathutils::frandFrom0To1() * 300;
         vector::pen pen = mPen;
         pen.lineRadius=5;
-        game::mParticles.emitter(&pos, &angle, speed, spread, num, &pen, timeToLive);
+        theGame->mParticles->emitter(&pos, &angle, speed, spread, num, &pen, timeToLive);
     }
 
     attractor::Attractor* att = game::mAttractors.getAttractor();
@@ -382,7 +382,7 @@ void entityBlackHole::hit(entity* aEntity)
             pen.b = mathutils::frandFrom0To1();
             pen.a = .4;
             pen.lineRadius=5;
-            game::mParticles.emitter(&mPos, &angle, speed, spread, num, &pen, timeToLive, true, true, .92, true);
+            theGame->mParticles->emitter(&mPos, &angle, speed, spread, num, &pen, timeToLive, true, true, .92, true);
         }
 */
         for (int i=0; i<360; i++)
@@ -405,7 +405,7 @@ void entityBlackHole::hit(entity* aEntity)
                 pen.b = 1;//mathutils::frandFrom0To1() + .5;
                 pen.a = .5;
                 pen.lineRadius=5;
-                game::mParticles.emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, false, true, .95);
+                theGame->mParticles->emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, false, true, .95);
             }
         }
 

@@ -74,6 +74,7 @@ static bool handleEvents()
 }
 
 int main(int argc, char** argv) {
+	printf("SDL_Init\n");
 	if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO|SDL_INIT_JOYSTICK) < 0) {
 		printf("SDL_Init failed: %s\n", SDL_GetError());
 		return 0;
@@ -99,9 +100,14 @@ int main(int argc, char** argv) {
 
 		OGLDestroy();
 
+		oglScene.reset();
+
 		SDL_DestroyWindow(window);
+	} else {
+	    printf("Failed to create window: %s\n", SDL_GetError());
 	}
 
+	printf("SDL_Quit\n");
 	SDL_Quit();
 
 	return 0;

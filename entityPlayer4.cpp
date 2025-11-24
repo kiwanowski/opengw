@@ -53,8 +53,8 @@ void entityPlayer4::initPlayerForGame()
 
     if (theGame->numPlayers() > 1)
     {
-        mPos.x = (theGame->mGrid.extentX() / 2) + 9;
-        mPos.y = (theGame->mGrid.extentY() / 2) - 9;
+        mPos.x = (theGame->mGrid->extentX() / 2) + 9;
+        mPos.y = (theGame->mGrid->extentY() / 2) - 9;
         mPos.z = 0;
     }
 }
@@ -63,8 +63,8 @@ void entityPlayer4::spawnTransition()
 {
     player::spawnTransition();
 
-    mPos.x = (theGame->mGrid.extentX() / 2) + 9;
-    mPos.y = (theGame->mGrid.extentY() / 2) - 9;
+    mPos.x = (theGame->mGrid->extentX() / 2) + 9;
+    mPos.y = (theGame->mGrid->extentY() / 2) - 9;
     mPos.z = 0;
     mAngle = 0;
 }

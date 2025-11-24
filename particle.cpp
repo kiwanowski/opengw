@@ -102,7 +102,7 @@ static int runThread(void *ptr)
 
 						    Point3d hitPoint;
                             Point3d speed(particle->speedX, particle->speedY);
-						    if (game::mGrid.hitTest(particle->posStream[0], 0, &hitPoint, &speed))
+						    if (theGame->mGrid->hitTest(particle->posStream[0], 0, &hitPoint, &speed))
 						    {
                                 particle->hitGrid = true;
 							    particle->posStream[0] = hitPoint;
@@ -219,7 +219,7 @@ void particle::assignParticle(Point3d* position,
         if (gridBound)
         {
 			Point3d hitPoint;
-			if (game::mGrid.hitTest(pos, 0, &hitPoint))
+			if (theGame->mGrid->hitTest(pos, 0, &hitPoint))
 			{
 				pos = hitPoint;
 			}

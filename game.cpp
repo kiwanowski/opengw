@@ -10,14 +10,14 @@
 
 // Statics
 sound game::mSound;
-particle game::mParticles;
+//particle game::mParticles;
 attractor game::mAttractors;
 controls game::mControls;
 blackholes game::mBlackHoles;
 spawner game::mSpawner;
 bomb game::mBomb;
 highscore game::mHighscore;
-grid game::mGrid;
+//grid game::mGrid;
 settings game::mSettings;
 
 #define NUM_POINT_DISPLAYS 40
@@ -38,6 +38,9 @@ int game::m2PlayerNumBombs = 0;
 
 game::game()
 {
+    mGrid.reset(new grid()); // TODO: make_unique
+    mParticles.reset(new particle());
+
     //
     // Load our sounds
     //
@@ -113,7 +116,7 @@ game::game()
     for (int i=0; i<4; i++)
     {
         mAttractModeBlackHoles[i].reset(new entity());
-        mAttractModeBlackHoles[i]->setPos(Point3d(mathutils::frandFrom0To1() * mGrid.extentX(), mathutils::frandFrom0To1() * mGrid.extentY(), 0));
+        mAttractModeBlackHoles[i]->setPos(Point3d(mathutils::frandFrom0To1() * mGrid->extentX(), mathutils::frandFrom0To1() * mGrid->extentY(), 0));
         mAttractModeBlackHoles[i]->setEdgeBounce(false);
 
         static float heading=mathutils::frandFrom0To1() * (2*PI);
@@ -140,6 +143,17 @@ game::game()
 game::~game()
 {
     delete [] mPointDisplays;
+
+    // TODO: mParticles uses theGame pointer, which would be nil now.
+    //mParticles.reset();
+    //mGrid.reset();
+}
+
+void game::quitThreads()
+{
+    printf("%s\n", __func__);
+    mParticles.reset();
+    mGrid.reset();
 }
 
 void game::run()
@@ -406,8 +420,8 @@ void game::run()
 
         // Attractors to wander around the fireworks display
 
-        int sizex = mGrid.extentX();
-        int sizey = mGrid.extentY();
+        int sizex = mGrid->extentX();
+        int sizey = mGrid->extentY();
 
         for (int i=0; i<4; i++)
         {
@@ -535,14 +549,14 @@ void game::run()
 
                     pen.a = 100;
                     pen.lineRadius=4;
-                    mParticles.emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, true, false, .98, true);
+                    mParticles->emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, true, false, .98, true);
                 }
             }
         }
     }
 
-    mGrid.run();
-    mParticles.run();
+    mGrid->run();
+    mParticles->run();
 }
 
 //#define GRID_GLOW // PERFORMANCE: Making the grid glow causes us to have to draw it twice, which is slower
@@ -570,8 +584,8 @@ void game::draw(int pass)
             }
 
             glLineWidth(6);
-            mGrid.brightness = mBrightness;
-            mGrid.draw();
+            mGrid->brightness = mBrightness;
+            mGrid->draw();
 
             if (mSettings.mGridSmoothing)
             {
@@ -591,7 +605,7 @@ void game::draw(int pass)
 
             glLineWidth(4);
 
-            mParticles.draw();
+            mParticles->draw();
 
             if (mSettings.mParticleSmoothing)
             {
@@ -603,7 +617,7 @@ void game::draw(int pass)
         {
 #ifdef PARTICLE_GLOW
             glLineWidth(10);
-            mParticles.draw();
+            mParticles->draw();
 #endif
         }
 
@@ -767,7 +781,7 @@ void game::startGame(GameType gameType)
 
     mSound.playTrack(SOUNDID_BACKGROUND_NOISELOOP);
 
-    mParticles.killAll();
+    mParticles->killAll();
 }
 
 void game::endGame()

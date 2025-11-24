@@ -129,7 +129,7 @@ void entityPlayerMissile::run()
 
         if (!hit)
         {
-			if (game::mGrid.hitTest(mPos, 0))
+			if (theGame->mGrid->hitTest(mPos, 0))
             {
                 // Hit the edge of the grid - destroy it
                 setState(ENTITY_STATE_DESTROY_TRANSITION);
@@ -206,7 +206,7 @@ void entityPlayerMissile::destroyTransition()
     vector::pen pen = mPen;
     pen.lineRadius=5;
     pen.a = .7;
-    game::mParticles.emitter(&pos, &angle, speed, spread, num, &pen, timeToLive);
+    theGame->mParticles->emitter(&pos, &angle, speed, spread, num, &pen, timeToLive);
 }
 
 void entityPlayerMissile::draw()

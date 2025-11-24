@@ -204,7 +204,7 @@ public:
         pen.b *= 1.2;
         pen.a = .8;
         pen.lineRadius=5;
-        game::mParticles.emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, true, true, .98, true);
+        theGame->mParticles->emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, true, true, .98, true);
 
         // Explode the object into line entities
         theGame->mEnemies->explodeEntity(*this);
@@ -579,8 +579,8 @@ void entitySnake::updateTarget()
     const float margin = 15;
     const float leftEdge = margin;
     const float bottomEdge = margin;
-    const float rightEdge = (theGame->mGrid.extentX()-1)-margin;
-    const float topEdge = (theGame->mGrid.extentY()-1)-margin;
+    const float rightEdge = (theGame->mGrid->extentX()-1)-margin;
+    const float topEdge = (theGame->mGrid->extentY()-1)-margin;
 
     if (mTarget.x < leftEdge)
         mTarget.x = leftEdge;
@@ -591,11 +591,3 @@ void entitySnake::updateTarget()
     else if (mTarget.y > topEdge)
         mTarget.y = topEdge;
 }
-
-
-
-
-
-
-
-

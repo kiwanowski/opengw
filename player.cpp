@@ -155,7 +155,7 @@ void player::run()
                 float spread = .1;
                 exhaustOffset = mathutils::rotate2dPoint(Point3d(0, -2, 0), currentAngle);
                 exhaustOffset += getPos();
-                game::mParticles.emitter(&exhaustOffset, &exhaustAngle, speed, spread, num, &pen, timeToLive, true, true, .92, false);
+                theGame->mParticles->emitter(&exhaustOffset, &exhaustAngle, speed, spread, num, &pen, timeToLive, true, true, .92, false);
             }
             // First swirl
             {
@@ -163,7 +163,7 @@ void player::run()
                 exhaustOffset += getPos();
 
                 float spread = 0;
-                game::mParticles.emitter(&exhaustOffset, &exhaustAngle, speed, spread, num, &pen, timeToLive, true, true, .92, false);
+                theGame->mParticles->emitter(&exhaustOffset, &exhaustAngle, speed, spread, num, &pen, timeToLive, true, true, .92, false);
             }
             // Second swirl
             {
@@ -171,7 +171,7 @@ void player::run()
                 exhaustOffset += getPos();
 
                 float spread = 0;
-                game::mParticles.emitter(&exhaustOffset, &exhaustAngle, speed, spread, num, &pen, timeToLive, true, true, .92, false);
+                theGame->mParticles->emitter(&exhaustOffset, &exhaustAngle, speed, spread, num, &pen, timeToLive, true, true, .92, false);
             }
             mExhaustSpreadIndex += .18;
 
@@ -778,7 +778,7 @@ void player::destroyTransition()
     pen.b *= 1.2;
     pen.a = 200;
     pen.lineRadius=5;
-    game::mParticles.emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, true, true, .97, true);
+    theGame->mParticles->emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, true, true, .97, true);
 
     setState(ENTITY_STATE_DESTROYED);
 
@@ -945,5 +945,3 @@ void player::switchWeapons()
         mCurrentWeapon = (mathutils::frandFrom0To1() * 100) < 50 ? 1 : 2;
     }
 }
-
-

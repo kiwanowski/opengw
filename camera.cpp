@@ -15,7 +15,7 @@ void camera::center()
 {
     mCurrentZoom = zoomedIn;
     mTargetZoom = zoomedIn;
-    mTargetPos = Point3d((mGame.mGrid.extentX()-1)/2, (mGame.mGrid.extentY()-1)/2, mTargetZoom);
+    mTargetPos = Point3d((mGame.mGrid->extentX()-1)/2, (mGame.mGrid->extentY()-1)/2, mTargetZoom);
 }
 
 void camera::followPlayer()
@@ -119,7 +119,7 @@ void camera::followPlayer()
         }
     }
 
-    static const float hypotenuse = sqrt((float)(mGame.mGrid.extentX()*mGame.mGrid.extentX()) + (mGame.mGrid.extentY()*mGame.mGrid.extentY()));
+    static const float hypotenuse = sqrt((float)(mGame.mGrid->extentX()*mGame.mGrid->extentX()) + (mGame.mGrid->extentY()*mGame.mGrid->extentY()));
 
     mTargetZoom = (zoomedIn + (zoomedOut-zoomedIn)) * ((playerDistance*3) / hypotenuse);
 
@@ -128,13 +128,13 @@ void camera::followPlayer()
     else if (mTargetZoom > zoomedOut)
         mTargetZoom = zoomedOut;
 
-    float ax = (playerPos.x / mGame.mGrid.extentX());
-    float ay = (playerPos.y / mGame.mGrid.extentY());
+    float ax = (playerPos.x / mGame.mGrid->extentX());
+    float ay = (playerPos.y / mGame.mGrid->extentY());
 
     const int border = -20;
 
-    mTargetPos.x = (ax * (mGame.mGrid.extentX() + (border*2))) - border;
-    mTargetPos.y = (ay * (mGame.mGrid.extentY() + (border*2))) - border;
+    mTargetPos.x = (ax * (mGame.mGrid->extentX() + (border*2))) - border;
+    mTargetPos.y = (ay * (mGame.mGrid->extentY() + (border*2))) - border;
 }
 
 void camera::run()

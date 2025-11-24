@@ -60,10 +60,10 @@ void entityTinySpinner::run()
         mAngle = mAnimationIndex*2;
 
         if (mVirtualPos.x < 0) mVirtualPos.x = 0;
-        else if (mVirtualPos.x > theGame->mGrid.extentX()-1) mVirtualPos.x = theGame->mGrid.extentX()-1;
+        else if (mVirtualPos.x > theGame->mGrid->extentX()-1) mVirtualPos.x = theGame->mGrid->extentX()-1;
 
         if (mVirtualPos.y < 0) mVirtualPos.y = 0;
-        else if (mVirtualPos.y > theGame->mGrid.extentY()-1) mVirtualPos.y = theGame->mGrid.extentY()-1;
+        else if (mVirtualPos.y > theGame->mGrid->extentY()-1) mVirtualPos.y = theGame->mGrid->extentY()-1;
 
     }
     entity::run();

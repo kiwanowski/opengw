@@ -15,6 +15,7 @@ public:
     };
 
     scene();
+    ~scene();
 
     void run();
     void draw(int pass);

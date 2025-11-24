@@ -261,16 +261,16 @@ void menuSelectGameType::draw()
     glEnable(GL_MULTISAMPLE);
 
     Point3d pos;
-    pos.x = theGame->mGrid.extentX() / 2;
-    pos.y = theGame->mGrid.extentY() / 2;
+    pos.x = theGame->mGrid->extentX() / 2;
+    pos.y = theGame->mGrid->extentY() / 2;
     pos.z = 0;
 
     glLineWidth(4);
 
     // Single player
 
-    pos.x = (theGame->mGrid.extentX() / 2)+0;
-    pos.y = (theGame->mGrid.extentY() / 2)+16;
+    pos.x = (theGame->mGrid->extentX() / 2)+0;
+    pos.y = (theGame->mGrid->extentY() / 2)+16;
 
     {
         vector::pen pen = theGame->mPlayers->mPlayer1->getPen();
@@ -290,15 +290,15 @@ void menuSelectGameType::draw()
 
     // Multiplayer
 
-    const float player1xPos = (theGame->mGrid.extentX() / 2)-30;
-    const float player2xPos = (theGame->mGrid.extentX() / 2)-10;
-    const float player3xPos = (theGame->mGrid.extentX() / 2)+10;
-    const float player4xPos = (theGame->mGrid.extentX() / 2)+30;
+    const float player1xPos = (theGame->mGrid->extentX() / 2)-30;
+    const float player2xPos = (theGame->mGrid->extentX() / 2)-10;
+    const float player3xPos = (theGame->mGrid->extentX() / 2)+10;
+    const float player4xPos = (theGame->mGrid->extentX() / 2)+30;
 
     // PLAYER 1
 
     pos.x = player1xPos;
-    pos.y = (theGame->mGrid.extentY() / 2)-16;
+    pos.y = (theGame->mGrid->extentY() / 2)-16;
 
     {
         vector::pen pen = vector::pen(1, .3, .3, 1, 12); // HACK - find a better way to get this color :-(
@@ -315,7 +315,7 @@ void menuSelectGameType::draw()
     // PLAYER 2
 
     pos.x = player2xPos;
-    pos.y = (theGame->mGrid.extentY() / 2)-16;
+    pos.y = (theGame->mGrid->extentY() / 2)-16;
 
     {
         vector::pen pen = theGame->mPlayers->mPlayer2->getPen();
@@ -332,7 +332,7 @@ void menuSelectGameType::draw()
     // PLAYER 3
 
     pos.x = player3xPos;
-    pos.y = (theGame->mGrid.extentY() / 2)-16;
+    pos.y = (theGame->mGrid->extentY() / 2)-16;
 
     {
         vector::pen pen = theGame->mPlayers->mPlayer3->getPen();
@@ -349,7 +349,7 @@ void menuSelectGameType::draw()
     // PLAYER 4
 
     pos.x = player4xPos;
-    pos.y = (theGame->mGrid.extentY() / 2)-16;
+    pos.y = (theGame->mGrid->extentY() / 2)-16;
 
     {
         vector::pen pen = theGame->mPlayers->mPlayer4->getPen();
@@ -371,10 +371,10 @@ void menuSelectGameType::draw()
 
         glBegin(GL_LINE_LOOP);
 
-        Point3d p1((theGame->mGrid.extentX() / 2)-10, (theGame->mGrid.extentY() / 2)+25, 0);
-        Point3d p2((theGame->mGrid.extentX() / 2)+10, (theGame->mGrid.extentY() / 2)+25, 0);
-        Point3d p3((theGame->mGrid.extentX() / 2)+10, (theGame->mGrid.extentY() / 2)+7, 0);
-        Point3d p4((theGame->mGrid.extentX() / 2)-10, (theGame->mGrid.extentY() / 2)+7, 0);
+        Point3d p1((theGame->mGrid->extentX() / 2)-10, (theGame->mGrid->extentY() / 2)+25, 0);
+        Point3d p2((theGame->mGrid->extentX() / 2)+10, (theGame->mGrid->extentY() / 2)+25, 0);
+        Point3d p3((theGame->mGrid->extentX() / 2)+10, (theGame->mGrid->extentY() / 2)+7, 0);
+        Point3d p4((theGame->mGrid->extentX() / 2)-10, (theGame->mGrid->extentY() / 2)+7, 0);
 
         glVertex3f(p1.x, p1.y, 0 );
         glVertex3f(p2.x, p2.y, 0 );
@@ -392,34 +392,34 @@ void menuSelectGameType::draw()
 
         glBegin(GL_LINE_LOOP);
 
-        Point3d p1((theGame->mGrid.extentX() / 2)+40, (theGame->mGrid.extentY() / 2)-7, 0);
-        Point3d p2((theGame->mGrid.extentX() / 2)-40, (theGame->mGrid.extentY() / 2)-7, 0);
-        Point3d p3((theGame->mGrid.extentX() / 2)-40, (theGame->mGrid.extentY() / 2)-25, 0);
+        Point3d p1((theGame->mGrid->extentX() / 2)+40, (theGame->mGrid->extentY() / 2)-7, 0);
+        Point3d p2((theGame->mGrid->extentX() / 2)-40, (theGame->mGrid->extentY() / 2)-7, 0);
+        Point3d p3((theGame->mGrid->extentX() / 2)-40, (theGame->mGrid->extentY() / 2)-25, 0);
 
         const float indicatorW = 3;
         const float indicatorH = 1.5;
 
         // Player 1 indicator
-        Point3d p4(player1xPos-(indicatorW/2), ((theGame->mGrid.extentY() / 2)-25), 0);
-        Point3d p5(player1xPos, ((theGame->mGrid.extentY() / 2)-25) + ((theGame->mPlayers->mPlayer1->mJoined) ? indicatorH : 0), 0);
-        Point3d p6(player1xPos+(indicatorW/2), ((theGame->mGrid.extentY() / 2)-25), 0);
+        Point3d p4(player1xPos-(indicatorW/2), ((theGame->mGrid->extentY() / 2)-25), 0);
+        Point3d p5(player1xPos, ((theGame->mGrid->extentY() / 2)-25) + ((theGame->mPlayers->mPlayer1->mJoined) ? indicatorH : 0), 0);
+        Point3d p6(player1xPos+(indicatorW/2), ((theGame->mGrid->extentY() / 2)-25), 0);
 
         // Player 2 indicator
-        Point3d p7(player2xPos-(indicatorW/2), ((theGame->mGrid.extentY() / 2)-25), 0);
-        Point3d p8(player2xPos, ((theGame->mGrid.extentY() / 2)-25) + ((theGame->mPlayers->mPlayer2->mJoined) ? indicatorH : 0), 0);
-        Point3d p9(player2xPos+(indicatorW/2), ((theGame->mGrid.extentY() / 2)-25), 0);
+        Point3d p7(player2xPos-(indicatorW/2), ((theGame->mGrid->extentY() / 2)-25), 0);
+        Point3d p8(player2xPos, ((theGame->mGrid->extentY() / 2)-25) + ((theGame->mPlayers->mPlayer2->mJoined) ? indicatorH : 0), 0);
+        Point3d p9(player2xPos+(indicatorW/2), ((theGame->mGrid->extentY() / 2)-25), 0);
 
         // Player 3 indicator
-        Point3d p10(player3xPos-(indicatorW/2), ((theGame->mGrid.extentY() / 2)-25), 0);
-        Point3d p11(player3xPos, ((theGame->mGrid.extentY() / 2)-25) + ((theGame->mPlayers->mPlayer3->mJoined) ? indicatorH : 0), 0);
-        Point3d p12(player3xPos+(indicatorW/2), ((theGame->mGrid.extentY() / 2)-25), 0);
+        Point3d p10(player3xPos-(indicatorW/2), ((theGame->mGrid->extentY() / 2)-25), 0);
+        Point3d p11(player3xPos, ((theGame->mGrid->extentY() / 2)-25) + ((theGame->mPlayers->mPlayer3->mJoined) ? indicatorH : 0), 0);
+        Point3d p12(player3xPos+(indicatorW/2), ((theGame->mGrid->extentY() / 2)-25), 0);
 
         // Player 4 indicator
-        Point3d p13(player4xPos-(indicatorW/2), ((theGame->mGrid.extentY() / 2)-25), 0);
-        Point3d p14(player4xPos, ((theGame->mGrid.extentY() / 2)-25) + ((theGame->mPlayers->mPlayer4->mJoined) ? indicatorH : 0), 0);
-        Point3d p15(player4xPos+(indicatorW/2), ((theGame->mGrid.extentY() / 2)-25), 0);
+        Point3d p13(player4xPos-(indicatorW/2), ((theGame->mGrid->extentY() / 2)-25), 0);
+        Point3d p14(player4xPos, ((theGame->mGrid->extentY() / 2)-25) + ((theGame->mPlayers->mPlayer4->mJoined) ? indicatorH : 0), 0);
+        Point3d p15(player4xPos+(indicatorW/2), ((theGame->mGrid->extentY() / 2)-25), 0);
 
-        Point3d p16((theGame->mGrid.extentX() / 2)+40, (theGame->mGrid.extentY() / 2)-25, 0);
+        Point3d p16((theGame->mGrid->extentX() / 2)+40, (theGame->mGrid->extentY() / 2)-25, 0);
 
         glVertex3f(p1.x, p1.y, 0 );
         glVertex3f(p2.x, p2.y, 0 );

@@ -283,7 +283,7 @@ void entityRepulsor::run()
     // If we hit the grid, stop
 	Point3d hitPoint;
 	Point3d speed = mSpeed;
-	if (game::mGrid.hitTest(mPos, mRadius, &hitPoint, &speed))
+	if (theGame->mGrid->hitTest(mPos, mRadius, &hitPoint, &speed))
 	{
 		mPos = hitPoint;
         mSpeed = speed * .5;
@@ -396,4 +396,3 @@ void entityRepulsor::repelEntity(entity* e)
 
     }
 }
-

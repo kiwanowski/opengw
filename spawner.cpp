@@ -326,8 +326,8 @@ void spawner::spawnEntities(entity::EntityType type, int numWanted)
     const float margin = 15;
     const float leftEdge = margin;
     const float bottomEdge = margin;
-    const float rightEdge = (theGame->mGrid.extentX()-1)-margin;
-    const float topEdge = (theGame->mGrid.extentY()-1)-margin;
+    const float rightEdge = (theGame->mGrid->extentX()-1)-margin;
+    const float topEdge = (theGame->mGrid->extentY()-1)-margin;
 
 
     int numHave = theGame->mEnemies->getNumActiveEnemiesOfType(type);
@@ -342,7 +342,7 @@ void spawner::spawnEntities(entity::EntityType type, int numWanted)
             Point3d spawnPoint(x,y, 0);
 
 	        Point3d hitPoint;
-            if (game::mGrid.hitTest(spawnPoint, enemy->getRadius(), &hitPoint))
+            if (theGame->mGrid->hitTest(spawnPoint, enemy->getRadius(), &hitPoint))
 	        {
 		        spawnPoint = hitPoint;
             }
@@ -368,8 +368,8 @@ void spawner::runWaves()
             static const float margin = 2;
             static const float leftEdge = margin;
             static const float bottomEdge = margin;
-            static const float rightEdge = (theGame->mGrid.extentX()-1)-margin;
-            static const float topEdge = (theGame->mGrid.extentY()-1)-margin;
+            static const float rightEdge = (theGame->mGrid->extentX()-1)-margin;
+            static const float topEdge = (theGame->mGrid->extentY()-1)-margin;
 
             if (wd->mWaveType == WAVETYPE_RUSH)
             {
@@ -397,7 +397,7 @@ void spawner::runWaves()
 
                         // Keep it on the grid
 	                    Point3d hitPoint;
-	                    if (game::mGrid.hitTest(spawnPoint, enemy->getRadius(), &hitPoint))
+	                    if (theGame->mGrid->hitTest(spawnPoint, enemy->getRadius(), &hitPoint))
 	                    {
 		                    spawnPoint = hitPoint;
                         }
@@ -453,8 +453,8 @@ void spawner::runWaves()
 
                                     const float leftEdge = radius;
                                     const float bottomEdge = radius;
-                                    const float rightEdge = (theGame->mGrid.extentX() - radius)-1;
-                                    const float topEdge = (theGame->mGrid.extentY() - radius)-1;
+                                    const float rightEdge = (theGame->mGrid->extentX() - radius)-1;
+                                    const float topEdge = (theGame->mGrid->extentY() - radius)-1;
 
                                     if (spawnPoint.x < leftEdge)
                                     {
@@ -476,7 +476,7 @@ void spawner::runWaves()
 
                                 // Keep it on the grid
 	                            Point3d hitPoint;
-	                            if (game::mGrid.hitTest(spawnPoint, enemy->getRadius(), &hitPoint))
+	                            if (theGame->mGrid->hitTest(spawnPoint, enemy->getRadius(), &hitPoint))
 	                            {
 		                            spawnPoint = hitPoint;
                                 }

@@ -6,8 +6,8 @@ stars::stars(const game& gameRef) : mGame(gameRef)
     const float overscan = 700;
     const float leftEdge = 0-overscan;
     const float bottomEdge = 0-overscan;
-    const float rightEdge = (mGame.mGrid.extentX() + overscan);
-    const float topEdge = (mGame.mGrid.extentY() + overscan);
+    const float rightEdge = (mGame.mGrid->extentX() + overscan);
+    const float topEdge = (mGame.mGrid->extentY() + overscan);
 
     mStars = new STAR[NUM_STARS];
 
@@ -66,7 +66,7 @@ void stars::run()
 
 void stars::draw()
 {
-    constexpr float brightness = 1.0f; //game::mGrid.brightness;
+    constexpr float brightness = 1.0f; //game::mGrid->brightness;
 
 /*
     if (mGame.mGameMode == game::GAMEMODE_ATTRACT || mGame.mGameMode == game::GAMEMODE_CREDITED)

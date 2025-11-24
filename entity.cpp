@@ -185,7 +185,7 @@ void entity::run()
     {
 	    Point3d hitPoint;
 	    Point3d speed = mSpeed;
-	    if (game::mGrid.hitTest(mPos, mRadius, &hitPoint, &speed))
+	    if (theGame->mGrid->hitTest(mPos, mRadius, &hitPoint, &speed))
 	    {
 		    mPos = hitPoint;
             if (mEdgeBounce)
@@ -263,7 +263,7 @@ void entity::destroy()
     pen.b *= 1.2;
     pen.a = 200;
     pen.lineRadius=5;
-    game::mParticles.emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, true, true, .97, true);
+    theGame->mParticles->emitter(&pos, &angle, speed, spread, num, &pen, timeToLive, true, true, .97, true);
 }
 
 void entity::indicateTransition()
@@ -343,4 +343,3 @@ entity* entity::hitTest(const Point3d& pos, float radius)
 #endif
     return NULL;
 }
-
