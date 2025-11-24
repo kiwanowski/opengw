@@ -202,15 +202,10 @@ static void drawOffscreens()
         glBindTexture(GL_TEXTURE_2D, texOffscreen);
         glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE, blurBuffer);
 
-		int blurRadius = 4;
+	const int blurRadius = (game::mGameMode == game::GAMEMODE_ATTRACT || game::mGameMode == game::GAMEMODE_CREDITED) ? 8 : 4;
 
-        if (game::mGameMode == game::GAMEMODE_ATTRACT || game::mGameMode == game::GAMEMODE_CREDITED)
-        {
-			blurRadius = 8;
-        }
-
-		superFastBlur((unsigned char*)&blurBuffer[0][0], blurBufferWidth, blurBufferHeight, blurRadius);
-		superFastBlur((unsigned char*)&blurBuffer[0][0], blurBufferWidth, blurBufferHeight, blurRadius);
+	superFastBlur((unsigned char*)&blurBuffer[0][0], blurBufferWidth, blurBufferHeight, blurRadius);
+	superFastBlur((unsigned char*)&blurBuffer[0][0], blurBufferWidth, blurBufferHeight, blurRadius);
 
         // Bind the blur result back to our texture
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, blurBufferWidth, blurBufferHeight, GL_RGB, GL_UNSIGNED_BYTE, blurBuffer);
