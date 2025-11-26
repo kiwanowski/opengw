@@ -12,6 +12,8 @@
 #include <mutex>
 #include <cstdio>
 
+#include <SDL2/SDL_timer.h>
+
 // The Grid
 // GW is 33w x 22h
 const int grid::resolution_x = ((33*4)+1);
@@ -63,6 +65,9 @@ static GridPoint* mGrid;
 
 static std::mutex m;
 
+static Uint64 performanceCounter;
+static Uint64 runCounter;
+
 //#define GRID_GLOW // PERFORMANCE: Making the grid glow causes us to have to draw it twice, which is slower. This is also defined in game.cpp!
 
 static int runThread(void *ptr)
@@ -78,6 +83,8 @@ static int runThread(void *ptr)
             SDL_Delay(1);
         }
         mRunFlag = false;
+
+        const auto start = SDL_GetPerformanceCounter();
 
         std::unique_lock<std::mutex> lock(m);
 
@@ -162,9 +169,19 @@ static int runThread(void *ptr)
                 }
             }
         }
+
+        const auto finish = SDL_GetPerformanceCounter();
+        performanceCounter += (finish - start);
+        runCounter++;
     }
 
     printf("Grid thread exiting\n");
+
+    const auto frequency = SDL_GetPerformanceFrequency();
+    const auto duration = static_cast<double>(performanceCounter) / static_cast<double>(frequency);
+    const auto average = 1000.0 * duration / static_cast<double>(runCounter);
+
+    printf("Duration %f s, run counter %lu, average %f ms\n", duration, runCounter, average);
 
     return 0;
 }

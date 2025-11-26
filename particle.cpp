@@ -7,12 +7,7 @@
 #include <mutex>
 #include <cstdio>
 
-#define VIRTUAL_SCREEN_WIDTH 800 // FIX ME
-#define VIRTUAL_SCREEN_HEIGHT 600 // FIX ME
-
-#define _DISTANCE 320
-#define _MIN_DISTANCE .001
-#define _MAX_DISTANCE 800
+#include <SDL2/SDL_timer.h>
 
 static SDL_Thread* mRunThread = NULL;
 static std::atomic_bool mRunFlag { false };
@@ -23,6 +18,9 @@ int particle::mNumParticles = 0;
 int particle::mIndex = 0;
 
 static std::mutex m;
+
+static Uint64 performanceCounter;
+static Uint64 runCounter;
 
 static int runThread(void *ptr)
 {
@@ -35,6 +33,8 @@ static int runThread(void *ptr)
             SDL_Delay(1);
         }
         mRunFlag = false;
+
+        const auto start = SDL_GetPerformanceCounter();
 
         std::unique_lock<std::mutex> lock(m);
 
@@ -124,9 +124,18 @@ static int runThread(void *ptr)
             }
         }
 
+        const auto finish = SDL_GetPerformanceCounter();
+        performanceCounter += (finish - start);
+        runCounter++;
     }
 
     printf("Particle thread exiting\n");
+
+    const auto frequency = SDL_GetPerformanceFrequency();
+    const auto duration = static_cast<double>(performanceCounter) / static_cast<double>(frequency);
+    const auto average = 1000.0 * duration / runCounter;
+
+    printf("Duration %f s, run counter %lu, average %f ms\n", duration, runCounter, average);
 
     return 0;
 }
