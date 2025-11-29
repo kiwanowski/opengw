@@ -7,9 +7,12 @@
 
 #include "grid.h"
 #include "game.h"
+#include "point3d.h"
 
 #include <atomic>
 #include <mutex>
+#include <vector>
+
 #include <cstdio>
 
 #include <SDL2/SDL_timer.h>
@@ -19,25 +22,22 @@
 const int grid::resolution_x = ((33*4)+1);
 const int grid::resolution_y = ((22*4)+1);
 
-#define gridxy(x,y) (mGrid[(x)+(y)*grid::resolution_x])
-
-
 // Stuff for our OpenGL grid arrays
 
-typedef struct
+struct Vertex3f
 {
 	GLfloat x, y, z;
-}Vertex3f;
+};
 
-typedef struct
+struct Color4f
 {
 	GLfloat r, g, b, a;
-}Color4f;
+};
 
-static Vertex3f*        gridVertexArrayX;
-static Vertex3f*        gridVertexArrayY;
-static Color4f*         gridColorArrayX;
-static Color4f*         gridColorArrayY;
+static std::vector<Vertex3f> gridVertexArrayX;
+static std::vector<Vertex3f> gridVertexArrayY;
+static std::vector<Color4f>  gridColorArrayX;
+static std::vector<Color4f>  gridColorArrayY;
 static unsigned int     numGridLinesX;
 static unsigned int     numGridLinesY;
 
@@ -46,7 +46,7 @@ static SDL_mutex* game::mAttractors.mMutex;
 static SDL_mutex* mDrawMutex;
 */
 
-static SDL_Thread* mRunThread = NULL;
+static SDL_Thread* mRunThread = nullptr;
 static std::atomic_bool mRunFlag { false };
 static std::atomic_bool quitFlag { false };
 
@@ -54,17 +54,18 @@ static float q;
 static float damping;
 static const float dt = .3;
 
-typedef struct gridPoint
+struct GridPoint
 {
     Point3d pos;
     Point3d vel;
     Point3d center;
-}GridPoint;
+};
 
-static GridPoint* mGrid;
+static std::vector<GridPoint> mGrid;
 
 static std::mutex m;
 
+// TODO: add Profiler class
 static Uint64 performanceCounter;
 static Uint64 runCounter;
 
@@ -72,8 +73,6 @@ static Uint64 runCounter;
 
 static int runThread(void *ptr)
 {
-    int x,y;
-
     printf("Grid thread running\n");
 
     while(!quitFlag)
@@ -86,86 +85,96 @@ static int runThread(void *ptr)
 
         const auto start = SDL_GetPerformanceCounter();
 
-        std::unique_lock<std::mutex> lock(m);
+        // TODO: fix data races
+        //std::unique_lock<std::mutex> lock(m);
 
         // Apply attractors
         for (int a=0; a<game::mAttractors.mNumAttractors; a++)
         {
-            attractor::Attractor att = game::mAttractors.mAttractors[a];
+            attractor::Attractor& att = game::mAttractors.mAttractors[a];
             if (att.enabled)
             {
                 // Evaluate every point on the grid for this attractor
-                int xstart = 1;
-                int ystart = 1;
-                int xend = grid::resolution_x-2;
-                int yend = grid::resolution_y-2;
+                const int xstart = 1;
+                const int ystart = 1;
+                const int xend = grid::resolution_x-2;
+                const int yend = grid::resolution_y-2;
 
                 const Point3d& apoint = att.pos;
 
-                for(y=ystart; y<=yend; ++y)
+                const float arSquared = att.radius * att.radius;
+
+                for(int y=ystart; y<=yend; ++y)
                 {
-                    for(x=xstart; x<=xend; ++x)
+                    GridPoint* p = &mGrid[y * grid::resolution_x];
+
+                    for(int x=xstart; x<=xend; ++x)
                     {
                         //Point3d gpoint = (gridxy(x,y).pos + gridxy(x,y).center) * .5;
-                        const Point3d& gpoint = gridxy(x,y).pos;
+                        p++;
+                        const Point3d& gpoint = p->pos;
 
-                        float distance = mathutils::calculate2dDistanceSquared(gpoint, apoint);
+                        const float distance = mathutils::calculate2dDistanceSquared(gpoint, apoint);
 
-                        if ((distance < (att.radius * att.radius)) && distance > 0.0f)
+                        if (distance < arSquared && distance > 0.0f)
                         {
                             //distance = (distance*distance); // Simulate gravity with distance squared
 
-                            float angle = mathutils::calculate2dAngle(gpoint, apoint);
-                            float strength = att.strength;
+                            const float angle = mathutils::calculate2dAngle(gpoint, apoint);
+                            const float strength = att.strength;
 
-                            Point3d gravityVector(-distance * strength, 0.0f, 0.0f);
-                            Point3d g = mathutils::rotate2dPoint(gravityVector, angle);
+                            const Point3d gravityVector(-distance * strength, 0.0f, 0.0f);
+                            const Point3d g = mathutils::rotate2dPoint(gravityVector, angle);
 
-                            gridxy(x,y).vel.x += g.x * .005f;
-                            gridxy(x,y).vel.y += g.y * .005f;
+                            p->vel.x += g.x * .005f;
+                            p->vel.y += g.y * .005f;
                         }
                     }
                 }
 
                 // Now that we've processed this attractor we can clear it out
-                game::mAttractors.mAttractors[a].enabled = false;
+                att.enabled = false;
             }
         }
+
+        const float accel_c = -q * dt;
+        const float damping_multiplier = exp(-dt * damping);
 
         // Run the grid
         for (int pass=0; pass < 4; pass++)
         {
-            float accel_c = -q * dt;
-            float damping_multiplier = exp(-dt * damping);
-            for(y=1; y<grid::resolution_y-1; ++y)
+            for(int y=1; y<grid::resolution_y-1; ++y)
             {
-                for(x=1; x<grid::resolution_x-1; ++x)
+                GridPoint* p = &mGrid[y * grid::resolution_x];
+
+                for(int x=1; x<grid::resolution_x-1; ++x)
                 {
+                    p++;
                     // Weigh against neighbors
-                    const Point3d& p1 = gridxy(x-1,y).pos;
-                    const Point3d& p2 = gridxy(x+1,y).pos;
-                    const Point3d& p3 = gridxy(x,y-1).pos;
-                    const Point3d& p4 = gridxy(x,y+1).pos;
+                    const Point3d& p1 = (p - 1)->pos;
+                    const Point3d& p2 = (p + 1)->pos;
+                    const Point3d& p3 = (p - grid::resolution_x)->pos;
+                    const Point3d& p4 = (p + grid::resolution_x)->pos;
 
                     // Average the point
                     // avg_pos = (p1+p2+p3+p4) * .25;
-                    Point3d avg_pos;
-                    avg_pos.x = (p1.x + p2.x + p3.x + p4.x) * 0.25f;
-                    avg_pos.y = (p1.y + p2.y + p3.y + p4.y) * 0.25f;
+                    const Point3d avg_pos((p1.x + p2.x + p3.x + p4.x) * 0.25f,
+                                          (p1.y + p2.y + p3.y + p4.y) * 0.25f,
+                                           0.0f);
 
-                    gridxy(x,y).vel += (gridxy(x,y).pos - avg_pos) * accel_c;
-                    gridxy(x,y).vel *= damping_multiplier;
-                    gridxy(x,y).pos += gridxy(x,y).vel * dt;
+                    p->vel += (p->pos - avg_pos) * accel_c;
+                    p->vel *= damping_multiplier;
+                    p->pos += p->vel * dt;
 
                     // Keep the points in bounds
-                    if (gridxy(x,y).pos.x < 0)
-                        gridxy(x,y).pos.x = 0;
-                    else if (gridxy(x,y).pos.x > grid::resolution_x-1)
-                        gridxy(x,y).pos.x = grid::resolution_x-1;
-                    if (gridxy(x,y).pos.y < 0)
-                        gridxy(x,y).pos.y = 0;
-                    else if (gridxy(x,y).pos.y > grid::resolution_y-1)
-                        gridxy(x,y).pos.y = grid::resolution_y-1;
+                    if (p->pos.x < 0)
+                        p->pos.x = 0;
+                    else if (p->pos.x > grid::resolution_x-1)
+                        p->pos.x = grid::resolution_x-1;
+                    if (p->pos.y < 0)
+                        p->pos.y = 0;
+                    else if (p->pos.y > grid::resolution_y-1)
+                        p->pos.y = grid::resolution_y-1;
                 }
             }
         }
@@ -188,20 +197,20 @@ static int runThread(void *ptr)
 
 grid::grid()
 {
-    brightness = 1;
-    mGrid = new gridPoint[resolution_x * resolution_y];
+    mGrid.resize(resolution_x * resolution_y);
     q=12;
     damping = 1.5f;
 
     // Create our array of grid points
-    int x,y;
-    for(y=0;y<resolution_y;++y)
+    for(int y=0;y<resolution_y;++y)
     {
-        for(x=0;x<resolution_x;++x)
+        for(int x=0;x<resolution_x;++x)
         {
-            gridxy(x,y).pos=Point3d(x,y,0);
-            gridxy(x,y).center=Point3d(x,y,0);
-            gridxy(x,y).vel=Point3d(0,0,0);
+            GridPoint& p = mGrid[x + y * grid::resolution_x];
+
+            p.pos=Point3d(x,y,0);
+            p.center=Point3d(x,y,0);
+            p.vel=Point3d(0,0,0);
         }
     }
 
@@ -227,10 +236,10 @@ grid::grid()
     }
 
     // Create our OpenGL vertex and color arrays
-    gridVertexArrayX = new Vertex3f[numGridLinesX*2];
-    gridVertexArrayY = new Vertex3f[numGridLinesY*2];
-    gridColorArrayX = new Color4f[numGridLinesX*2];
-    gridColorArrayY = new Color4f[numGridLinesY*2];
+    gridVertexArrayX.resize(numGridLinesX*2);
+    gridVertexArrayY.resize(numGridLinesY*2);
+    gridColorArrayX.resize(numGridLinesX*2);
+    gridColorArrayY.resize(numGridLinesY*2);
 
     // Init the grid line colors up front so it only has to happen once
 
@@ -245,9 +254,9 @@ grid::grid()
     unsigned int i=0;
 
     // Horizontal lines
-    for (y=0; y<resolution_y; ++y)
+    for (int y=0; y<resolution_y; ++y)
     {
-        for (x=0; x<resolution_x-1; ++x)
+        for (int x=0; x<resolution_x-1; ++x)
         {
             if (y%4==0)
             {
@@ -287,9 +296,9 @@ grid::grid()
     i=0;
 
     // Vertical lines
-    for (x=0; x<resolution_x; ++x)
+    for (int x=0; x<resolution_x; ++x)
     {
-        for (y=0; y<resolution_y-1; ++y)
+        for (int y=0; y<resolution_y-1; ++y)
         {
             if (x%4==0)
             {
@@ -327,7 +336,7 @@ grid::grid()
     }
 
     // Thread stuff
-    mRunThread = SDL_CreateThread(runThread, "grid", NULL);
+    mRunThread = SDL_CreateThread(runThread, "grid", nullptr);
     if (!mRunThread)
     {
 #ifdef USE_SDL
@@ -346,11 +355,6 @@ grid::~grid()
     SDL_WaitThread(mRunThread, &status);
 
     printf("Grid thread exited with status %d\n", status);
-
-    delete [] gridVertexArrayX;
-    delete [] gridVertexArrayY;
-    delete [] gridColorArrayX;
-    delete [] gridColorArrayY;
 }
 
 void grid::run()
@@ -362,21 +366,24 @@ void grid::draw()
 {
     if (brightness <= 0.05f) return;
 
-    std::unique_lock<std::mutex> lock(m);
+    //std::unique_lock<std::mutex> lock(m);
 
     glLineWidth(5.0f);
 
     unsigned int idxVertex = 0;
 
     // Horizontal lines
-    int x,y;
-    for (y=0; y<resolution_y; ++y)
+    for (int y=0; y<resolution_y; ++y)
     {
-        for (x=0; x<resolution_x-1; ++x)
-        {
-            const Point3d& from = gridxy(x,y).pos;
-            const Point3d& to = gridxy(x+1,y).pos;
+        GridPoint* p = &mGrid[y * grid::resolution_x];
 
+        for (int x=0; x<resolution_x-1; ++x)
+        {
+            const Point3d& from = p->pos;
+            const Point3d& to = (p + 1)->pos;
+
+            // TODO: z coordinate seems unused
+            // TODO: it would be nice to assign whole struct directly
             gridVertexArrayX[idxVertex].x = from.x;
             gridVertexArrayX[idxVertex].y = from.y;
             gridVertexArrayX[idxVertex].z = 0.0f;
@@ -386,18 +393,21 @@ void grid::draw()
             gridVertexArrayX[idxVertex].y = to.y;
             gridVertexArrayX[idxVertex].z = 0.0f;
             ++idxVertex;
+            p++;
         }
     }
 
     idxVertex = 0;
 
     // Vertical lines
-    for (x=0; x<resolution_x; ++x)
+    for (int x=0; x<resolution_x; ++x)
     {
-        for (y=0; y<resolution_y-1; ++y)
+        GridPoint* p = &mGrid[x];
+
+        for (int y=0; y<resolution_y-1; ++y)
         {
-            const Point3d& from = gridxy(x,y).pos;
-            const Point3d& to = gridxy(x,y+1).pos;
+            const Point3d& from = p->pos;
+            const Point3d& to = (p + grid::resolution_x)->pos;
 
             gridVertexArrayY[idxVertex].x = from.x;
             gridVertexArrayY[idxVertex].y = from.y;
@@ -408,20 +418,24 @@ void grid::draw()
             gridVertexArrayY[idxVertex].y = to.y;
             gridVertexArrayY[idxVertex].z = 0.0f;
             ++idxVertex;
+
+            p += grid::resolution_x;
         }
     }
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 
+    // TODO: compiled vertex arrays?
+
     // Draw horizontal lines array
-	glVertexPointer(3, GL_FLOAT, 0, gridVertexArrayX);
-	glColorPointer(4, GL_FLOAT, 0, gridColorArrayX);
+	glVertexPointer(3, GL_FLOAT, 0, gridVertexArrayX.data());
+	glColorPointer(4, GL_FLOAT, 0, gridColorArrayX.data());
     glDrawArrays(GL_LINES, 0, numGridLinesX*2);
 
     // Draw vertical lines array
-	glVertexPointer(3, GL_FLOAT, 0, gridVertexArrayY);
-	glColorPointer(4, GL_FLOAT, 0, gridColorArrayY);
+	glVertexPointer(3, GL_FLOAT, 0, gridVertexArrayY.data());
+	glColorPointer(4, GL_FLOAT, 0, gridColorArrayY.data());
     glDrawArrays(GL_LINES, 0, numGridLinesY*2);
 
 	glDisableClientState(GL_COLOR_ARRAY);
@@ -464,16 +478,16 @@ void grid::draw()
     }
 }
 
-bool grid::hitTest(const Point3d& pos, float radius, Point3d* hitPos/*=0*/, Point3d* speed/*=0*/)
+bool grid::hitTest(const Point3d& pos, float radius, Point3d* hitPos, Point3d* speed)
 {
     bool hit = false;
 
 	if (hitPos) *hitPos = pos;
 
-    float left = 0 + radius;
-    float bottom = 0 + radius;
-    float right = resolution_x - radius;
-    float top = resolution_y - radius;
+    const float left = 0 + radius;
+    const float bottom = 0 + radius;
+    const float right = resolution_x - radius;
+    const float top = resolution_y - radius;
 
     if (pos.x < left)
     {

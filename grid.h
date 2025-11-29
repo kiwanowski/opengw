@@ -1,7 +1,7 @@
 #ifndef GRID_H
 #define GRID_H
 
-#include "point3d.h"
+struct Point3d;
 
 class grid
 {
@@ -19,9 +19,9 @@ public:
     int extentX() { return resolution_x; }
     int extentY() { return resolution_y; }
 
-	bool hitTest(const Point3d& pos, float radius, Point3d* hitPos=0, Point3d* speed=0);
+	bool hitTest(const Point3d& pos, float radius, Point3d* hitPos = nullptr, Point3d* speed = nullptr);
 
-    float brightness;
+    float brightness = 1.0f;
 };
 
 #endif // GRID_H
