@@ -3,14 +3,15 @@
 
 #include "point3d.h"
 #include "vector.h"
-#include "mathutils.h"
+
+#include <vector>
 
 #define NUM_POS_STREAM_ITEMS 6
 
 class particle
 {
 public:
-    typedef struct
+    struct PARTICLE
     {
         Point3d posStream[NUM_POS_STREAM_ITEMS];
 
@@ -22,16 +23,13 @@ public:
 
         int timeToLive;
         float fadeStep;
+        float drag;
 
         bool gravity;
         bool gridBound;
-        float drag;
-
         bool hitGrid;
-
         bool glowPass;
-
-    }PARTICLE;
+    };
 
     particle();
     ~particle();
@@ -44,14 +42,14 @@ public:
 
     void killAll();
 
-    static PARTICLE* mParticles;
+    static std::vector<PARTICLE> mParticles;
     static int mNumParticles;
     static int mIndex;
 
 private:
 
     void assignParticle(Point3d* position,
-                                  float aSpeedX, float aSpeedY, float aSpeedZ,
+                                  const Point3d& speedVector,
                                   int aTime, vector::pen* aColor, bool gravity, bool gridBound, float drag, bool glowPass);
 
 };
