@@ -3,12 +3,11 @@
 #include "entityblackhole.h"
 #include "enemies.h"
 #include "mathutils.h"
+#include "profiler.hpp"
 
 #include <atomic>
 #include <mutex>
 #include <cstdio>
-
-#include <SDL2/SDL_timer.h>
 
 static SDL_Thread* mRunThread = NULL;
 static std::atomic_bool mRunFlag { false };
@@ -20,12 +19,11 @@ int particle::mIndex = 0;
 
 static std::mutex m;
 
-static Uint64 performanceCounter;
-static Uint64 runCounter;
-
 static int runThread(void *ptr)
 {
     printf("Particle thread running\n");
+
+    profiler prof("particle");
 
     while(!quitFlag)
     {
@@ -35,7 +33,7 @@ static int runThread(void *ptr)
         }
         mRunFlag = false;
 
-        const auto start = SDL_GetPerformanceCounter();
+        prof.start();
 
         // TODO: fix data races
         //std::unique_lock<std::mutex> lock(m);
@@ -123,18 +121,10 @@ static int runThread(void *ptr)
             }
         }
 
-        const auto finish = SDL_GetPerformanceCounter();
-        performanceCounter += (finish - start);
-        runCounter++;
+        prof.stop();
     }
 
     printf("Particle thread exiting\n");
-
-    const auto frequency = SDL_GetPerformanceFrequency();
-    const auto duration = static_cast<double>(performanceCounter) / static_cast<double>(frequency);
-    const auto average = 1000.0 * duration / runCounter;
-
-    printf("Duration %f s, run counter %lu, average %f ms\n", duration, runCounter, average);
 
     return 0;
 }

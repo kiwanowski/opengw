@@ -8,14 +8,13 @@
 #include "grid.h"
 #include "game.h"
 #include "point3d.h"
+#include "profiler.hpp"
 
 #include <atomic>
 #include <mutex>
 #include <vector>
 
 #include <cstdio>
-
-#include <SDL2/SDL_timer.h>
 
 // The Grid
 // GW is 33w x 22h
@@ -65,14 +64,12 @@ static std::vector<GridPoint> mGrid;
 
 static std::mutex m;
 
-// TODO: add Profiler class
-static Uint64 performanceCounter;
-static Uint64 runCounter;
-
 //#define GRID_GLOW // PERFORMANCE: Making the grid glow causes us to have to draw it twice, which is slower. This is also defined in game.cpp!
 
 static int runThread(void *ptr)
 {
+    profiler prof("grid");
+
     printf("Grid thread running\n");
 
     while(!quitFlag)
@@ -83,7 +80,7 @@ static int runThread(void *ptr)
         }
         mRunFlag = false;
 
-        const auto start = SDL_GetPerformanceCounter();
+        prof.start();
 
         // TODO: fix data races
         //std::unique_lock<std::mutex> lock(m);
@@ -179,18 +176,10 @@ static int runThread(void *ptr)
             }
         }
 
-        const auto finish = SDL_GetPerformanceCounter();
-        performanceCounter += (finish - start);
-        runCounter++;
+        prof.stop();
     }
 
     printf("Grid thread exiting\n");
-
-    const auto frequency = SDL_GetPerformanceFrequency();
-    const auto duration = static_cast<double>(performanceCounter) / static_cast<double>(frequency);
-    const auto average = 1000.0 * duration / static_cast<double>(runCounter);
-
-    printf("Duration %f s, run counter %lu, average %f ms\n", duration, runCounter, average);
 
     return 0;
 }
