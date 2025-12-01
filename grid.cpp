@@ -57,7 +57,6 @@ struct GridPoint
 {
     Point3d pos;
     Point3d vel;
-    Point3d center;
 };
 
 static std::vector<GridPoint> mGrid;
@@ -198,7 +197,6 @@ grid::grid()
             GridPoint& p = mGrid[x + y * grid::resolution_x];
 
             p.pos=Point3d(x,y,0);
-            p.center=Point3d(x,y,0);
             p.vel=Point3d(0,0,0);
         }
     }
