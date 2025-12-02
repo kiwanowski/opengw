@@ -68,7 +68,7 @@ static int runThread(void *ptr)
                     for (int j = blackHoleStart; j < blackHoleEnd; j++)
                     {
                         auto blackHole = static_cast<entityBlackHole*>(theGame->mEnemies->mEnemies[j]);
-                        if (blackHole->mActivated)
+                        if (blackHole->getState() == entity::ENTITY_STATE_RUNNING && blackHole->mActivated)
                         {
                             if (mathutils::calculate2dDistance(particle->posStream[0], blackHole->getPos()) < blackHole->getRadius()*1.01)
                             {
