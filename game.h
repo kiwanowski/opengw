@@ -127,6 +127,7 @@ public:
 
     int numPlayers() const;
 
+    static settings mSettings;
     static sound mSound;
     std::unique_ptr<grid> mGrid;
     std::unique_ptr<enemies> mEnemies;
@@ -140,7 +141,6 @@ public:
     static spawner mSpawner;
     static bomb mBomb;
 	static highscore mHighscore;
-    static settings mSettings;
 
     static int mSkillLevel;
 

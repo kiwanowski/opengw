@@ -19,6 +19,9 @@ public:
     bool mPlayerSmoothing;
     bool mStarSmoothing;
 
+    int mAttractors;
+    int mParticles;
+    int mGridPasses;
 };
 
 

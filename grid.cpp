@@ -137,7 +137,7 @@ static int runThread(void *ptr)
         const float damping_multiplier = exp(-dt * damping);
 
         // Run the grid
-        for (int pass=0; pass < 4; pass++)
+        for (int pass=0; pass < theGame->mSettings.mGridPasses; pass++)
         {
             for(int y=1; y<grid::resolution_y-1; ++y)
             {

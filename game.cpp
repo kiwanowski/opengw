@@ -9,6 +9,8 @@
 #include <cstdio>
 
 // Statics
+//
+settings game::mSettings;
 sound game::mSound;
 //particle game::mParticles;
 attractor game::mAttractors;
@@ -18,7 +20,6 @@ spawner game::mSpawner;
 bomb game::mBomb;
 highscore game::mHighscore;
 //grid game::mGrid;
-settings game::mSettings;
 
 #define NUM_POINT_DISPLAYS 40
 #define TIME_POINT_DISPLAY 50

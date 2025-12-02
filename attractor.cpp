@@ -1,10 +1,11 @@
 #include "defines.h"
 #include "attractor.h"
 #include "mathutils.h"
+#include "game.h"
 
 attractor::attractor()
 {
-    mNumAttractors = 50; // PERFORMANCE: If you set this too high things will start to slow down in grid::run()!!
+    mNumAttractors = theGame->mSettings.mAttractors; // PERFORMANCE: If you set this too high things will start to slow down in grid::run()!!
 
     mAttractors.resize(mNumAttractors);
     clearAll();
@@ -65,5 +66,3 @@ Point3d attractor::evaluateParticle(particle::PARTICLE* p)
 
     return speed;
 }
-
-

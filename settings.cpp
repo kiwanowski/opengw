@@ -1,11 +1,8 @@
 #include "settings.h"
 
-#include "game.h"
-
-
 settings::settings()
 {
-    mCreditsPerGame = 0; // 0 = Freeplay
+    mCreditsPerGame = false; // false = Freeplay
 
     mEnableGlow = true;
 
@@ -14,6 +11,11 @@ settings::settings()
     mEnemySmoothing = false;
     mPlayerSmoothing = true;
     mStarSmoothing = true;
+
+    mAttractors = 50;
+    mParticles = 3000;
+
+    mGridPasses = 4;
 }
 
 settings::~settings()

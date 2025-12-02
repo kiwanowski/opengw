@@ -130,7 +130,7 @@ static int runThread(void *ptr)
 
 particle::particle()
 {
-    mNumParticles = 3000; // PERFORMANCE: The larger this number is, the larger the performance hit!
+    mNumParticles = theGame->mSettings.mParticles; // PERFORMANCE: The larger this number is, the larger the performance hit!
     mIndex = 0;
 
     mParticles.resize(mNumParticles);
