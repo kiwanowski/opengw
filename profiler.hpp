@@ -19,4 +19,5 @@ private:
     Uint64 performanceCounter = 0;
     Uint64 started = 0;
     Uint64 runCounter = 0;
+    Uint64 longest = 0;
 };
