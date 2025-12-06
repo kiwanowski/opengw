@@ -1,5 +1,7 @@
-#include "model.h"
-#include "mathutils.h"
+#include "model.hpp"
+#include "mathutils.hpp"
+
+#include "SDL_opengl.h"
 
 model::model()
 {
@@ -83,4 +85,3 @@ void model::emit(const vector::pen& pen)
     }
 
 }
-

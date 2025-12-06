@@ -1,6 +1,8 @@
-#include "menuSelectGameType.h"
-#include "game.h"
-#include "players.h"
+#include "menuSelectGameType.hpp"
+#include "game.hpp"
+#include "players.hpp"
+
+#include "SDL_opengl.h"
 
 int menuSelectGameType::selection = 0;
 

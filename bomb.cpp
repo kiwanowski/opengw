@@ -1,6 +1,8 @@
-#include "bomb.h"
-#include "game.h"
-#include "enemies.h"
+#include "bomb.hpp"
+#include "game.hpp"
+#include "enemies.hpp"
+
+#include "SDL_opengl.h"
 
 bomb::bomb(void)
 {

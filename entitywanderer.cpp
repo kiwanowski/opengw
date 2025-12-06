@@ -1,5 +1,5 @@
-#include "entitywanderer.h"
-#include "game.h"
+#include "entitywanderer.hpp"
+#include "game.hpp"
 
 
 entityWanderer::entityWanderer()

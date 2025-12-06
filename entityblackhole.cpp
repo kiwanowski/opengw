@@ -1,8 +1,10 @@
-#include "entityblackhole.h"
-#include "game.h"
-#include "sincos.h"
-#include "players.h"
-#include "enemies.h"
+#include "entityblackhole.hpp"
+#include "game.hpp"
+#include "sincos.hpp"
+#include "players.hpp"
+#include "enemies.hpp"
+
+#include "SDL_opengl.h"
 
 entityBlackHole::entityBlackHole(const game& gameRef) : mGame(gameRef)
 {

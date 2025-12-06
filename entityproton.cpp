@@ -1,7 +1,7 @@
-#include "entityproton.h"
-#include "game.h"
-#include "sincos.h"
-#include "players.h"
+#include "entityproton.hpp"
+#include "game.hpp"
+#include "sincos.hpp"
+#include "players.hpp"
 
 entityProton::entityProton(void)
 {

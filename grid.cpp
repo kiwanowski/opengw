@@ -5,9 +5,9 @@
 //
 
 
-#include "grid.h"
-#include "game.h"
-#include "point3d.h"
+#include "grid.hpp"
+#include "game.hpp"
+#include "point3d.hpp"
 #include "profiler.hpp"
 
 #include <atomic>
@@ -15,6 +15,8 @@
 #include <vector>
 
 #include <cstdio>
+
+#include "SDL_opengl.h"
 
 // The Grid
 // GW is 33w x 22h

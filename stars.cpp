@@ -1,5 +1,7 @@
-#include "stars.h"
-#include "game.h"
+#include "stars.hpp"
+#include "game.hpp"
+
+#include "SDL_opengl.h"
 
 stars::stars(const game& gameRef) : mGame(gameRef)
 {
@@ -87,4 +89,3 @@ void stars::draw()
 
     glEnd();
 }
-

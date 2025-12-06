@@ -1,6 +1,6 @@
-#include "highscore.h"
-#include "game.h"
-#include "players.h"
+#include "highscore.hpp"
+#include "game.hpp"
+#include "players.hpp"
 
 #include <cstdio>
 
@@ -346,6 +346,3 @@ void highscore::save()
         fclose(pFile);
     }
 }
-
-
-

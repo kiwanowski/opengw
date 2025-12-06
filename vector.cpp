@@ -1,8 +1,9 @@
-#include "vector.h"
-#include "mathutils.h"
+#include "vector.hpp"
+#include "mathutils.hpp"
 
+#include "SDL_opengl.h"
 
-static const float thicknessConstant = .0165;
+static const float thicknessConstant = .0165f;
 
 namespace vector
 {
@@ -151,4 +152,3 @@ namespace vector
     }
 
 };
-

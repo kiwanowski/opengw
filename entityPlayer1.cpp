@@ -1,6 +1,6 @@
-#include "entityPlayer1.h"
-#include "game.h"
-#include "entityplayermissile.h"
+#include "entityPlayer1.hpp"
+#include "game.hpp"
+#include "entityplayermissile.hpp"
 
 entityPlayer1::entityPlayer1(const game& gameRef)
     : player(), mGame(gameRef)
@@ -94,5 +94,3 @@ void entityPlayer1::spawnTransition()
         mAngle = 0;
     }
 }
-
-

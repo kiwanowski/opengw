@@ -1,6 +1,6 @@
-#include "enemies.h"
-#include "game.h"
-#include "entityblackhole.h"
+#include "enemies.hpp"
+#include "game.hpp"
+#include "entityblackhole.hpp"
 
 #include <cstdio>
 
@@ -561,4 +561,3 @@ int enemies::getBlackHoleStart() const
     // when calculating particles
     return idxBlackHoleStart;
 }
-

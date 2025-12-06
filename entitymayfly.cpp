@@ -1,6 +1,8 @@
-#include "entitymayfly.h"
-#include "game.h"
-#include "players.h"
+#include "entitymayfly.hpp"
+#include "game.hpp"
+#include "players.hpp"
+
+#include "SDL_opengl.h"
 
 entityMayfly::entityMayfly()
     : entity()
@@ -77,11 +79,11 @@ void entityMayfly::draw()
 			glBegin(GL_LINES);
 
             progress = 1-progress;
-			
+
             float a = progress;
             if (a<0) a = 0;
             if (a>1) a = 1;
-			
+
             pen.a = a;
 
             mModel.Identity();
@@ -89,7 +91,7 @@ void entityMayfly::draw()
             mModel.Rotate(mAngle);
             mModel.Translate(trans);
             mModel.emit(pen);
-			
+
             // *********************************************
 
             progress = progress + .25;
@@ -170,4 +172,3 @@ void entityMayfly::run()
     }
     entity::run();
 }
-

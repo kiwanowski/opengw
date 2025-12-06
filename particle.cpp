@@ -1,13 +1,15 @@
-#include "particle.h"
-#include "game.h"
-#include "entityblackhole.h"
-#include "enemies.h"
-#include "mathutils.h"
+#include "particle.hpp"
+#include "game.hpp"
+#include "entityblackhole.hpp"
+#include "enemies.hpp"
+#include "mathutils.hpp"
 #include "profiler.hpp"
 
 #include <atomic>
 #include <mutex>
 #include <cstdio>
+
+#include "SDL_opengl.h"
 
 static SDL_Thread* mRunThread = NULL;
 static std::atomic_bool mRunFlag { false };

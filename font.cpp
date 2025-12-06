@@ -1,8 +1,10 @@
-#include "font.h"
-#include "game.h"
-#include "point3d.h"
+#include "font.hpp"
+#include "game.hpp"
+#include "point3d.hpp"
 #include <cstdio>
 #include <cstdarg>
+
+#include "SDL_opengl.h"
 
 float AlphanumericsPrintVScale = 1.0f;
 

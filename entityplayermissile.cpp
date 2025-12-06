@@ -1,9 +1,9 @@
-#include "entityplayermissile.h"
-#include "game.h"
-#include "entityblackhole.h"
-#include "entityrepulsor.h"
-#include "players.h"
-#include "enemies.h"
+#include "entityplayermissile.hpp"
+#include "game.hpp"
+#include "entityblackhole.hpp"
+#include "entityrepulsor.hpp"
+#include "players.hpp"
+#include "enemies.hpp"
 
 entityPlayerMissile::entityPlayerMissile()
     : entity()

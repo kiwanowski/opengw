@@ -1,7 +1,7 @@
-#include "defines.h"
-#include "attractor.h"
-#include "mathutils.h"
-#include "game.h"
+#include "defines.hpp"
+#include "attractor.hpp"
+#include "mathutils.hpp"
+#include "game.hpp"
 
 attractor::attractor()
 {

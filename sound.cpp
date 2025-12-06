@@ -1,5 +1,5 @@
-#include "sound.h"
-#include "game.h"
+#include "sound.hpp"
+#include "game.hpp"
 
 #include <cstdio>
 

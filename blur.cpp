@@ -1,4 +1,4 @@
-#include "blur.h"
+#include "blur.hpp"
 
 #include <vector>
 

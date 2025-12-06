@@ -1,12 +1,14 @@
-#include "game.h"
-#include "camera.h"
-#include "stars.h"
-#include "players.h"
-#include "enemies.h"
+#include "game.hpp"
+#include "camera.hpp"
+#include "stars.hpp"
+#include "players.hpp"
+#include "enemies.hpp"
 
-#include "menuSelectGameType.h"
+#include "menuSelectGameType.hpp"
 
 #include <cstdio>
+
+#include "SDL_opengl.h"
 
 // Statics
 //

@@ -1,10 +1,10 @@
-#include "players.h"
-#include "entityPlayer1.h"
-#include "entityPlayer2.h"
-#include "entityPlayer3.h"
-#include "entityPlayer4.h"
-#include "game.h"
-#include "enemies.h"
+#include "players.hpp"
+#include "entityPlayer1.hpp"
+#include "entityPlayer2.hpp"
+#include "entityPlayer3.hpp"
+#include "entityPlayer4.hpp"
+#include "game.hpp"
+#include "enemies.hpp"
 
 player* players::mPlayer1;
 player* players::mPlayer2;
@@ -272,6 +272,3 @@ player* players::getRandomActivePlayer()
 
     return NULL;
 }
-
-
-

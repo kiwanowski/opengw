@@ -1,5 +1,5 @@
-#include "mathutils.h"
-#include "sincos.h"
+#include "mathutils.hpp"
+#include "sincos.hpp"
 
 #include <cstdlib>
 
@@ -258,5 +258,3 @@ namespace mathutils
         return ((eval > (testValue - tolerance)) && (eval < (testValue + tolerance)));
     }
 };
-
-

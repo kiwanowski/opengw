@@ -1,5 +1,5 @@
-#include "entityline.h"
-#include "game.h"
+#include "entityline.hpp"
+#include "game.hpp"
 
 entityLine::entityLine(void)
 {
@@ -53,4 +53,3 @@ void entityLine::addEndpoints(const Point3d& from, const Point3d& to)
     mModel.mVertexList[0] = Point3d(from);
     mModel.mVertexList[1] = Point3d(to);
 }
-

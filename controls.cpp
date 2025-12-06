@@ -1,6 +1,6 @@
-#include "controls.h"
-#include "mathutils.h"
-#include "scene.h"
+#include "controls.hpp"
+#include "mathutils.hpp"
+#include "scene.hpp"
 
 #include <SDL.h>
 

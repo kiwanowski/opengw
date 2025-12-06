@@ -1,9 +1,9 @@
-#include "entityspinner.h"
-#include "entitytinyspinner.h"
-#include "game.h"
-#include "sincos.h"
-#include "players.h"
-#include "enemies.h"
+#include "entityspinner.hpp"
+#include "entitytinyspinner.hpp"
+#include "game.hpp"
+#include "sincos.hpp"
+#include "players.hpp"
+#include "enemies.hpp"
 
 entitySpinner::entitySpinner(const game& gameRef)
     : entity(), mGame(gameRef)
@@ -120,4 +120,3 @@ void entitySpinner::spawnTransition()
     entity::spawnTransition();
     game::mSound.playTrack(SOUNDID_ENEMYSPAWN2);
 }
-

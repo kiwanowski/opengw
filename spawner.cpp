@@ -1,7 +1,7 @@
-#include "spawner.h"
-#include "game.h"
-#include "players.h"
-#include "enemies.h"
+#include "spawner.hpp"
+#include "game.hpp"
+#include "players.hpp"
+#include "enemies.hpp"
 
 #include <cmath>
 #include <cstdio>

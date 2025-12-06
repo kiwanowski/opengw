@@ -1,7 +1,9 @@
-#include "hyperspace.h"
-#include "game.h"
-#include "mathutils.h"
-#include "camera.h"
+#include "hyperspace.hpp"
+#include "game.hpp"
+#include "mathutils.hpp"
+#include "camera.hpp"
+
+#include "SDL_opengl.h"
 
 extern Point3d cameraPos;
 
@@ -71,4 +73,3 @@ void hyperspace::draw()
 
     glEnd();
 }
-

@@ -1,9 +1,9 @@
-#include "entityrepulsor.h"
-#include "game.h"
-#include "entityline.h"
-#include "entityPlayer1.h"
-#include "players.h"
-#include "enemies.h"
+#include "entityrepulsor.hpp"
+#include "game.hpp"
+#include "entityline.hpp"
+#include "entityPlayer1.hpp"
+#include "players.hpp"
+#include "enemies.hpp"
 
 class entityRepulsorShieldLine : public entity
 {

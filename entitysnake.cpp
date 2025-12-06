@@ -1,6 +1,8 @@
-#include "entitysnake.h"
-#include "game.h"
-#include "enemies.h"
+#include "entitysnake.hpp"
+#include "game.hpp"
+#include "enemies.hpp"
+
+#include "SDL_opengl.h"
 
 #define NUM_SEGMENTS 23
 #define NUM_SEG_STREAM_ITEMS 5 // sets the spacing between segments

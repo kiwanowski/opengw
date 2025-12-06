@@ -1,6 +1,6 @@
-#include "game.h"
-#include "camera.h"
-#include "players.h"
+#include "game.hpp"
+#include "camera.hpp"
+#include "players.hpp"
 
 static const int zoomedIn = 46; // 50
 static const int zoomedOut = 72; // 66
@@ -146,4 +146,3 @@ void camera::run()
 
     mCurrentPos.z = mCurrentZoom;
 }
-

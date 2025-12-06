@@ -1,9 +1,9 @@
-#include "defines.h"
-#include "scene.h"
-#include "game.h"
+#include "defines.hpp"
+#include "scene.hpp"
+#include "game.hpp"
 
-#include "blur.h"
-#include "sincos.h"
+#include "blur.hpp"
+#include "sincos.hpp"
 
 #include <SDL.h>
 #include <GL/glu.h>

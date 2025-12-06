@@ -1,9 +1,9 @@
-#include "blackholes.h"
-#include "game.h"
-#include "entityblackhole.h"
-#include "particle.h"
-#include "players.h"
-#include "enemies.h"
+#include "blackholes.hpp"
+#include "game.hpp"
+#include "entityblackhole.hpp"
+#include "particle.hpp"
+#include "players.hpp"
+#include "enemies.hpp"
 
 #include <algorithm>
 
@@ -201,9 +201,3 @@ void blackholes::run()
 */
 
 }
-
-
-
-
-
-

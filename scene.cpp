@@ -1,9 +1,9 @@
-#include "scene.h"
-#include "game.h"
-#include "menuSelectGameType.h"
-#include "players.h"
+#include "scene.hpp"
+#include "game.hpp"
+#include "menuSelectGameType.hpp"
+#include "players.hpp"
 
-#include "game.h"
+#include "game.hpp"
 
 #include <GL/glu.h>
 

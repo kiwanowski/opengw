@@ -1,7 +1,7 @@
-#include "entityweaver.h"
-#include "game.h"
-#include "entityPlayer1.h"
-#include "players.h"
+#include "entityweaver.hpp"
+#include "game.hpp"
+#include "entityPlayer1.hpp"
+#include "players.hpp"
 
 entityWeaver::entityWeaver()
     : entity()
@@ -101,6 +101,3 @@ void entityWeaver::spawnTransition()
     mRotationRate = -.06;
     game::mSound.playTrack(SOUNDID_ENEMYSPAWN3);
 }
-
-
-

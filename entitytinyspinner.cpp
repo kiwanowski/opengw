@@ -1,6 +1,6 @@
-#include "entitytinyspinner.h"
-#include "game.h"
-#include "players.h"
+#include "entitytinyspinner.hpp"
+#include "game.hpp"
+#include "players.hpp"
 
 entityTinySpinner::entityTinySpinner(const game& gameRef)
     : entitySpinner(gameRef), mGame(gameRef)
@@ -118,9 +118,3 @@ entity* entityTinySpinner::hitTest(const Point3d& pos, float radius)
     }
     return NULL;
 }
-
-
-
-
-
-

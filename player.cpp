@@ -1,7 +1,9 @@
-#include "player.h"
-#include "game.h"
+#include "player.hpp"
+#include "game.hpp"
 
 #include <cstdio>
+
+#include "SDL_opengl.h"
 
 const int player::mMaxMissiles = 500;
 
