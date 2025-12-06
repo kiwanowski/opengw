@@ -11,9 +11,6 @@
 #include <cstdio>
 #include <memory>
 
-static const int displayWidth = 800;
-static const int displayHeight = 600;
-
 //declare image buffers
 static const int blurBufferWidth = 500;
 static const int blurBufferHeight = 250;
@@ -66,6 +63,15 @@ static bool handleEvents()
 			case SDL_QUIT:
 				printf("Quit\n");
 				return false;
+			case SDL_WINDOWEVENT:
+		    {
+    		    if (e.window.event == SDL_WINDOWEVENT_RESIZED) {
+    			    SDL_WindowEvent* we = reinterpret_cast<SDL_WindowEvent*>(&e);
+    			    //printf("%d %d\n", we->data1, we->data2);
+    			    OGLSize(we->data1, we->data2);
+    			    break;
+    			}
+			}
 		}
 	}
 
@@ -86,18 +92,15 @@ int main(int argc, char** argv) {
 	}
 
 	window = SDL_CreateWindow("OpenGL SDL2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		displayWidth, displayHeight, flags);
+		theGame->mSettings.displayWidth, theGame->mSettings.displayHeight, flags);
 
 	if (window) {
-		srand(SDL_GetTicks());
-		make_sin_cos_tables();
-
-		oglScene = std::make_unique<scene>();
+        srand(SDL_GetTicks());
+        make_sin_cos_tables();
+        oglScene = std::make_unique<scene>();
 
 		OGLCreate();
-
 		run();
-
 		OGLDestroy();
 
 		oglScene.reset();
@@ -121,7 +124,7 @@ static void OGLCreate()
 		printf("SDL_GL_CreateContext failed: %s\n", SDL_GetError());
 	}
 
-    OGLSize(displayWidth, displayHeight);
+    OGLSize(theGame->mSettings.displayWidth, theGame->mSettings.displayHeight);
 
     // Do stuff with the context here if needed...
     createOffscreens();

@@ -20,4 +20,7 @@ public:
     int mAttractors;
     int mParticles;
     int mGridPasses;
+
+    int displayWidth;
+    int displayHeight;
 };

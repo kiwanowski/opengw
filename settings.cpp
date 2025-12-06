@@ -16,6 +16,9 @@ settings::settings()
     mParticles = 3000;
 
     mGridPasses = 4;
+
+    displayWidth = 800;
+    displayHeight = 600;
 }
 
 settings::~settings()
