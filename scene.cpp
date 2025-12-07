@@ -5,6 +5,8 @@
 
 #include "game.hpp"
 
+#include "SDL_opengl.h"
+
 #include <GL/glu.h>
 
 #include <cstdio>
