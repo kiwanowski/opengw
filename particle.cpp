@@ -11,7 +11,7 @@
 
 #include "SDL_opengl.h"
 
-static SDL_Thread* mRunThread = NULL;
+static SDL_Thread* mRunThread = nullptr;
 static std::atomic_bool mRunFlag { false };
 static std::atomic_bool quitFlag { false };
 
@@ -126,7 +126,7 @@ particle::particle()
     }
 
     // Thread stuff
-    mRunThread = SDL_CreateThread(runThread, "particle", NULL);
+    mRunThread = SDL_CreateThread(runThread, "particle", nullptr);
     if (!mRunThread) {
 #ifdef USE_SDL
         printf("Couldn't create particle run thread: %s\n", SDL_GetError());

@@ -305,7 +305,7 @@ entity* enemies::hitTestEnemiesAtPosition(const Point3d& point, float radius, bo
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 int enemies::getNumActiveEnemiesOfType(const entity::EntityType& type)
@@ -426,7 +426,7 @@ entity* enemies::getUnusedEnemyOfType(const entity::EntityType& type)
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 entityLine* enemies::getUnusedLine()
@@ -437,7 +437,7 @@ entityLine* enemies::getUnusedLine()
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 void enemies::explodeEntity(entity& e)

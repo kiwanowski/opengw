@@ -17,7 +17,7 @@ sound::sound()
     sound::mTracks = new TRACK[NUM_TRACKS];
 
     for (int i = 0; i < NUM_TRACKS; i++) {
-        mTracks[i].data = NULL;
+        mTracks[i].data = nullptr;
         mTracks[i].playing = false;
         mTracks[i].paused = false;
         mTracks[i].speed = 1;
@@ -132,7 +132,7 @@ void sound::loadTrack(const char* file, int track, float volume, bool loop /*=fa
     SDL_AudioCVT cvt;
 
     // Load the sound file and convert it to 16-bit stereo at 44Hz
-    if (SDL_LoadWAV(file, &wave, &data, &dlen) == NULL) {
+    if (SDL_LoadWAV(file, &wave, &data, &dlen) == nullptr) {
 #ifdef USE_SDL
         printf("Failed loading audio track %d: %s\n", track, SDL_GetError());
 #else
@@ -183,7 +183,7 @@ void sound::loadTrack(const char* file, int track, float volume, bool loop /*=fa
 
     if (mTracks[track].data) {
         delete mTracks[track].data;
-        mTracks[track].data = NULL;
+        mTracks[track].data = nullptr;
     }
     SDL_LockAudio();
     mTracks[track].data = cvt.buf;
@@ -194,7 +194,7 @@ void sound::loadTrack(const char* file, int track, float volume, bool loop /*=fa
     mTracks[track].playing = false;
     SDL_UnlockAudio();
 
-    if (SDL_OpenAudio(&desired, NULL) < 0) {
+    if (SDL_OpenAudio(&desired, nullptr) < 0) {
         fprintf(stderr, "Unable to open audio: %s\n", SDL_GetError());
     }
 }

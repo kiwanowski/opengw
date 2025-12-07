@@ -120,7 +120,7 @@ static void OGLCreate()
 {
     context = SDL_GL_CreateContext(window);
 
-    if (context == NULL) {
+    if (context == nullptr) {
         printf("SDL_GL_CreateContext failed: %s\n", SDL_GetError());
     }
 

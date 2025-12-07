@@ -96,7 +96,7 @@ void players::run()
                         if (mGame.numPlayers() == 1) {
                             for (int i = 0; i < NUM_ENEMIES; i++) {
                                 if ((theGame->mEnemies->mEnemies[i]->getState() != entity::ENTITY_STATE_INACTIVE) && (theGame->mEnemies->mEnemies[i] != enemy)) {
-                                    theGame->mEnemies->mEnemies[i]->hit(NULL);
+                                    theGame->mEnemies->mEnemies[i]->hit(nullptr);
                                     theGame->mEnemies->mEnemies[i]->incGenId();
                                 }
                             }
@@ -153,7 +153,7 @@ player* players::getPlayerClosestToPosition(const Point3d& point)
         }
 
         float minDistance = 999999;
-        player* closePlayer = NULL;
+        player* closePlayer = nullptr;
 
         if (distancePlayer1 < minDistance) {
             minDistance = distancePlayer1;
@@ -204,7 +204,7 @@ player* players::getRandomActivePlayer()
 
     if (!p1 && !p2 && !p3 && !p4) {
         // Nobody's home
-        return NULL;
+        return nullptr;
     }
     if (p1 && !p2 && !p3 && !p4) {
         return mPlayer1;
@@ -235,5 +235,5 @@ player* players::getRandomActivePlayer()
         }
     }
 
-    return NULL;
+    return nullptr;
 }

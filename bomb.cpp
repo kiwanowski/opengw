@@ -25,7 +25,7 @@ bomb::~bomb(void)
 
         delete[] mRings;
     }
-    mRings = NULL;
+    mRings = nullptr;
 }
 
 void bomb::run()
@@ -57,7 +57,7 @@ void bomb::run()
                     float distance = mathutils::calculate2dDistance(mRings[i].pos, theGame->mEnemies->mEnemies[j]->getPos());
                     if ((distance > mRings[i].radius - 10) && (distance < mRings[i].radius)) {
                         // Destroy it
-                        theGame->mEnemies->mEnemies[j]->hit(NULL);
+                        theGame->mEnemies->mEnemies[j]->hit(nullptr);
                     }
                 }
             }
@@ -106,7 +106,7 @@ void bomb::draw()
 
 void bomb::startBomb(Point3d pos, float radius, float thickness, float speed, int timeToLive, vector::pen pen)
 {
-    RING* ring = NULL;
+    RING* ring = nullptr;
     for (int i = 0; i < mNumRings; i++) {
         if (mRings[i].timeToLive <= 0) {
             ring = &mRings[i];

@@ -412,7 +412,7 @@ entity* entityBlackHole::hitTest(const Point3d& pos, float radius)
     if (distance < resultRadius) {
         return this;
     }
-    return NULL;
+    return nullptr;
 }
 
 void entityBlackHole::draw()

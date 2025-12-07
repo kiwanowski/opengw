@@ -19,7 +19,7 @@ attractor::Attractor* attractor::getAttractor()
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 void attractor::clearAll()

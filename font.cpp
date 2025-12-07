@@ -823,7 +823,7 @@ void AlphanumericsPrint(int alignment, float scale, float x, float y, vector::pe
 {
     //  return;
 
-    if (fmt == NULL)
+    if (fmt == nullptr)
         return;
 
     glLineWidth(color->lineRadius);

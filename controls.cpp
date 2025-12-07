@@ -33,10 +33,10 @@ controls::controls()
 
     mNumJoysticks = std::max(mNumJoysticks, 4);
 
-    mControllers[0] = NULL;
-    mControllers[1] = NULL;
-    mControllers[2] = NULL;
-    mControllers[3] = NULL;
+    mControllers[0] = nullptr;
+    mControllers[1] = nullptr;
+    mControllers[2] = nullptr;
+    mControllers[3] = nullptr;
 
     // If only one joystick is connected, what the hell?
     // Let the one joystick control all 4 players :-)

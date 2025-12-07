@@ -441,7 +441,7 @@ entity* entitySnake::hitTest(const Point3d& pos, float radius)
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 void entitySnake::draw()

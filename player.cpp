@@ -368,7 +368,7 @@ void player::firePattern1(const Point3d& fireAngle, const Point3d& playerSpeed)
         mFiringTimer = 6;
 
         // Find an unused missile
-        entityPlayerMissile* missile1 = NULL;
+        entityPlayerMissile* missile1 = nullptr;
         for (int i = 0; i < mMaxMissiles; i++) {
             if (!missiles[i].getEnabled()) {
                 missile1 = &missiles[i];
@@ -378,7 +378,7 @@ void player::firePattern1(const Point3d& fireAngle, const Point3d& playerSpeed)
                 break;
             }
         }
-        entityPlayerMissile* missile2 = NULL;
+        entityPlayerMissile* missile2 = nullptr;
         for (int i = 0; i < mMaxMissiles; i++) {
             if (!missiles[i].getEnabled()) {
                 missile2 = &missiles[i];
@@ -442,9 +442,9 @@ void player::firePattern2(const Point3d& fireAngle, const Point3d& playerSpeed)
         else
             mFiringTimer = 1;
 
-        entityPlayerMissile* missile1 = NULL;
-        entityPlayerMissile* missile2 = NULL;
-        entityPlayerMissile* missile3 = NULL;
+        entityPlayerMissile* missile1 = nullptr;
+        entityPlayerMissile* missile2 = nullptr;
+        entityPlayerMissile* missile3 = nullptr;
 
         // Find an unused missile
         if (alternate) {
@@ -537,11 +537,11 @@ void player::firePattern3(const Point3d& fireAngle, const Point3d& playerSpeed)
         mFiringTimer = 7;
 
         // Find 5 unused missiles
-        entityPlayerMissile* missile0 = NULL;
-        entityPlayerMissile* missile1 = NULL;
-        entityPlayerMissile* missile2 = NULL;
-        entityPlayerMissile* missile3 = NULL;
-        entityPlayerMissile* missile4 = NULL;
+        entityPlayerMissile* missile0 = nullptr;
+        entityPlayerMissile* missile1 = nullptr;
+        entityPlayerMissile* missile2 = nullptr;
+        entityPlayerMissile* missile3 = nullptr;
+        entityPlayerMissile* missile4 = nullptr;
 
         for (int i = 0; i < mMaxMissiles; i++) {
             if (!missiles[i].getEnabled()) {

@@ -326,5 +326,5 @@ entity* entity::hitTest(const Point3d& pos, float radius)
         return this;
     }
 #endif
-    return NULL;
+    return nullptr;
 }

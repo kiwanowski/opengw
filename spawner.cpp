@@ -460,7 +460,7 @@ void spawner::clearWaveData()
         wd->mWaveType = WAVETYPE_UNUSED;
 
         for (int n = 0; n < NUM_WAVEITEMTRACKERS; n++) {
-            wd->mItemTrackers[n].e = NULL;
+            wd->mItemTrackers[n].e = nullptr;
             wd->mItemTrackers[n].genId = -1;
         }
     }
@@ -476,7 +476,7 @@ void spawner::newWave(WAVETYPE mWaveType, entity::EntityType entityType, int spa
         wd->timer = 0;
 
         for (int n = 0; n < NUM_WAVEITEMTRACKERS; n++) {
-            wd->mItemTrackers[n].e = NULL;
+            wd->mItemTrackers[n].e = nullptr;
             wd->mItemTrackers[n].genId = -1;
         }
     }
@@ -489,7 +489,7 @@ spawner::WAVEDATA* spawner::getUnusedWaveData()
             return &mWaveData[i];
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 int spawner::numWaveData()
@@ -508,7 +508,7 @@ int spawner::numWaveData()
 void spawner::addEntityToWaveTracker(WAVEDATA* wd, entity* e)
 {
     for (int i = 0; i < NUM_WAVEITEMTRACKERS; i++) {
-        if (wd->mItemTrackers[i].e == NULL) {
+        if (wd->mItemTrackers[i].e == nullptr) {
             wd->mItemTrackers[i].e = e;
             wd->mItemTrackers[i].genId = e->getGenId();
             break;
