@@ -2,7 +2,7 @@
 
 #include "point3d.hpp"
 
-#define NUM_STARS 8000
+#include <vector>
 
 class game;
 
@@ -15,14 +15,14 @@ class stars
     void run();
     void draw();
 
-    typedef struct
+    struct STAR
     {
-        Point3d pos;
-        float radius;
-        float brightness;
-        float twinkle;
-    } STAR;
+        Point3d pos {};
+        float radius = 0.0f;
+        float brightness = 0.0f;
+        float twinkle = 0.0f;
+    };
 
-    STAR* mStars;
+    std::vector<STAR> mStars;
     const game& mGame;
 };

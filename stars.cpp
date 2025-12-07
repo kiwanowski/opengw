@@ -11,7 +11,9 @@ stars::stars(const game& gameRef) : mGame(gameRef)
     const float rightEdge = (mGame.mGrid->extentX() + overscan);
     const float topEdge = (mGame.mGrid->extentY() + overscan);
 
-    mStars = new STAR[NUM_STARS];
+    constexpr int NUM_STARS = 8000;
+
+    mStars.resize(NUM_STARS);
 
     for (int i = 0; i < NUM_STARS; i++) {
         float z;
@@ -41,16 +43,15 @@ stars::stars(const game& gameRef) : mGame(gameRef)
 
 stars::~stars()
 {
-    delete[] mStars;
 }
 
 void stars::run()
 {
-    for (int i = 0; i < NUM_STARS; i++) {
+    for (auto& star : mStars) {
         if (mathutils::frandFrom0To1() > 0.98f) {
-            mStars[i].twinkle = .5f;
+            star.twinkle = .5f;
         } else {
-            mStars[i].twinkle = 1.0f;
+            star.twinkle = 1.0f;
         }
     }
 }
@@ -70,9 +71,9 @@ void stars::draw()
 
     glBegin(GL_POINTS);
 
-    for (int i = 0; i < NUM_STARS; i++) {
-        glColor4f(1.0f, 1.0f, 1.0f, (mStars[i].radius + 0.5f) * brightness * mStars[i].brightness * mStars[i].twinkle);
-        glVertex3d(mStars[i].pos.x, mStars[i].pos.y, mStars[i].pos.z);
+    for (const auto& star : mStars) {
+        glColor4f(1.0f, 1.0f, 1.0f, (star.radius + 0.5f) * brightness * star.brightness * star.twinkle);
+        glVertex3d(star.pos.x, star.pos.y, star.pos.z);
     }
 
     glEnd();
