@@ -3,19 +3,21 @@
 #include "point3d.hpp"
 #include "vector.hpp"
 
+#include <vector>
+
 class bomb
 {
   public:
-    typedef struct
+    struct RING
     {
-        Point3d pos;
-        float radius;
-        float thickness;
-        float speed;
-        int timeToLive;
-        float fadeStep;
-        vector::pen pen;
-    } RING;
+        Point3d pos {};
+        float radius = 0.0f;
+        float thickness = 0.0f;
+        float speed = 0.0f;
+        int timeToLive = 0;
+        float fadeStep = 0.0f;
+        vector::pen pen {};
+    };
 
     bomb(void);
     ~bomb(void);
@@ -27,6 +29,5 @@ class bomb
 
     bool isBombing();
 
-    RING* mRings;
-    int mNumRings;
+    std::vector<RING> mRings;
 };
