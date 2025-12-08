@@ -154,7 +154,7 @@ void sound::loadTrack(const char* file, int track, float volume, bool loop /*=fa
     desired = wave;
     desired.channels = 2;
     desired.freq = 44100;
-    desired.format = AUDIO_S16;
+    desired.format = AUDIO_S16SYS;
     desired.samples = SAMPLE_SIZE;
     desired.callback = sound::bufferCallback;
 
@@ -162,7 +162,7 @@ void sound::loadTrack(const char* file, int track, float volume, bool loop /*=fa
                       wave.format,
                       wave.channels,
                       wave.freq,
-                      AUDIO_S16,
+                      AUDIO_S16SYS,
                       2,
                       44100);
 
