@@ -1,21 +1,18 @@
 #include "attractor.hpp"
-#include "defines.hpp"
 #include "game.hpp"
 #include "mathutils.hpp"
 
 attractor::attractor()
 {
-    mNumAttractors = theGame->mSettings.mAttractors; // PERFORMANCE: If you set this too high things will start to slow down in grid::run()!!
-
-    mAttractors.resize(mNumAttractors);
-    clearAll();
+    // PERFORMANCE: If you set this too high things will start to slow down in grid::run()!!
+    mAttractors.resize(theGame->mSettings.mAttractors);
 }
 
 attractor::Attractor* attractor::getAttractor()
 {
-    for (int i = 0; i < mNumAttractors; i++) {
-        if (!mAttractors[i].enabled) {
-            return &mAttractors[i];
+    for (auto& a: mAttractors) {
+        if (!a.enabled) {
+            return &a;
         }
     }
 
@@ -24,34 +21,31 @@ attractor::Attractor* attractor::getAttractor()
 
 void attractor::clearAll()
 {
-    for (int i = 0; i < mNumAttractors; i++) {
-        mAttractors[i].enabled = false;
+    for (auto& a: mAttractors) {
+        a.enabled = false;
     }
 }
 
 Point3d attractor::evaluateParticle(particle::PARTICLE* p)
 {
-    Point3d speed(0, 0, 0);
+    Point3d speed(0.0f, 0.0f, 0.0f);
 
-    for (int i = 0; i < mNumAttractors; i++) {
-        Attractor att = mAttractors[i];
-        if (att.enabled && att.attractsParticles) {
-            Point3d apoint = att.pos;
+    for (const auto& a: mAttractors) {
+        if (a.enabled && a.attractsParticles) {
+            const Point3d& apoint = a.pos;
 
-            float angle = mathutils::calculate2dAngle(p->posStream[0], apoint);
+            const float angle = mathutils::calculate2dAngle(p->posStream[0], apoint);
             float distance = mathutils::calculate2dDistance(p->posStream[0], apoint);
 
-            float strength = att.strength;
-
-            if (distance < att.radius) {
-                distance = att.radius;
+            if (distance < a.radius) {
+                distance = a.radius;
             }
 
-            float r = 1.0 / (distance * distance);
+            const float r = 1.0f / (distance * distance);
 
             // Add a slight curving vector to the gravity
-            Point3d gravityVector(-r * strength * .5, 0, 0);                  // .5
-            Point3d g = mathutils::rotate2dPoint(gravityVector, angle + .25); // .35 , .7
+            Point3d gravityVector(-r * a.strength * .5f, 0.0f, 0.0f);                  // .5
+            Point3d g = mathutils::rotate2dPoint(gravityVector, angle + .25f); // .35 , .7
 
             speed.x += g.x;
             speed.y += g.y;

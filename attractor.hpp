@@ -13,17 +13,16 @@ class attractor
 
     Point3d evaluateParticle(particle::PARTICLE* point);
 
-    typedef struct
+    struct Attractor
     {
-        Point3d pos;
-        float strength;
-        float radius;
-        bool enabled;
-        bool attractsParticles;
-    } Attractor;
+        Point3d pos {};
+        float strength = 0.0f;
+        float radius = 0.0f;
+        bool enabled = false;
+        bool attractsParticles = false;
+    };
 
     attractor::Attractor* getAttractor();
 
     std::vector<Attractor> mAttractors;
-    int mNumAttractors;
 };

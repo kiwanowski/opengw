@@ -84,8 +84,7 @@ static int runThread(void* /*ptr*/)
         // std::unique_lock<std::mutex> lock(m);
 
         // Apply attractors
-        for (int a = 0; a < game::mAttractors.mNumAttractors; a++) {
-            attractor::Attractor& att = game::mAttractors.mAttractors[a];
+        for (attractor::Attractor& att: game::mAttractors.mAttractors) {
             if (att.enabled) {
                 // Evaluate every point on the grid for this attractor
                 const int xstart = 1;
