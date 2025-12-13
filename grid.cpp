@@ -32,8 +32,8 @@ struct Vertex
 
 static std::vector<Vertex> gridVertexArray;
 
-static unsigned int numGridLinesX;
-static unsigned int numGridLinesY;
+static const unsigned int numGridLinesX = grid::resolution_x * grid::resolution_y;
+static const unsigned int numGridLinesY = numGridLinesX;
 
 /*
 static SDL_mutex* game::mAttractors.mMutex;
@@ -180,22 +180,6 @@ grid::grid()
 
             p.pos = Point3d(x, y, 0);
             p.vel = Point3d(0, 0, 0);
-        }
-    }
-
-    numGridLinesX = 0;
-    numGridLinesY = 0;
-
-    // Horizontal line count
-    for (int y = 0; y < resolution_y; ++y) {
-        for (int x = 0; x < resolution_x; ++x) {
-            ++numGridLinesX;
-        }
-    }
-    // Vertical line count
-    for (int x = 0; x < resolution_x; ++x) {
-        for (int y = 0; y < resolution_y; ++y) {
-            ++numGridLinesY;
         }
     }
 
