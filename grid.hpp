@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 struct Point3d;
 
 class grid
@@ -11,6 +13,9 @@ class grid
     grid();
     ~grid();
 
+    void initializeVertices();
+    void initializeElements();
+
     void run();
     void draw();
 
@@ -20,4 +25,7 @@ class grid
     bool hitTest(const Point3d& pos, float radius, Point3d* hitPos = nullptr, Point3d* speed = nullptr);
 
     float brightness = 1.0f;
+
+    std::size_t lightStartHorizontal = 0;
+    std::size_t lightStartVertical = 0;
 };
