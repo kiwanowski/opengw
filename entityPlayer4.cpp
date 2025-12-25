@@ -19,8 +19,7 @@ entityPlayer4::entityPlayer4()
 
     int i = 0;
 
-    mModel.mNumVertex = 7;
-    mModel.mVertexList.resize(mModel.mNumVertex);
+    mModel.mVertexList.resize(7);
 
     mModel.mVertexList[i++] = Point3d(0, 18);
 
@@ -34,8 +33,7 @@ entityPlayer4::entityPlayer4()
 
     i = 0;
 
-    mModel.mNumEdges = 8;
-    mModel.mEdgeList.resize(mModel.mNumEdges);
+    mModel.mEdgeList.resize(8);
     mModel.mEdgeList[i].from = 0;
     mModel.mEdgeList[i++].to = 1;
     mModel.mEdgeList[i].from = 1;

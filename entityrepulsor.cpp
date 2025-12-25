@@ -26,15 +26,13 @@ class entityRepulsorShieldLine : public entity
         int i = 0;
 
         // The shield
-        mModel.mNumVertex = 2;
-        mModel.mVertexList.resize(mModel.mNumVertex);
+        mModel.mVertexList.resize(2);
         mModel.mVertexList[i++] = Point3d(-12, 20);
         mModel.mVertexList[i++] = Point3d(12, 20);
 
         i = 0;
 
-        mModel.mNumEdges = 1;
-        mModel.mEdgeList.resize(mModel.mNumEdges);
+        mModel.mEdgeList.resize(1);
         mModel.mEdgeList[i].from = 0;
         mModel.mEdgeList[i++].to = 1;
     }
@@ -137,8 +135,7 @@ entityRepulsor::entityRepulsor(const game& gameRef)
 
     int i = 0;
 
-    mModel.mNumVertex = 12;
-    mModel.mVertexList.resize(mModel.mNumVertex);
+    mModel.mVertexList.resize(12);
     mModel.mVertexList[i++] = Point3d(8, -1);
     mModel.mVertexList[i++] = Point3d(8, 8);
     mModel.mVertexList[i++] = Point3d(11.5, 12);
@@ -154,8 +151,7 @@ entityRepulsor::entityRepulsor(const game& gameRef)
 
     i = 0;
 
-    mModel.mNumEdges = 16;
-    mModel.mEdgeList.resize(mModel.mNumEdges);
+    mModel.mEdgeList.resize(16);
     mModel.mEdgeList[i].from = 0;
     mModel.mEdgeList[i++].to = 1;
     mModel.mEdgeList[i].from = 1;

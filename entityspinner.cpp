@@ -23,8 +23,7 @@ entitySpinner::entitySpinner(const game& gameRef)
 
     int i = 0;
 
-    mModel.mNumVertex = 5;
-    mModel.mVertexList.resize(mModel.mNumVertex);
+    mModel.mVertexList.resize(5);
     mModel.mVertexList[i++] = Point3d(0, 0);
     mModel.mVertexList[i++] = Point3d(-1, 1);
     mModel.mVertexList[i++] = Point3d(1, 1);
@@ -33,8 +32,7 @@ entitySpinner::entitySpinner(const game& gameRef)
 
     i = 0;
 
-    mModel.mNumEdges = 8;
-    mModel.mEdgeList.resize(mModel.mNumEdges);
+    mModel.mEdgeList.resize(8);
     mModel.mEdgeList[i].from = 1;
     mModel.mEdgeList[i++].to = 0;
     mModel.mEdgeList[i].from = 0;

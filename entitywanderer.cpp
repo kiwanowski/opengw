@@ -21,8 +21,7 @@ entityWanderer::entityWanderer()
 
     int i = 0;
 
-    mModel.mNumVertex = 9;
-    mModel.mVertexList.resize(mModel.mNumVertex);
+    mModel.mVertexList.resize(9);
     mModel.mVertexList[i++] = Point3d(0, 0);
     mModel.mVertexList[i++] = Point3d(0, 1);
     mModel.mVertexList[i++] = Point3d(1, 1);
@@ -35,7 +34,7 @@ entityWanderer::entityWanderer()
 
     mFlipped = (mathutils::frandFrom0To1() < .5);
     if (mFlipped) {
-        for (int i = 0; i < mModel.mNumVertex; i++) {
+        for (std::size_t i = 0; i < mModel.mVertexList.size(); i++) {
             float temp = mModel.mVertexList[i].y;
             mModel.mVertexList[i].y = mModel.mVertexList[i].x;
             mModel.mVertexList[i].x = temp;
@@ -44,8 +43,7 @@ entityWanderer::entityWanderer()
 
     i = 0;
 
-    mModel.mNumEdges = 12;
-    mModel.mEdgeList.resize(mModel.mNumEdges);
+    mModel.mEdgeList.resize(12);
     mModel.mEdgeList[i].from = 0;
     mModel.mEdgeList[i++].to = 1;
     mModel.mEdgeList[i].from = 1;

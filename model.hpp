@@ -30,9 +30,6 @@ class model
     std::vector<Point3d> mVertexList;
     std::vector<Edge> mEdgeList;
 
-    int mNumVertex; //TODO
-    int mNumEdges;
-
     matrix mMatrix;
 
     bool mIsLineLoop;

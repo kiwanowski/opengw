@@ -21,21 +21,19 @@ entityProton::entityProton(void)
     mType = ENTITY_TYPE_PROTON;
     setState(ENTITY_STATE_INACTIVE);
 
-    mModel.mNumVertex = 16;
-    mModel.mVertexList.resize(mModel.mNumVertex);
+    mModel.mVertexList.resize(16);
 
-    float delta_theta = (2 * PI) / mModel.mNumVertex;
+    float delta_theta = (2 * PI) / mModel.mVertexList.size();
     float r = mScale.x * mRadius;
 
-    int i = 0;
-    for (float angle = 0; i < mModel.mNumVertex; angle += delta_theta, i++) {
+    std::size_t i = 0;
+    for (float angle = 0; i < mModel.mVertexList.size(); angle += delta_theta, i++) {
         mModel.mVertexList[i] = Point3d(r * cos(angle), r * sin(angle));
     }
 
-    mModel.mNumEdges = mModel.mNumVertex;
-    mModel.mEdgeList.resize(mModel.mNumEdges);
+    mModel.mEdgeList.resize(mModel.mVertexList.size());
 
-    for (i = 0; i < mModel.mNumEdges - 1; ++i) {
+    for (i = 0; i < mModel.mEdgeList.size() - 1; ++i) {
         mModel.mEdgeList[i].from = i;
         mModel.mEdgeList[i].to = i + 1;
     }

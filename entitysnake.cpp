@@ -38,16 +38,14 @@ class entitySnakeSegment : public entity
 
         int i = 0;
 
-        mModel.mNumVertex = 3;
-        mModel.mVertexList.resize(mModel.mNumVertex);
+        mModel.mVertexList.resize(3);
         mModel.mVertexList[i++] = Point3d(0, .9);
         mModel.mVertexList[i++] = Point3d(.6, -.6);
         mModel.mVertexList[i++] = Point3d(-.6, -.6);
 
         i = 0;
 
-        mModel.mNumEdges = 3;
-        mModel.mEdgeList.resize(mModel.mNumEdges);
+        mModel.mEdgeList.resize(3);
         mModel.mEdgeList[i].from = 0;
         mModel.mEdgeList[i++].to = 1;
         mModel.mEdgeList[i].from = 1;
@@ -234,8 +232,7 @@ entitySnake::entitySnake()
 
     int i = 0;
 
-    mModel.mNumVertex = 14;
-    mModel.mVertexList.resize(mModel.mNumVertex);
+    mModel.mVertexList.resize(14);
     mModel.mVertexList[i++] = Point3d(0, 1.53);
     mModel.mVertexList[i++] = Point3d(.4, 1.404);
     mModel.mVertexList[i++] = Point3d(.71, 1.0575);
@@ -253,8 +250,7 @@ entitySnake::entitySnake()
 
     i = 0;
 
-    mModel.mNumEdges = 15;
-    mModel.mEdgeList.resize(mModel.mNumEdges);
+    mModel.mEdgeList.resize(15);
 
     mModel.mEdgeList[i].from = 0;
     mModel.mEdgeList[i++].to = 1;

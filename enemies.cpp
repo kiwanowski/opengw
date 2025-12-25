@@ -447,7 +447,7 @@ void enemies::explodeEntity(entity& e)
     Point3d objectPos(0, 0, 0);
     m->mMatrix.TransformVertex(objectPos, &objectPos);
 
-    int numEdges = m->mNumEdges;
+    int numEdges = m->mEdgeList.size();
     for (int i = 0; i < numEdges; i++) {
         entityLine* line = getUnusedLine();
         if (line) {

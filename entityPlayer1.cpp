@@ -23,8 +23,7 @@ entityPlayer1::entityPlayer1(const game& gameRef)
 
     int i = 0;
 
-    mModel.mNumVertex = 8;
-    mModel.mVertexList.resize(mModel.mNumVertex);
+    mModel.mVertexList.resize(8);
     mModel.mVertexList[i++] = Point3d(0, -1);
     mModel.mVertexList[i++] = Point3d(1, -.15);
     mModel.mVertexList[i++] = Point3d(.5, .7);
@@ -36,8 +35,7 @@ entityPlayer1::entityPlayer1(const game& gameRef)
 
     i = 0;
 
-    mModel.mNumEdges = 8;
-    mModel.mEdgeList.resize(mModel.mNumEdges);
+    mModel.mEdgeList.resize(8);
     mModel.mEdgeList[i].from = 0;
     mModel.mEdgeList[i++].to = 1;
     mModel.mEdgeList[i].from = 1;
