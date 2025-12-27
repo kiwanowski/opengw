@@ -10,23 +10,23 @@ class sound
     sound();
     ~sound();
 
-    void loadTrack(const char* file, int track, float volume, bool loop = false);
-    void playTrack(int track);
-    void stopTrack(int track);
+    void loadTrack(const char* file, std::size_t track, float volume, bool loop = false);
+    void playTrack(std::size_t track);
+    void stopTrack(std::size_t track);
     void stopAllTracks();
-    void stopAllTracksBut(int track);
-    int playTrackGroup(int trackFirst, int trackLast);
-    void pauseTrack(int track);
-    void unpauseTrack(int track);
+    void stopAllTracksBut(std::size_t track);
+    int playTrackGroup(std::size_t trackFirst, std::size_t trackLast);
+    void pauseTrack(std::size_t track);
+    void unpauseTrack(std::size_t track);
     void pauseAllTracks();
     void unpauseAllTracks();
-    void pauseAllTracksBut(int track);
-    bool isTrackPlaying(int track);
+    void pauseAllTracksBut(std::size_t track);
+    bool isTrackPlaying(std::size_t track);
 
     void startSound();
     void stopSound();
 
-    void setTrackSpeed(int track, double speed);
+    void setTrackSpeed(std::size_t track, double speed);
 
   private:
     static void bufferCallback(void* unused, Uint8* stream, int len);
