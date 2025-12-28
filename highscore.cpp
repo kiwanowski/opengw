@@ -4,7 +4,7 @@
 
 #include <cstdio>
 
-extern scene oglScene;
+extern std::unique_ptr<scene> oglScene;
 extern vector::pen defaultFontPen;
 
 static constexpr char LAST = '\0';
@@ -107,7 +107,7 @@ void highscore::run()
             mEditName[2] = charList[mEditCurrentLetter[2]];
             mEditName[3] = '\0';
             addHighScore(mEditName, mScore);
-            oglScene.showHighScores();
+            oglScene->showHighScores();
         }
 
         Point3d leftStick = game::mControls.getLeftStick(0);

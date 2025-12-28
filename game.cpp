@@ -26,7 +26,7 @@ highscore game::mHighscore;
 #define NUM_POINT_DISPLAYS 40
 #define TIME_POINT_DISPLAY 50
 
-extern scene oglScene;
+extern std::unique_ptr<scene> oglScene;
 
 int game::mSkillLevel;
 game::GameMode game::mGameMode;
@@ -312,7 +312,7 @@ void game::run()
             mHighscore.init();
             break;
         }
-        oglScene.showHighScores();
+        oglScene->showHighScores();
         break;
     case GAMEMODE_GAMEOVER_TRANSITION:
         mGameMode = GAMEMODE_GAMEOVER;
