@@ -9,11 +9,11 @@ class entitySpinner : public entity
   public:
     entitySpinner(const game& constRef);
 
-    virtual void run();
-    virtual void destroyTransition();
-    virtual void spawnTransition();
+    void run() override;
+    void destroyTransition() override;
+    void spawnTransition() override;
 
-    virtual void hit(entity* aEntity);
+    void hit(entity* aEntity) override;
 
     float mAnimationIndex;
 

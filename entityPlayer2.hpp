@@ -7,6 +7,6 @@ class entityPlayer2 : public player
   public:
     entityPlayer2();
 
-    virtual void initPlayerForGame();
-    virtual void spawnTransition();
+    void initPlayerForGame() override;
+    void spawnTransition() override;
 };

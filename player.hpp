@@ -14,14 +14,14 @@ class player : public entity
     virtual void initPlayerForGame();
     virtual void deinitPlayerForGame();
 
-    virtual void run();
-    virtual void spawn();
-    virtual void spawnTransition();
-    virtual void destroyTransition();
-    virtual void destroy();
-    virtual void indicating();
+    void run() override;
+    void spawn() override;
+    void spawnTransition() override;
+    void destroyTransition() override;
+    void destroy() override;
+    void indicating() override;
 
-    virtual void draw();
+    void draw() override;
 
     std::vector<entityPlayerMissile> missiles;
 

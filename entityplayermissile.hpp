@@ -7,11 +7,11 @@ class entityPlayerMissile : public entity
   public:
     entityPlayerMissile();
 
-    virtual void run();
-    virtual void spawnTransition();
-    virtual void destroyTransition();
+    void run() override;
+    void spawnTransition() override;
+    void destroyTransition() override;
 
-    virtual void draw();
+    void draw() override;
 
     int mType; // TODO: entity class also has mType
     int mPlayerSource;

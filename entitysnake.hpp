@@ -11,17 +11,17 @@ class entitySnake : public entity
   public:
     entitySnake();
 
-    virtual void runTransition();
-    virtual void run();
-    virtual void spawnTransition();
-    virtual void spawn();
-    virtual void destroyTransition();
-    virtual void destroy();
-    virtual void indicateTransition();
+    void runTransition() override;
+    void run() override;
+    void spawnTransition() override;
+    void spawn() override;
+    void destroyTransition() override;
+    void destroy() override;
+    void indicateTransition() override;
 
-    virtual entity* hitTest(const Point3d& pos, float radius);
+    entity* hitTest(const Point3d& pos, float radius) override;
 
-    virtual void draw();
+    void draw() override;
 
   private:
     Point3d mTarget;

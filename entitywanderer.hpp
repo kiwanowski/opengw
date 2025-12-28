@@ -7,8 +7,8 @@ class entityWanderer : public entity
   public:
     entityWanderer();
 
-    virtual void run();
-    virtual void spawnTransition();
+    void run() override;
+    void spawnTransition() override;
 
     float mCurrentHeading { 0.0f };
     float mAnimationIndex;

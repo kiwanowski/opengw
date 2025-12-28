@@ -7,8 +7,8 @@ class entityMayfly : public entity
   public:
     entityMayfly();
 
-    virtual void run();
-    virtual void draw();
+    void run() override;
+    void draw() override;
 
     int mFlipTimer;
     int mFlipDirection;

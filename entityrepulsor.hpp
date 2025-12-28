@@ -12,11 +12,11 @@ class entityRepulsor : public entity
   public:
     entityRepulsor(const game& gameRef);
 
-    virtual void run();
-    virtual void spawnTransition();
-    virtual void destroyTransition();
-    virtual void indicateTransition();
-    virtual void draw();
+    void run() override;
+    void spawnTransition() override;
+    void destroyTransition() override;
+    void indicateTransition() override;
+    void draw() override;
 
     void repelEntity(entity* e);
 

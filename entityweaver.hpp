@@ -7,8 +7,8 @@ class entityWeaver : public entity
   public:
     entityWeaver();
 
-    virtual void run();
-    virtual void spawnTransition();
+    void run() override;
+    void spawnTransition() override;
 
     float mAnimationIndex;
 };

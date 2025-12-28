@@ -9,8 +9,8 @@ class entityPlayer1 : public player
   public:
     entityPlayer1(const game& gameRef);
 
-    virtual void initPlayerForGame();
-    virtual void spawnTransition();
+    void initPlayerForGame() override;
+    void spawnTransition() override;
 
     const game& mGame;
 };

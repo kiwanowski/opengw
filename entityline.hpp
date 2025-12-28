@@ -7,8 +7,8 @@ class entityLine : public entity
   public:
     entityLine(void);
 
-    virtual void run();
-    virtual void spawnTransition();
+    void run() override;
+    void spawnTransition() override;
 
     void addEndpoints(const Point3d& from, const Point3d& to);
 

@@ -9,16 +9,16 @@ class entityBlackHole : public entity
   public:
     entityBlackHole(const game& gameRef);
 
-    virtual void runTransition();
-    virtual void run();
-    virtual void spawnTransition();
-    virtual void destroyTransition();
-    virtual void indicateTransition();
+    void runTransition() override;
+    void run() override;
+    void spawnTransition() override;
+    void destroyTransition() override;
+    void indicateTransition() override;
 
-    virtual void hit(entity* aEntity);
-    virtual entity* hitTest(const Point3d& pos, float radius);
+    void hit(entity* aEntity) override;
+    entity* hitTest(const Point3d& pos, float radius) override;
 
-    virtual void draw();
+    void draw() override;
 
     void feed(int points);
 

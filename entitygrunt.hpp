@@ -9,8 +9,8 @@ class entityGrunt : public entity
   public:
     entityGrunt(const game& gameRef);
 
-    virtual void run();
-    virtual void spawnTransition();
+    void run() override;
+    void spawnTransition() override;
 
     float mAnimationIndex;
 

@@ -9,15 +9,15 @@ class entityTinySpinner : public entitySpinner
   public:
     entityTinySpinner(const game& gameRef);
 
-    virtual void run();
-    virtual void spawnTransition();
-    virtual void spawn();
-    virtual void destroyTransition();
-    virtual void destroy();
+    void run() override;
+    void spawnTransition() override;
+    void spawn() override;
+    void destroyTransition() override;
+    void destroy() override;
 
-    virtual void draw();
+    void draw() override;
 
-    virtual entity* hitTest(const Point3d& pos, float radius);
+    entity* hitTest(const Point3d& pos, float radius) override;
 
     void setInitialSpeed(const Point3d& speed) { mInitialSpeed = speed; }
 

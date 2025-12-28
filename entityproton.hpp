@@ -7,8 +7,8 @@ class entityProton : public entity
   public:
     entityProton(void);
 
-    virtual void run();
-    virtual void spawnTransition();
+    void run() override;
+    void spawnTransition() override;
 
   private:
     void drawRing();
