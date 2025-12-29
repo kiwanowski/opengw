@@ -35,7 +35,7 @@ void menuSelectGameType::run()
 {
     int dir = 0;
 
-    if (theGame->mControls.getBackButton(0) || theGame->mControls.getBackButton(1) || theGame->mControls.getBackButton(2) || theGame->mControls.getBackButton(3)) {
+    if (theGame->mControls->getBackButton(0) || theGame->mControls->getBackButton(1) || theGame->mControls->getBackButton(2) || theGame->mControls->getBackButton(3)) {
         // Exit the menu
         game::mGameMode = game::GAMEMODE_ATTRACT;
         game::mSound.playTrack(SOUNDID_MENU_SELECT);
@@ -44,64 +44,64 @@ void menuSelectGameType::run()
 
     if (!debounceStart) {
         if (selection == 0) {
-            if (theGame->mControls.getStartButton(0) || theGame->mControls.getStartButton(1) || theGame->mControls.getStartButton(2) || theGame->mControls.getStartButton(3)) {
+            if (theGame->mControls->getStartButton(0) || theGame->mControls->getStartButton(1) || theGame->mControls->getStartButton(2) || theGame->mControls->getStartButton(3)) {
                 theGame->startGame(game::GAMETYPE_SINGLEPLAYER);
                 game::mSound.playTrack(SOUNDID_MENU_SELECT);
             }
         } else {
-            if (theGame->mControls.getStartButton(0))
+            if (theGame->mControls->getStartButton(0))
                 theGame->getPlayer1()->mJoined = true;
-            if (theGame->mControls.getStartButton(1))
+            if (theGame->mControls->getStartButton(1))
                 theGame->getPlayer2()->mJoined = true;
-            if (theGame->mControls.getStartButton(2))
+            if (theGame->mControls->getStartButton(2))
                 theGame->getPlayer3()->mJoined = true;
-            if (theGame->mControls.getStartButton(3))
+            if (theGame->mControls->getStartButton(3))
                 theGame->getPlayer4()->mJoined = true;
 
-            if (theGame->mControls.getTriggerButton(0) || theGame->mControls.getTriggerButton(1) || theGame->mControls.getTriggerButton(2) || theGame->mControls.getTriggerButton(3)) {
+            if (theGame->mControls->getTriggerButton(0) || theGame->mControls->getTriggerButton(1) || theGame->mControls->getTriggerButton(2) || theGame->mControls->getTriggerButton(3)) {
                 theGame->startGame(game::GAMETYPE_MULTIPLAYER_COOP);
                 game::mSound.playTrack(SOUNDID_MENU_SELECT);
             }
 
             /*
-                        if (theGame->mControls.getStartButton(0)
-                            || theGame->mControls.getStartButton(1)
-                            || theGame->mControls.getStartButton(2)
-                            || theGame->mControls.getStartButton(3))
+                        if (theGame->mControls->getStartButton(0)
+                            || theGame->mControls->getStartButton(1)
+                            || theGame->mControls->getStartButton(2)
+                            || theGame->mControls->getStartButton(3))
                         {
                             //theGame->startGame(4, game::GAMETYPE_MULTIPLAYER_COOP);
 
-                            if (theGame->mControls.getStartButton(0))
+                            if (theGame->mControls->getStartButton(0))
 
                         }
             */
 
             /*
-                    if (theGame->mControls.getStartButton(0))
+                    if (theGame->mControls->getStartButton(0))
                     {
                         theGame->startGame(1, game::GAMETYPE_SINGLEPLAYER);
                     }
-                    else if (theGame->mControls.getStartButton(1))
+                    else if (theGame->mControls->getStartButton(1))
                     {
                         theGame->startGame(2, game::GAMETYPE_MULTIPLAYER_COOP);
                     }
-                    else if (theGame->mControls.getStartButton(2))
+                    else if (theGame->mControls->getStartButton(2))
                     {
                         theGame->startGame(3, game::GAMETYPE_MULTIPLAYER_COOP);
                     }
-                    else if (theGame->mControls.getStartButton(3))
+                    else if (theGame->mControls->getStartButton(3))
                     {
                         theGame->startGame(4, game::GAMETYPE_MULTIPLAYER_COOP);
                     }
             */
         }
     } else {
-        if (!theGame->mControls.getStartButton(0) && !theGame->mControls.getStartButton(1) && !theGame->mControls.getStartButton(2) && !theGame->mControls.getStartButton(3)) {
+        if (!theGame->mControls->getStartButton(0) && !theGame->mControls->getStartButton(1) && !theGame->mControls->getStartButton(2) && !theGame->mControls->getStartButton(3)) {
             debounceStart = false;
         }
     }
 
-    Point3d leftStick = game::mControls.getLeftStick(0) + game::mControls.getLeftStick(1) + game::mControls.getLeftStick(2) + game::mControls.getLeftStick(3);
+    Point3d leftStick = theGame->mControls->getLeftStick(0) + theGame->mControls->getLeftStick(1) + theGame->mControls->getLeftStick(2) + theGame->mControls->getLeftStick(3);
     float leftDistance = mathutils::calculate2dDistance(Point3d(0, 0, 0), leftStick);
     if (leftDistance > .1) {
         if (leftStick.x < -.5) {
@@ -111,7 +111,7 @@ void menuSelectGameType::run()
         }
     }
 
-    Point3d rightStick = game::mControls.getRightStick(0) + game::mControls.getRightStick(1) + game::mControls.getRightStick(2) + game::mControls.getRightStick(3);
+    Point3d rightStick = theGame->mControls->getRightStick(0) + theGame->mControls->getRightStick(1) + theGame->mControls->getRightStick(2) + theGame->mControls->getRightStick(3);
     float rightDistance = mathutils::calculate2dDistance(Point3d(0, 0, 0), rightStick);
     if (rightDistance > .1) {
         if (rightStick.x < -.5) {

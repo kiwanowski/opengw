@@ -16,7 +16,7 @@ settings game::mSettings;
 sound game::mSound;
 // particle game::mParticles;
 attractor game::mAttractors;
-controls game::mControls;
+//controls game::mControls;
 blackholes game::mBlackHoles;
 spawner game::mSpawner;
 bomb game::mBomb;
@@ -42,6 +42,8 @@ game::game()
 {
     mGrid = std::make_unique<grid>();
     mParticles = std::make_unique<particle>();
+
+    mControls = std::make_unique<controls>();
 
     //
     // Load our sounds
@@ -157,7 +159,7 @@ void game::run()
 {
     // Credits
     static bool creditButtonLast = false;
-    bool creditButton = false; // mControls.getCreditButton();
+    bool creditButton = false; // mControls->getCreditButton();
     if (creditButton && !creditButtonLast) {
         ++mCredits;
     }
@@ -170,7 +172,7 @@ void game::run()
     // Pause functionality
     if (mGameMode == GAMEMODE_PLAYING) {
         static bool pauseLast = false;
-        bool pause = mControls.getPauseButton(0) || mControls.getPauseButton(1) || mControls.getPauseButton(2) || mControls.getPauseButton(3);
+        bool pause = mControls->getPauseButton(0) || mControls->getPauseButton(1) || mControls->getPauseButton(2) || mControls->getPauseButton(3);
         if (pause && !pauseLast) {
             game::mSound.playTrack(SOUNDID_MENU_SELECT);
             mPaused = !mPaused;
@@ -205,27 +207,27 @@ void game::run()
     } break;
     case GAMEMODE_CREDITED:
     {
-        if (mControls.getStartButton(0) || mControls.getStartButton(1) || mControls.getStartButton(2) || mControls.getStartButton(3)) {
+        if (mControls->getStartButton(0) || mControls->getStartButton(1) || mControls->getStartButton(2) || mControls->getStartButton(3)) {
         } else {
             mDebounce = false;
         }
         if (!mDebounce) {
-            if (mControls.getStartButton(0)) {
+            if (mControls->getStartButton(0)) {
                 // Go to game type selection screen
                 menuSelectGameType::init(0);
                 mGameMode = GAMEMODE_CHOOSE_GAMETYPE;
                 mDebounce = true;
-            } else if (mControls.getStartButton(1)) {
+            } else if (mControls->getStartButton(1)) {
                 // Go to game type selection screen
                 menuSelectGameType::init(1);
                 mGameMode = GAMEMODE_CHOOSE_GAMETYPE;
                 mDebounce = true;
-            } else if (mControls.getStartButton(2)) {
+            } else if (mControls->getStartButton(2)) {
                 // Go to game type selection screen
                 menuSelectGameType::init(2);
                 mGameMode = GAMEMODE_CHOOSE_GAMETYPE;
                 mDebounce = true;
-            } else if (mControls.getStartButton(3)) {
+            } else if (mControls->getStartButton(3)) {
                 // Go to game type selection screen
                 menuSelectGameType::init(3);
                 mGameMode = GAMEMODE_CHOOSE_GAMETYPE;
@@ -239,19 +241,19 @@ void game::run()
     case GAMEMODE_PLAYING:
     {
         if ((numPlayers() > 1) && (m2PlayerNumLives > 0)) {
-            if (mControls.getStartButton(0) && !getPlayer1()->mJoined) {
+            if (mControls->getStartButton(0) && !getPlayer1()->mJoined) {
                 getPlayer1()->takeLife();
                 getPlayer1()->initPlayerForGame();
             }
-            if (mControls.getStartButton(1) && !getPlayer2()->mJoined) {
+            if (mControls->getStartButton(1) && !getPlayer2()->mJoined) {
                 getPlayer2()->takeLife();
                 getPlayer2()->initPlayerForGame();
             }
-            if (mControls.getStartButton(2) && !getPlayer3()->mJoined) {
+            if (mControls->getStartButton(2) && !getPlayer3()->mJoined) {
                 getPlayer3()->takeLife();
                 getPlayer3()->initPlayerForGame();
             }
-            if (mControls.getStartButton(3) && !getPlayer4()->mJoined) {
+            if (mControls->getStartButton(3) && !getPlayer4()->mJoined) {
                 getPlayer4()->takeLife();
                 getPlayer4()->initPlayerForGame();
             }

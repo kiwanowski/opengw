@@ -98,7 +98,7 @@ void highscore::run()
     if (--mDebounceTimer <= 0) {
         mDebounceTimer = 20;
 
-        bool trigger = game::mControls.getTriggerButton(0);
+        bool trigger = theGame->mControls->getTriggerButton(0);
         if (trigger) {
             // All done
             save();
@@ -110,7 +110,7 @@ void highscore::run()
             oglScene->showHighScores();
         }
 
-        Point3d leftStick = game::mControls.getLeftStick(0);
+        Point3d leftStick = theGame->mControls->getLeftStick(0);
         float distance = mathutils::calculate2dDistance(Point3d(0, 0, 0), leftStick);
         if (distance > .1) {
             float angle = mathutils::RadsToDegrees(mathutils::calculate2dAngle(Point3d(0, 0, 0), leftStick));
@@ -131,7 +131,7 @@ void highscore::run()
             mEditName[mEditCurrentPos] = charList[mEditCurrentLetter[mEditCurrentPos]];
         }
 
-        Point3d rightStick = game::mControls.getRightStick(0);
+        Point3d rightStick = theGame->mControls->getRightStick(0);
         distance = mathutils::calculate2dDistance(Point3d(0, 0, 0), rightStick);
         if (distance > .1) {
             float angle = mathutils::RadsToDegrees(mathutils::calculate2dAngle(Point3d(0, 0, 0), rightStick));

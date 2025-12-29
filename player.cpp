@@ -81,7 +81,7 @@ void player::run()
     if (getEnabled()) {
         // Read the trigger
         if (theGame->mGameType == game::GAMETYPE_SINGLEPLAYER) {
-            bool trigger = game::mControls.getTriggerButton(mPlayerAssignment);
+            bool trigger = theGame->mControls->getTriggerButton(mPlayerAssignment);
             if (trigger) {
                 if (getNumBombs() > 0 && mBombInterimTimer <= 0) {
                     // Fire off a bomb
@@ -101,7 +101,7 @@ void player::run()
         Point3d playerSpeed(0, 0, 0);
 
         // Move the player
-        Point3d leftStick = game::mControls.getLeftStick(mPlayerAssignment);
+        Point3d leftStick = theGame->mControls->getLeftStick(mPlayerAssignment);
         float distance = mathutils::calculate2dDistance(Point3d(0, 0, 0), leftStick);
         if (distance > .1) {
             //
@@ -172,7 +172,7 @@ void player::run()
         }
 
         // Firing
-        Point3d rightStick = game::mControls.getRightStick(mPlayerAssignment);
+        Point3d rightStick = theGame->mControls->getRightStick(mPlayerAssignment);
         distance = mathutils::calculate2dDistance(Point3d(0, 0, 0), rightStick);
         if (distance > .1) {
             //
