@@ -124,11 +124,7 @@ particle::particle()
     // Thread stuff
     mRunThread = SDL_CreateThread(runThread, "particle", nullptr);
     if (!mRunThread) {
-#ifdef USE_SDL
         printf("Couldn't create particle run thread: %s\n", SDL_GetError());
-#else
-        OutputDebugString(L"Couldn't create particle run thread\n");
-#endif
     }
 }
 

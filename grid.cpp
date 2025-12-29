@@ -199,11 +199,7 @@ grid::grid()
     // Thread stuff
     mRunThread = SDL_CreateThread(runThread, "grid", nullptr);
     if (!mRunThread) {
-#ifdef USE_SDL
         printf("Couldn't create grid run thread: %s\n", SDL_GetError());
-#else
-        OutputDebugString(L"Couldn't create grid run thread\n");
-#endif
     }
 }
 

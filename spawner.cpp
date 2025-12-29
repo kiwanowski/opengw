@@ -272,13 +272,7 @@ void spawner::run(void)
 // Not currently used
 void spawner::transition()
 {
-#ifdef USE_SDL
     printf("New spawnIndex = %d, amount %f\n", getSpawnIndex(), mSpawnProgress);
-#else
-    char s[256];
-    sprintf(s, "New spawnIndex = %d, amount=%f\n", getSpawnIndex(), mSpawnProgress);
-    OutputDebugStringA(s);
-#endif
 }
 
 void spawner::spawnEntities(entity::EntityType type, int numWanted)

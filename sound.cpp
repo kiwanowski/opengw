@@ -128,23 +128,11 @@ void sound::loadTrack(const char* file, std::size_t track, float volume, bool lo
 
     // Load the sound file and convert it to 16-bit stereo at 44Hz
     if (SDL_LoadWAV(file, &wave, &data, &dlen) == nullptr) {
-#ifdef USE_SDL
         printf("Failed loading audio track %zu: %s\n", track, SDL_GetError());
-#else
-        TCHAR s[512];
-        wsprintf(s, L"Failed loading audio track %d\n", track);
-        OutputDebugString(s);
-#endif
         return;
     }
 
-#ifdef USE_SDL
     printf("Loaded audio track %zu\n", track);
-#else
-    TCHAR s[512];
-    wsprintf(s, L"Loaded audio track %d\n", track);
-    OutputDebugString(s);
-#endif
 
     desired = wave;
     desired.channels = 2;
@@ -168,13 +156,7 @@ void sound::loadTrack(const char* file, std::size_t track, float volume, bool lo
     SDL_FreeWAV(data);
 
     if (SDL_ConvertAudio(&cvt) != 0) {
-#ifdef USE_SDL
         printf("Failed to convert track %zu: %s\n", track, SDL_GetError());
-#else
-        TCHAR s[256];
-        wsprintf(s, L"Failed to convert track %d\n", track);
-        OutputDebugString(s);
-#endif
     }
 
     SDL_LockAudio();
