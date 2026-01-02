@@ -235,7 +235,7 @@ void player::run()
     }
 
     if (mDrawSheild) {
-        attractor::Attractor* att = game::mAttractors.getAttractor();
+        attractor::Attractor* att = theGame->mAttractors->getAttractor();
         if (att) {
             att->strength = 100;
             att->radius = 3.5;
@@ -341,7 +341,7 @@ void player::spawn()
     float b = (float)mStateTimer / mSpawnTime;
     b = 1 - b;
 
-    attractor::Attractor* att = game::mAttractors.getAttractor();
+    attractor::Attractor* att = theGame->mAttractors->getAttractor();
     if (att) {
         att->strength = 20;
         att->radius = 28 * b;
@@ -349,7 +349,7 @@ void player::spawn()
         att->enabled = true;
         att->attractsParticles = true;
     }
-    att = game::mAttractors.getAttractor();
+    att = theGame->mAttractors->getAttractor();
     if (att) {
         att->strength = -20;
         att->radius = 30 * b;
@@ -691,7 +691,7 @@ void player::destroyTransition()
     mMultiplier = 1;
     mKillCounter = 0;
 
-    attractor::Attractor* att = game::mAttractors.getAttractor();
+    attractor::Attractor* att = theGame->mAttractors->getAttractor();
     if (att) {
         att->strength = 200;
         att->radius = 30;

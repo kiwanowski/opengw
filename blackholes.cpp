@@ -114,7 +114,7 @@ void blackholes::run()
                                 blackHole->feed(enemy->getScoreValue());
 
                                 // Distrupt the grid at the destruction point
-                                attractor::Attractor* att = game::mAttractors.getAttractor();
+                                attractor::Attractor* att = theGame->mAttractors->getAttractor();
                                 if (att) {
                                     att->strength = 1.5;
                                     att->radius = 30;

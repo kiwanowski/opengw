@@ -108,7 +108,7 @@ void entityBlackHole::run()
 
         // Distort the grid
 
-        attractor::Attractor* att = game::mAttractors.getAttractor();
+        attractor::Attractor* att = theGame->mAttractors->getAttractor();
         if (att) {
             float s = sin(mGridPullIndex);
 
@@ -259,7 +259,7 @@ void entityBlackHole::destroyTransition()
         theGame->mParticles->emitter(&pos, &angle, speed, spread, num, &pen, timeToLive);
     }
 
-    attractor::Attractor* att = game::mAttractors.getAttractor();
+    attractor::Attractor* att = theGame->mAttractors->getAttractor();
     if (att) {
         att->strength = 100;
         att->radius = 50;
@@ -318,7 +318,7 @@ void entityBlackHole::hit(entity* aEntity)
 
             /*
                         // Distrupt the grid at the activation point
-                        attractor::Attractor* att = game::mAttractors.getAttractor();
+                        attractor::Attractor* att = theGame->mAttractors->getAttractor();
                         if (att)
                         {
                             att->strength = 20;
@@ -388,7 +388,7 @@ void entityBlackHole::hit(entity* aEntity)
         mBalanceRate = 0;
 
         // Distrupt the grid at the activation point
-        attractor::Attractor* att = game::mAttractors.getAttractor();
+        attractor::Attractor* att = theGame->mAttractors->getAttractor();
         if (att) {
             att->strength = 20;
             att->radius = 20;

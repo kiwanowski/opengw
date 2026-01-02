@@ -51,7 +51,7 @@ static int runThread(void* /*ptr*/)
                 } else {
                     // Evaluate against attractors
                     if (p.gravity) {
-                        const Point3d speed = game::mAttractors.evaluateParticle(&p);
+                        const Point3d speed = theGame->mAttractors->evaluateParticle(&p);
                         p.speedX += speed.x;
                         p.speedY += speed.y;
                     }

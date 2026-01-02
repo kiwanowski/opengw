@@ -26,7 +26,7 @@ void bomb::run()
             }
 
             // Push the grid out
-            attractor::Attractor* att = game::mAttractors.getAttractor();
+            attractor::Attractor* att = theGame->mAttractors->getAttractor();
             if (att) {
                 att->strength = 200;
                 att->radius = ring.radius;

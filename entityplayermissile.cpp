@@ -126,7 +126,7 @@ void entityPlayerMissile::run()
 
             // Here be an attractor
             if (mType == 0) {
-                attractor::Attractor* att = game::mAttractors.getAttractor();
+                attractor::Attractor* att = theGame->mAttractors->getAttractor();
                 if (att) {
                     att->strength = 10;
                     att->radius = 5;
@@ -135,7 +135,7 @@ void entityPlayerMissile::run()
                     att->attractsParticles = false;
                 }
             } else if (mType == 1) {
-                attractor::Attractor* att = game::mAttractors.getAttractor();
+                attractor::Attractor* att = theGame->mAttractors->getAttractor();
                 if (att) {
                     att->strength = 20;
                     att->radius = 5;
@@ -144,7 +144,7 @@ void entityPlayerMissile::run()
                     att->attractsParticles = false;
                 }
             } else if (mType == 2) {
-                attractor::Attractor* att = game::mAttractors.getAttractor();
+                attractor::Attractor* att = theGame->mAttractors->getAttractor();
                 if (att) {
                     att->strength = 30;
                     att->radius = 5;

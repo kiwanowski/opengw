@@ -135,7 +135,7 @@ class game
     std::unique_ptr<enemies> mEnemies;
     std::unique_ptr<particle> mParticles;
     std::unique_ptr<camera> mCamera;
-    static attractor mAttractors;
+    std::unique_ptr<attractor> mAttractors;
     std::unique_ptr<controls> mControls;
     std::unique_ptr<stars> mStars;
     std::unique_ptr<players> mPlayers;

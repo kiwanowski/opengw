@@ -15,7 +15,7 @@
 //settings game::mSettings;
 //sound game::mSound;
 // particle game::mParticles;
-attractor game::mAttractors;
+//attractor game::mAttractors;
 //controls game::mControls;
 blackholes game::mBlackHoles;
 spawner game::mSpawner;
@@ -43,7 +43,7 @@ game::game()
     mGrid = std::make_unique<grid>();
     mSound = std::make_unique<sound>();
     mParticles = std::make_unique<particle>();
-
+    mAttractors = std::make_unique<attractor>();
     mControls = std::make_unique<controls>();
 
     //
@@ -378,7 +378,7 @@ void game::run()
 
             Point3d pos = mAttractModeBlackHoles[i]->getPos();
 
-            attractor::Attractor* att = game::mAttractors.getAttractor();
+            attractor::Attractor* att = mAttractors->getAttractor();
             if (att) {
                 att->strength = (explosionTimer > 980) ? 1000 : -40;
                 att->radius = 40;
@@ -716,7 +716,7 @@ void game::endGame()
     mEnemies->disableAllLines();
 
     // Kill all attractors
-    mAttractors.clearAll();
+    mAttractors->clearAll();
 }
 
 void game::showMessageAtLocation(char* message, const Point3d& pos, const vector::pen& pen)
