@@ -3,6 +3,7 @@
 #include "bomb.hpp"
 #include "camera.hpp"
 #include "enemies.hpp"
+#include "highscore.hpp"
 #include "players.hpp"
 #include "settings.hpp"
 #include "spawner.hpp"
@@ -24,7 +25,7 @@
 //blackholes game::mBlackHoles;
 //spawner game::mSpawner;
 //bomb game::mBomb;
-highscore game::mHighscore;
+//highscore game::mHighscore;
 // grid game::mGrid;
 
 #define NUM_POINT_DISPLAYS 40
@@ -52,6 +53,7 @@ game::game()
     mBlackHoles = std::make_unique<blackholes>();
     mSpawner = std::make_unique<spawner>();
     mBomb = std::make_unique<bomb>();
+    mHighscore = std::make_unique<highscore>();
 
     //
     // Load our sounds
@@ -314,12 +316,12 @@ void game::run()
         mSound->setTrackSpeed(SOUNDID_MUSICLOOP, mMusicSpeed);
     } break;
     case GAMEMODE_HIGHSCORES:
-        mHighscore.run();
+        mHighscore->run();
         break;
     case GAMEMODE_HIGHSCORES_CHECK:
-        if (mHighscore.isHighScore(getPlayer1()->mScore) == true) {
+        if (mHighscore->isHighScore(getPlayer1()->mScore) == true) {
             mGameMode = GAMEMODE_HIGHSCORES;
-            mHighscore.init();
+            mHighscore->init();
             break;
         }
         oglScene->showHighScores();

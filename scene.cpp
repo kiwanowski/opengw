@@ -1,9 +1,9 @@
 #include "scene.hpp"
 #include "game.hpp"
+#include "highscore.hpp"
 #include "menuSelectGameType.hpp"
 #include "players.hpp"
 #include "settings.hpp"
-#include "game.hpp"
 
 #include "SDL_opengl.h"
 
@@ -260,7 +260,7 @@ void scene::draw(int pass)
         // Game over mode
         if (game::mGameMode == game::GAMEMODE_HIGHSCORES) {
             drawCredits();
-            game::mHighscore.drawEnterScore();
+            theGame->mHighscore->drawEnterScore();
         } else if (game::mGameMode == game::GAMEMODE_GAMEOVER) {
             drawCredits();
             drawScores();
@@ -281,7 +281,7 @@ void scene::draw(int pass)
             }
 
             if (mShowHighScores) {
-                game::mHighscore.drawTable();
+                theGame->mHighscore->drawTable();
             } else {
                 if (game::mGameMode == game::GAMEMODE_CREDITED) {
                     drawCredits();

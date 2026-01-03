@@ -7,7 +7,6 @@
 #include "entity.hpp"
 #include "font.hpp"
 #include "grid.hpp"
-#include "highscore.hpp"
 #include "mathutils.hpp"
 #include "particle.hpp"
 #include "point3d.hpp"
@@ -17,10 +16,12 @@
 #include <memory>
 #include <vector>
 
+// Forward declare pointers
 class blackholes;
 class bomb;
 class camera;
 class enemies;
+class highscore;
 class player;
 class players;
 class spawner;
@@ -142,7 +143,7 @@ class game
     std::unique_ptr<blackholes> mBlackHoles;
     std::unique_ptr<spawner> mSpawner;
     std::unique_ptr<bomb> mBomb;
-    static highscore mHighscore;
+    std::unique_ptr<highscore> mHighscore;
 
     static int mSkillLevel;
 
