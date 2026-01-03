@@ -1,3 +1,4 @@
+#include "bomb.hpp"
 #include "spawner.hpp"
 #include "enemies.hpp"
 #include "game.hpp"
@@ -139,7 +140,7 @@ void spawner::run(void)
         return;
     */
 
-    if ((mSpawnWaitTimer <= 0) && numPlayersActive && !game::mBomb.isBombing()) {
+    if ((mSpawnWaitTimer <= 0) && numPlayersActive && !theGame->mBomb->isBombing()) {
         //
         // Randomly spawn enemies here and there
         //

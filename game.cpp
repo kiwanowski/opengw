@@ -1,5 +1,6 @@
 #include "game.hpp"
 #include "blackholes.hpp"
+#include "bomb.hpp"
 #include "camera.hpp"
 #include "enemies.hpp"
 #include "players.hpp"
@@ -22,7 +23,7 @@
 //controls game::mControls;
 //blackholes game::mBlackHoles;
 //spawner game::mSpawner;
-bomb game::mBomb;
+//bomb game::mBomb;
 highscore game::mHighscore;
 // grid game::mGrid;
 
@@ -50,6 +51,7 @@ game::game()
     mControls = std::make_unique<controls>();
     mBlackHoles = std::make_unique<blackholes>();
     mSpawner = std::make_unique<spawner>();
+    mBomb = std::make_unique<bomb>();
 
     //
     // Load our sounds
@@ -269,7 +271,7 @@ void game::run()
         mStars->run();
         mBlackHoles->run();
         mPlayers->run();
-        mBomb.run();
+        mBomb->run();
         mSpawner->run();
 
         // Brightness
@@ -620,7 +622,7 @@ void game::draw(int pass)
         // Bombs
         {
             glLineWidth(4);
-            mBomb.draw();
+            mBomb->draw();
         }
 
         // Point displays

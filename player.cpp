@@ -1,3 +1,4 @@
+#include "bomb.hpp"
 #include "player.hpp"
 #include "game.hpp"
 
@@ -88,7 +89,7 @@ void player::run()
                     takeBomb();
                     mBombInterimTimer = 50;
 
-                    game::mBomb.startBomb(mPos, 1, 6, 2, 200, vector::pen(1, 1, 1, .3, 4));
+                    theGame->mBomb->startBomb(mPos, 1, 6, 2, 200, vector::pen(1, 1, 1, .3, 4));
                     theGame->mSound->playTrack(SOUNDID_BOMB);
                     theGame->startBomb();
                 }

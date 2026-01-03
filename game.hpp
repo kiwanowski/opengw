@@ -2,7 +2,6 @@
 
 // TODO: remove unneeded headers
 #include "attractor.hpp"
-#include "bomb.hpp"
 #include "controls.hpp"
 #include "defines.hpp"
 #include "entity.hpp"
@@ -19,6 +18,7 @@
 #include <vector>
 
 class blackholes;
+class bomb;
 class camera;
 class enemies;
 class player;
@@ -141,7 +141,7 @@ class game
     std::unique_ptr<players> mPlayers;
     std::unique_ptr<blackholes> mBlackHoles;
     std::unique_ptr<spawner> mSpawner;
-    static bomb mBomb;
+    std::unique_ptr<bomb> mBomb;
     static highscore mHighscore;
 
     static int mSkillLevel;
