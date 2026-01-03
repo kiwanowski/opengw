@@ -14,7 +14,6 @@
 #include "point3d.hpp"
 #include "scene.hpp"
 #include "sound.hpp"
-#include "spawner.hpp"
 
 #include <memory>
 #include <vector>
@@ -24,6 +23,7 @@ class camera;
 class enemies;
 class player;
 class players;
+class spawner;
 class stars;
 
 enum
@@ -140,7 +140,7 @@ class game
     std::unique_ptr<stars> mStars;
     std::unique_ptr<players> mPlayers;
     std::unique_ptr<blackholes> mBlackHoles;
-    static spawner mSpawner;
+    std::unique_ptr<spawner> mSpawner;
     static bomb mBomb;
     static highscore mHighscore;
 

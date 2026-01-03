@@ -4,6 +4,7 @@
 #include "enemies.hpp"
 #include "players.hpp"
 #include "settings.hpp"
+#include "spawner.hpp"
 #include "stars.hpp"
 #include "menuSelectGameType.hpp"
 
@@ -20,7 +21,7 @@
 //attractor game::mAttractors;
 //controls game::mControls;
 //blackholes game::mBlackHoles;
-spawner game::mSpawner;
+//spawner game::mSpawner;
 bomb game::mBomb;
 highscore game::mHighscore;
 // grid game::mGrid;
@@ -48,6 +49,8 @@ game::game()
     mAttractors = std::make_unique<attractor>();
     mControls = std::make_unique<controls>();
     mBlackHoles = std::make_unique<blackholes>();
+    mSpawner = std::make_unique<spawner>();
+
     //
     // Load our sounds
     //
@@ -267,7 +270,7 @@ void game::run()
         mBlackHoles->run();
         mPlayers->run();
         mBomb.run();
-        mSpawner.run();
+        mSpawner->run();
 
         // Brightness
         if (mBrightness < 1) {
@@ -652,7 +655,7 @@ void game::startGame(GameType gameType)
 
     mSkillLevel = 0;
 
-    mSpawner.init();
+    mSpawner->init();
 
     // Fire up the players
     if (getPlayer1()->mJoined) {
