@@ -2,7 +2,6 @@
 
 // TODO: remove unneeded headers
 #include "attractor.hpp"
-#include "blackholes.hpp"
 #include "bomb.hpp"
 #include "controls.hpp"
 #include "defines.hpp"
@@ -20,11 +19,12 @@
 #include <memory>
 #include <vector>
 
+class blackholes;
 class camera;
-class stars;
+class enemies;
 class player;
 class players;
-class enemies;
+class stars;
 
 enum
 {
@@ -139,7 +139,7 @@ class game
     std::unique_ptr<controls> mControls;
     std::unique_ptr<stars> mStars;
     std::unique_ptr<players> mPlayers;
-    static blackholes mBlackHoles;
+    std::unique_ptr<blackholes> mBlackHoles;
     static spawner mSpawner;
     static bomb mBomb;
     static highscore mHighscore;

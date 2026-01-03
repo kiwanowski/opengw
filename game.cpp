@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include "blackholes.hpp"
 #include "camera.hpp"
 #include "enemies.hpp"
 #include "players.hpp"
@@ -7,6 +8,7 @@
 #include "menuSelectGameType.hpp"
 
 #include <cstdio>
+#include <memory>
 
 #include "SDL_opengl.h"
 
@@ -17,7 +19,7 @@
 // particle game::mParticles;
 //attractor game::mAttractors;
 //controls game::mControls;
-blackholes game::mBlackHoles;
+//blackholes game::mBlackHoles;
 spawner game::mSpawner;
 bomb game::mBomb;
 highscore game::mHighscore;
@@ -45,7 +47,7 @@ game::game()
     mParticles = std::make_unique<particle>();
     mAttractors = std::make_unique<attractor>();
     mControls = std::make_unique<controls>();
-
+    mBlackHoles = std::make_unique<blackholes>();
     //
     // Load our sounds
     //
@@ -262,7 +264,7 @@ void game::run()
 
         mCamera->followPlayer();
         mStars->run();
-        mBlackHoles.run();
+        mBlackHoles->run();
         mPlayers->run();
         mBomb.run();
         mSpawner.run();
