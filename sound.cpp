@@ -57,8 +57,7 @@ void sound::sdl3AudioCallback(void* userdata, SDL_AudioStream* stream, int addit
 
 void sound::bufferCallback(void* userdata, Uint8* stream, int len)
 {
-    Sint16* buf = (Sint16*)stream;
-
+    auto buf = reinterpret_cast<Sint16*>(stream);
     auto thisPtr = static_cast<sound*>(userdata);
 
     memset(buf, 0, len);
@@ -77,35 +76,29 @@ void sound::bufferCallback(void* userdata, Uint8* stream, int len)
         int lIndex = 0;
 
         if (track.playing && !track.paused) {
-            Sint16* data = (Sint16*)track.data.data();
+            auto data = track.data.data();
+            const auto halfVolume = track.vol / 2.0f;
 
-            for (int s = 0; s < len; s++) {
+            for (int s = 0; s < len; s += 2) {
                 // Stream the audio data
-                if (s & 1) { // TODO: fix this code
-                    // Right channel
-                    float fPos = track.pos;
-                    float iPos = (int)fPos;
+                const float fPos = track.pos;
+                const int iPos = static_cast<int>(fPos);
 
-                    float v1 = (data[(int)iPos] * (track.vol / 2));
-                    float fval = (v1 / max_int_val);
+                const float left = data[iPos] * halfVolume;
+                const float right = data[iPos + 1] * halfVolume;
 
-                    thisPtr->mRightSamples[rIndex] += fval;
-                    ++rIndex;
-                } else {
-                    // Left channel
-                    float fPos = track.pos;
-                    float iPos = (int)fPos;
+                const float fLeft = left / max_int_val;
+                const float fRight = right / max_int_val;
 
-                    float v1 = (data[(int)iPos] * (track.vol / 2));
-                    float fval = (v1 / max_int_val);
+                thisPtr->mLeftSamples[lIndex] += fLeft;
+                thisPtr->mRightSamples[rIndex] += fRight;
 
-                    thisPtr->mLeftSamples[lIndex] += fval;
-                    ++lIndex;
-                }
+                ++lIndex;
+                ++rIndex;
 
                 // Advance the track data position
 
-                track.pos += track.speed;
+                track.pos += 2.0 * track.speed;
 
                 if (track.pos >= track.len) {
                     if (track.loop) {
@@ -122,8 +115,8 @@ void sound::bufferCallback(void* userdata, Uint8* stream, int len)
 
     // Fill the output buffer
     for (int i = 0, b = 0; i < len / 2; i++) {
-        Sint16 left = (thisPtr->mLeftSamples[i]) * (max_int_val);
-        Sint16 right = (thisPtr->mRightSamples[i]) * (max_int_val);
+        const Sint16 left = thisPtr->mLeftSamples[i] * max_int_val;
+        const Sint16 right = thisPtr->mRightSamples[i] * max_int_val;
         buf[b++] = left;
         buf[b++] = right;
     }
@@ -149,7 +142,7 @@ void sound::loadTrack(const char* file, std::size_t track, float volume, bool lo
     const SDL_AudioSpec dstSpec { SDL_AUDIO_S16, 2, 44100 };
 
     if (SDL_ConvertAudioSamples(&srcSpec, srcData, srcLen, &dstSpec, &dstData, &dstLen)) {
-        mTracks[track].data.resize(dstLen);
+        mTracks[track].data.resize(dstLen / 2);
         memcpy(mTracks[track].data.data(), dstData, dstLen);
         mTracks[track].len = dstLen / 2;
         mTracks[track].pos = 0;

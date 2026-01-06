@@ -34,7 +34,7 @@ class sound
 
     struct TRACK
     {
-        std::vector<Uint8> data;
+        std::vector<Sint16> data;
         bool loop = false;
         bool playing = false;
         bool paused = false;
