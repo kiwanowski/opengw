@@ -3,7 +3,7 @@
 #include "mathutils.hpp"
 #include "stars.hpp"
 
-#include "SDL_opengl.h"
+#include <SDL3/SDL_opengl.h>
 
 stars::stars(const game& gameRef) : mGame(gameRef)
 {

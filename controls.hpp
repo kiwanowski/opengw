@@ -2,7 +2,7 @@
 
 #include "point3d.hpp"
 
-#include "SDL.h"
+#include <SDL3/SDL.h>
 
 class controls
 {
@@ -18,9 +18,9 @@ class controls
     bool getPauseButton(int player);
 
     // Hot-plugging support
-    void handleControllerAdded(int deviceIndex);
-    void handleControllerRemoved(SDL_JoystickID instanceId);
-    void scanForControllers();
+    void handleGamepadAdded(SDL_JoystickID instanceId);
+    void handleGamepadRemoved(SDL_JoystickID instanceId);
+    void scanForGamepads();
 
   private:
     // Keyboard
@@ -31,14 +31,16 @@ class controls
     bool readKeyboardBack(int player);
     bool readKeyboardPause(int player);
 
-    // Controllers (modern API)
-    Point3d readControllerLeftStick(int player);
-    Point3d readControllerRightStick(int player);
-    bool readControllerTrigger(int player);
-    bool readControllerStart(int player);
-    bool readControllerBack(int player);
-    bool readControllerPause(int player);
+    // Gamepads (modern API)
+    Point3d readGamepadLeftStick(int player);
+    Point3d readGamepadRightStick(int player);
+    bool readGamepadTrigger(int player);
+    bool readGamepadStart(int player);
+    bool readGamepadBack(int player);
+    bool readGamepadPause(int player);
 
-    SDL_GameController* mControllers[4];
-    int mNumControllers;
+    static constexpr int MAX_GAMEPADS { 4 };
+
+    SDL_Gamepad* mGamepads[MAX_GAMEPADS] {};
+    int mNumGamepads { 0 };
 };

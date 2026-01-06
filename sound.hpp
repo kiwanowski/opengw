@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SDL.h"
+#include <SDL3/SDL.h>
 
 #include <vector>
 
@@ -29,7 +29,8 @@ class sound
     void setTrackSpeed(std::size_t track, double speed);
 
   private:
-    static void bufferCallback(void* unused, Uint8* stream, int len);
+    static void bufferCallback(void* userdata, Uint8* stream, int len);
+    static void sdl3AudioCallback(void* userdata, SDL_AudioStream* stream, int additional_amount, int total_amount);
 
     struct TRACK
     {
@@ -47,4 +48,6 @@ class sound
 
     std::vector<float> mLeftSamples;
     std::vector<float> mRightSamples;
+
+    SDL_AudioStream* stream { nullptr };
 };

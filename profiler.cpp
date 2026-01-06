@@ -2,8 +2,6 @@
 
 #include <cstdio>
 
-#include "SDL2/SDL.h"
-
 profiler::profiler(const std::string& name) : name(name)
 {
 }

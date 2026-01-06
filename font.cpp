@@ -4,7 +4,7 @@
 #include <cstdarg>
 #include <cstdio>
 
-#include "SDL_opengl.h"
+#include <SDL3/SDL_opengl.h>
 
 float AlphanumericsPrintVScale = 1.0f;
 

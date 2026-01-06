@@ -7,7 +7,7 @@
 #include "scene.hpp"
 #include "settings.hpp"
 
-#include "SDL_opengl.h"
+#include <SDL3/SDL_opengl.h>
 
 #include <GL/glu.h>
 

@@ -21,7 +21,7 @@
 #include <cstdio>
 #include <memory>
 
-#include "SDL_opengl.h"
+#include <SDL3/SDL_opengl.h>
 
 // Statics
 //

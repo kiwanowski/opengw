@@ -1,5 +1,4 @@
 #include "sound.hpp"
-#include "game.hpp"
 
 #include <cstdio>
 
@@ -12,25 +11,19 @@ sound::sound()
 
     sound::mTracks.resize(NUM_TRACKS);
 
-    SDL_AudioSpec desired {};
-    desired.channels = 2;
-    desired.freq = 44100;
-    desired.format = AUDIO_S16SYS;
-    desired.samples = SAMPLE_SIZE;
-    desired.callback = sound::bufferCallback;
-    desired.userdata = this;
+    const SDL_AudioSpec spec { SDL_AUDIO_S16, 2, 44100 };
+    stream = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK,
+                                       &spec, sdl3AudioCallback, this);
 
-    if (SDL_OpenAudio(&desired, nullptr) < 0) {
-        fprintf(stderr, "Unable to open audio: %s\n", SDL_GetError());
+    if (!stream) {
+        fprintf(stderr, "SDL_OpenAudioDeviceStream() failed: %s\n", SDL_GetError());
     }
 
-    SDL_LockAudio();
     for (auto& track: mTracks) {
         track.playing = false;
         track.paused = false;
         track.speed = 1;
     }
-    SDL_UnlockAudio();
 
     mLeftSamples.resize(SAMPLE_SIZE * 4);
     mRightSamples.resize(SAMPLE_SIZE * 4);
@@ -41,7 +34,25 @@ sound::~sound()
     stopSound();
     stopAllTracks();
 
-    SDL_CloseAudio();
+    if (stream) {
+        SDL_CloseAudioDevice(SDL_GetAudioStreamDevice(stream));
+    }
+}
+
+void sound::sdl3AudioCallback(void* userdata, SDL_AudioStream* stream, int additional_amount, int /*total_amount*/)
+{
+    if (additional_amount > 0) {
+        Uint8* data = SDL_stack_alloc(Uint8, additional_amount);
+        if (data) {
+            bufferCallback(userdata, data, additional_amount);
+            if (!SDL_PutAudioStreamData(stream, data, additional_amount)) {
+                fprintf(stderr, "SDL_PutAudioStreamData() failed: %s\n", SDL_GetError());
+            }
+            SDL_stack_free(data);
+        }
+    } else {
+        fprintf(stderr, "SDL_stack_alloc() failed: %s\n", SDL_GetError());
+    }
 }
 
 void sound::bufferCallback(void* userdata, Uint8* stream, int len)
@@ -70,7 +81,7 @@ void sound::bufferCallback(void* userdata, Uint8* stream, int len)
 
             for (int s = 0; s < len; s++) {
                 // Stream the audio data
-                if (s & 1) {
+                if (s & 1) { // TODO: fix this code
                     // Right channel
                     float fPos = track.pos;
                     float iPos = (int)fPos;
@@ -120,158 +131,129 @@ void sound::bufferCallback(void* userdata, Uint8* stream, int len)
 
 void sound::loadTrack(const char* file, std::size_t track, float volume, bool loop /*=false*/)
 {
-    SDL_AudioSpec wave;
-    SDL_AudioSpec desired;
-    Uint8* data;
-    Uint32 dlen;
-    SDL_AudioCVT cvt;
+    SDL_AudioSpec wave {};
+    Uint8* srcData = nullptr;
+    Uint32 srcLen = 0;
 
     // Load the sound file and convert it to 16-bit stereo at 44Hz
-    if (SDL_LoadWAV(file, &wave, &data, &dlen) == nullptr) {
+    if (!SDL_LoadWAV(file, &wave, &srcData, &srcLen)) {
         printf("Failed loading audio track %zu: %s\n", track, SDL_GetError());
         return;
     }
 
     printf("Loaded audio track %zu\n", track);
 
-    desired = wave;
-    desired.channels = 2;
-    desired.freq = 44100;
-    desired.format = AUDIO_S16SYS;
-    desired.samples = SAMPLE_SIZE;
-    desired.callback = sound::bufferCallback;
+    Uint8* dstData = nullptr;
+    int dstLen = 0;
+    const SDL_AudioSpec srcSpec { wave.format, wave.channels, wave.freq };
+    const SDL_AudioSpec dstSpec { SDL_AUDIO_S16, 2, 44100 };
 
-    SDL_BuildAudioCVT(&cvt,
-                      wave.format,
-                      wave.channels,
-                      wave.freq,
-                      AUDIO_S16SYS,
-                      2,
-                      44100);
-
-    std::vector<Uint8> buffer(dlen * cvt.len_mult);
-    cvt.buf = buffer.data();
-    memcpy(cvt.buf, data, dlen);
-    cvt.len = dlen;
-    SDL_FreeWAV(data);
-
-    if (SDL_ConvertAudio(&cvt) != 0) {
-        printf("Failed to convert track %zu: %s\n", track, SDL_GetError());
+    if (SDL_ConvertAudioSamples(&srcSpec, srcData, srcLen, &dstSpec, &dstData, &dstLen)) {
+        mTracks[track].data.resize(dstLen);
+        memcpy(mTracks[track].data.data(), dstData, dstLen);
+        mTracks[track].len = dstLen / 2;
+        mTracks[track].pos = 0;
+        mTracks[track].loop = loop;
+        mTracks[track].vol = volume;
+        mTracks[track].playing = false;
+    } else {
+        fprintf(stderr, "SDL_ConvertAudioSamples() failed: %s\n", SDL_GetError());
     }
 
-    SDL_LockAudio();
-    mTracks[track].data = buffer;
-    mTracks[track].len = cvt.len_cvt / 2;
-    mTracks[track].pos = 0;
-    mTracks[track].loop = loop;
-    mTracks[track].vol = volume;
-    mTracks[track].playing = false;
-    SDL_UnlockAudio();
+
+    SDL_free(srcData);
+    SDL_free(dstData);
 }
 
 void sound::startSound()
 {
-    SDL_PauseAudio(0);
+    if (stream) {
+        if (!SDL_ResumeAudioDevice(SDL_GetAudioStreamDevice(stream))) {
+            fprintf(stderr, "SDL_ResumeAudioDevice() failed: %s\n", SDL_GetError());
+        }
+    }
 }
 
 void sound::stopSound()
 {
-    SDL_PauseAudio(1);
+    if (stream) {
+        if (!SDL_PauseAudioDevice(SDL_GetAudioStreamDevice(stream))) {
+            fprintf(stderr, "SDL_PauseAudioDevice() failed: %s\n", SDL_GetError());
+        }
+    }
 }
 
 void sound::playTrack(std::size_t track)
 {
-    SDL_LockAudio();
     mTracks[track].pos = 0;
     mTracks[track].playing = true;
-    SDL_UnlockAudio();
 }
 
 void sound::stopTrack(std::size_t track)
 {
-    SDL_LockAudio();
     mTracks[track].pos = 0;
     mTracks[track].playing = false;
-    SDL_UnlockAudio();
 }
 
 void sound::stopAllTracks()
 {
-    SDL_LockAudio();
     for (auto& track: mTracks) {
         track.pos = 0;
         track.playing = false;
     }
-    SDL_UnlockAudio();
 }
 
 void sound::stopAllTracksBut(std::size_t track)
 {
-    SDL_LockAudio();
     for (std::size_t i = 0; i < NUM_TRACKS; i++) {
         if (i != track) {
             mTracks[i].pos = 0;
             mTracks[i].playing = false;
         }
     }
-    SDL_UnlockAudio();
 }
 
 void sound::pauseTrack(std::size_t track)
 {
-    SDL_LockAudio();
     mTracks[track].paused = true;
-    SDL_UnlockAudio();
 }
 
 void sound::unpauseTrack(std::size_t track)
 {
-    SDL_LockAudio();
     mTracks[track].paused = false;
-    SDL_UnlockAudio();
 }
 
 void sound::pauseAllTracks()
 {
-    SDL_LockAudio();
     for (auto& track: mTracks) {
         track.paused = true;
     }
-    SDL_UnlockAudio();
 }
 
 void sound::pauseAllTracksBut(std::size_t track)
 {
-    SDL_LockAudio();
     for (std::size_t i = 0; i < NUM_TRACKS; i++) {
         if (i != track) {
             mTracks[i].paused = true;
         }
     }
-    SDL_UnlockAudio();
 }
 
 void sound::unpauseAllTracks()
 {
-    SDL_LockAudio();
     for (auto& track: mTracks) {
         track.paused = false;
     }
-    SDL_UnlockAudio();
 }
 
 void sound::setTrackSpeed(std::size_t track, double speed)
 {
-    SDL_LockAudio();
     mTracks[track].speed = speed;
-    SDL_UnlockAudio();
 }
 
 bool sound::isTrackPlaying(std::size_t track)
 {
-    SDL_LockAudio();
     bool playing = mTracks[track].playing;
-    SDL_UnlockAudio();
     return playing;
 }
 

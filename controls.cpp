@@ -1,13 +1,10 @@
 #include "controls.hpp"
-#include "mathutils.hpp"
-#include "scene.hpp"
 
-#include <SDL.h>
+#include <SDL3/SDL_joystick.h>
 
-#include <algorithm>
 #include <cstdio>
 
-extern const Uint8* keyboardState;
+extern const bool* keyboardState;
 
 // CONTROLLER VALUES
 constexpr float AXIS_MAX = 32768.f;
@@ -15,49 +12,43 @@ constexpr float CLAMPVALUE = .3f;
 
 controls::controls()
 {
-    // Initialize the GameController subsystem
-    if (SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER) < 0) {
-        printf("Failed to initialize GameController subsystem: %s\n", SDL_GetError());
-    }
-
     printf("Initing controls\n");
 
-    for (int i = 0; i < 4; i++) {
-        mControllers[i] = nullptr;
-    }
-
-    mNumControllers = 0;
-
-    // Scan for initially connected controllers
-    scanForControllers();
+    // Scan for initially connected gamepads
+    scanForGamepads();
 }
 
 controls::~controls()
 {
-    for (int i = 0; i < 4; i++) {
-        if (mControllers[i]) {
-            SDL_GameControllerClose(mControllers[i]);
-            mControllers[i] = nullptr;
+    for (auto& pad: mGamepads) {
+        if (pad) {
+            SDL_CloseGamepad(pad);
+            pad = nullptr;
         }
     }
 }
 
-void controls::scanForControllers()
+void controls::scanForGamepads()
 {
-    int numJoysticks = SDL_NumJoysticks();
-    printf("Scanning for controllers... Found %d joysticks\n", numJoysticks);
+    int count = 0;
+    SDL_JoystickID* joysticks = SDL_GetJoysticks(&count);
 
-    // Open any available game controllers
-    for (int j = 0; j < numJoysticks && mNumControllers < 4; j++) {
-        if (SDL_IsGameController(j)) {
+    if (!joysticks) {
+        printf("SDL_GetJoysticks() failed: %s\n", SDL_GetError());
+    }
+
+    printf("Scanning for gamepads... Found %d joysticks\n", count);
+
+    // Open any available gamepads
+    for (int j = 0; j < count && mNumGamepads < MAX_GAMEPADS; j++) {
+        if (SDL_IsGamepad(j)) {
             // Check if this device is already opened
             bool alreadyOpen = false;
-            SDL_JoystickID joyId = SDL_JoystickGetDeviceInstanceID(j);
 
-            for (int i = 0; i < 4; i++) {
-                if (mControllers[i]) {
-                    SDL_Joystick* joy = SDL_GameControllerGetJoystick(mControllers[i]);
-                    if (SDL_JoystickInstanceID(joy) == joyId) {
+            for (auto& pad: mGamepads) {
+                if (pad) {
+                    SDL_Joystick* joy = SDL_GetGamepadJoystick(pad);
+                    if (SDL_GetJoystickID(joy) == joysticks[j]) {
                         alreadyOpen = true;
                         break;
                     }
@@ -66,13 +57,13 @@ void controls::scanForControllers()
 
             if (!alreadyOpen) {
                 // Find first free slot
-                for (int i = 0; i < 4; i++) {
-                    if (!mControllers[i]) {
-                        mControllers[i] = SDL_GameControllerOpen(j);
-                        if (mControllers[i]) {
-                            printf("Controller %d: %s\n", i,
-                                   SDL_GameControllerName(mControllers[i]));
-                            mNumControllers++;
+                for (int i = 0; i < MAX_GAMEPADS; i++) {
+                    if (!mGamepads[i]) {
+                        mGamepads[i] = SDL_OpenGamepad(j);
+                        if (mGamepads[i]) {
+                            printf("Gamepad %d: %s\n", i,
+                                   SDL_GetGamepadName(mGamepads[i]));
+                            mNumGamepads++;
                         }
                         break;
                     }
@@ -81,41 +72,43 @@ void controls::scanForControllers()
         }
     }
 
-    printf("Total controllers opened: %d\n", mNumControllers);
+    SDL_free(joysticks);
+
+    printf("Total gamepads opened: %d\n", mNumGamepads);
 }
 
-void controls::handleControllerAdded(int deviceIndex)
+void controls::handleGamepadAdded(SDL_JoystickID instanceId)
 {
-    if (!SDL_IsGameController(deviceIndex))
+    if (!SDL_IsGamepad(instanceId))
         return;
 
     // Find first available slot
-    for (int i = 0; i < 4; i++) {
-        if (!mControllers[i]) {
-            mControllers[i] = SDL_GameControllerOpen(deviceIndex);
-            if (mControllers[i]) {
-                printf("Controller connected in slot %d: %s\n", i,
-                       SDL_GameControllerName(mControllers[i]));
-                mNumControllers++;
+    for (int i = 0; i < MAX_GAMEPADS; i++) {
+        if (!mGamepads[i]) {
+            mGamepads[i] = SDL_OpenGamepad(instanceId);
+            if (mGamepads[i]) {
+                printf("Gamepad connected in slot %d: %s\n", i,
+                       SDL_GetGamepadName(mGamepads[i]));
+                mNumGamepads++;
             } else {
-                printf("Failed to open controller %d: %s\n", deviceIndex, SDL_GetError());
+                printf("Failed to open gamepad %d: %s\n", instanceId, SDL_GetError());
             }
             break;
         }
     }
 }
 
-void controls::handleControllerRemoved(SDL_JoystickID instanceId)
+void controls::handleGamepadRemoved(SDL_JoystickID instanceId)
 {
-    // Find and remove the disconnected controller
-    for (int i = 0; i < 4; i++) {
-        if (mControllers[i]) {
-            SDL_Joystick* joy = SDL_GameControllerGetJoystick(mControllers[i]);
-            if (SDL_JoystickInstanceID(joy) == instanceId) {
-                printf("Controller disconnected from slot %d\n", i);
-                SDL_GameControllerClose(mControllers[i]);
-                mControllers[i] = nullptr;
-                mNumControllers--;
+    // Find and remove the disconnected gamepad
+    for (int i = 0; i < MAX_GAMEPADS; i++) {
+        if (mGamepads[i]) {
+            SDL_Joystick* joy = SDL_GetGamepadJoystick(mGamepads[i]);
+            if (SDL_GetJoystickID(joy) == instanceId) {
+                printf("Gamepad disconnected from slot %d\n", i);
+                SDL_CloseGamepad(mGamepads[i]);
+                mGamepads[i] = nullptr;
+                mNumGamepads--;
                 break;
             }
         }
@@ -124,32 +117,32 @@ void controls::handleControllerRemoved(SDL_JoystickID instanceId)
 
 Point3d controls::getLeftStick(int player)
 {
-    return readKeyboardLeftStick(player) + readControllerLeftStick(player);
+    return readKeyboardLeftStick(player) + readGamepadLeftStick(player);
 }
 
 Point3d controls::getRightStick(int player)
 {
-    return readKeyboardRightStick(player) + readControllerRightStick(player);
+    return readKeyboardRightStick(player) + readGamepadRightStick(player);
 }
 
 bool controls::getTriggerButton(int player)
 {
-    return readKeyboardTrigger(player) || readControllerTrigger(player);
+    return readKeyboardTrigger(player) || readGamepadTrigger(player);
 }
 
 bool controls::getStartButton(int player)
 {
-    return readKeyboardStart(player) || readControllerStart(player);
+    return readKeyboardStart(player) || readGamepadStart(player);
 }
 
 bool controls::getBackButton(int player)
 {
-    return readKeyboardBack(player) || readControllerBack(player);
+    return readKeyboardBack(player) || readGamepadBack(player);
 }
 
 bool controls::getPauseButton(int player)
 {
-    return readKeyboardPause(player) || readControllerPause(player);
+    return readKeyboardPause(player) || readGamepadPause(player);
 }
 
 //
@@ -227,15 +220,15 @@ bool controls::readKeyboardPause(int /*player*/)
 // Modern SDL GameController API
 //
 
-Point3d controls::readControllerLeftStick(int player)
+Point3d controls::readGamepadLeftStick(int player)
 {
-    if (!mControllers[player])
+    if (!mGamepads[player])
         return Point3d(0, 0, 0);
 
     Point3d vector;
     // Note: Y axis is inverted for standard game controls
-    vector.x = -(SDL_GameControllerGetAxis(mControllers[player], SDL_CONTROLLER_AXIS_LEFTY)) / AXIS_MAX;
-    vector.y = -(SDL_GameControllerGetAxis(mControllers[player], SDL_CONTROLLER_AXIS_LEFTX)) / AXIS_MAX;
+    vector.x = -(SDL_GetGamepadAxis(mGamepads[player], SDL_GAMEPAD_AXIS_LEFTY)) / AXIS_MAX;
+    vector.y = -(SDL_GetGamepadAxis(mGamepads[player], SDL_GAMEPAD_AXIS_LEFTX)) / AXIS_MAX;
     vector.z = 0;
 
     // Apply deadzone
@@ -249,14 +242,14 @@ Point3d controls::readControllerLeftStick(int player)
     return vector;
 }
 
-Point3d controls::readControllerRightStick(int player)
+Point3d controls::readGamepadRightStick(int player)
 {
-    if (!mControllers[player])
+    if (!mGamepads[player])
         return Point3d(0, 0, 0);
 
     Point3d vector;
-    vector.x = -(SDL_GameControllerGetAxis(mControllers[player], SDL_CONTROLLER_AXIS_RIGHTY)) / AXIS_MAX;
-    vector.y = -(SDL_GameControllerGetAxis(mControllers[player], SDL_CONTROLLER_AXIS_RIGHTX)) / AXIS_MAX;
+    vector.x = -(SDL_GetGamepadAxis(mGamepads[player], SDL_GAMEPAD_AXIS_RIGHTY)) / AXIS_MAX;
+    vector.y = -(SDL_GetGamepadAxis(mGamepads[player], SDL_GAMEPAD_AXIS_RIGHTX)) / AXIS_MAX;
     vector.z = 0;
 
     // Apply deadzone
@@ -270,13 +263,13 @@ Point3d controls::readControllerRightStick(int player)
     return vector;
 }
 
-bool controls::readControllerTrigger(int player)
+bool controls::readGamepadTrigger(int player)
 {
-    if (!mControllers[player])
+    if (!mGamepads[player])
         return false;
 
     // Right trigger
-    float triggerVal = (SDL_GameControllerGetAxis(mControllers[player], SDL_CONTROLLER_AXIS_TRIGGERRIGHT)) / AXIS_MAX;
+    float triggerVal = (SDL_GetGamepadAxis(mGamepads[player], SDL_GAMEPAD_AXIS_RIGHT_TRIGGER)) / AXIS_MAX;
 
     if (triggerVal > CLAMPVALUE) {
         return true;
@@ -285,26 +278,26 @@ bool controls::readControllerTrigger(int player)
     return false;
 }
 
-bool controls::readControllerStart(int player)
+bool controls::readGamepadStart(int player)
 {
-    if (!mControllers[player])
+    if (!mGamepads[player])
         return false;
 
-    return SDL_GameControllerGetButton(mControllers[player], SDL_CONTROLLER_BUTTON_A);
+    return SDL_GetGamepadButton(mGamepads[player], SDL_GAMEPAD_BUTTON_SOUTH);
 }
 
-bool controls::readControllerBack(int player)
+bool controls::readGamepadBack(int player)
 {
-    if (!mControllers[player])
+    if (!mGamepads[player])
         return false;
 
-    return SDL_GameControllerGetButton(mControllers[player], SDL_CONTROLLER_BUTTON_B);
+    return SDL_GetGamepadButton(mGamepads[player], SDL_GAMEPAD_BUTTON_EAST);
 }
 
-bool controls::readControllerPause(int player)
+bool controls::readGamepadPause(int player)
 {
-    if (!mControllers[player])
+    if (!mGamepads[player])
         return false;
 
-    return SDL_GameControllerGetButton(mControllers[player], SDL_CONTROLLER_BUTTON_START);
+    return SDL_GetGamepadButton(mGamepads[player], SDL_GAMEPAD_BUTTON_START);
 }

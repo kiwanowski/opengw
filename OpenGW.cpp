@@ -7,7 +7,7 @@
 #include "sincos.hpp"
 
 #include <GL/glu.h>
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include <cstdio>
 #include <memory>
@@ -52,28 +52,25 @@ static Uint32 fpsTime;
 static int frameCount;
 static int fps;
 
-const Uint8* keyboardState;
+const bool* keyboardState;
 
 static bool handleEvents()
 {
     SDL_Event e;
     while (SDL_PollEvent(&e)) {
         switch (e.type) {
-        case SDL_QUIT:
+        case SDL_EVENT_QUIT:
             printf("Quit\n");
             return false;
-        case SDL_WINDOWEVENT:
-        {
-            if (e.window.event == SDL_WINDOWEVENT_RESIZED) {
-                // printf("%d %d\n", e.window.data1, e.window.data2);
-                OGLSize(e.window.data1, e.window.data2);
-            }
-        } break;
-        case SDL_CONTROLLERDEVICEADDED:
-            theGame->mControls->handleControllerAdded(e.cdevice.which);
+        case SDL_EVENT_WINDOW_RESIZED:
+            // printf("%d %d\n", e.window.data1, e.window.data2);
+            OGLSize(e.window.data1, e.window.data2);
             break;
-        case SDL_CONTROLLERDEVICEREMOVED:
-            theGame->mControls->handleControllerRemoved(e.cdevice.which);
+        case SDL_EVENT_GAMEPAD_ADDED:
+            theGame->mControls->handleGamepadAdded(e.cdevice.which);
+            break;
+        case SDL_EVENT_GAMEPAD_REMOVED:
+            theGame->mControls->handleGamepadRemoved(e.cdevice.which);
             break;
         }
     }
@@ -85,7 +82,7 @@ static bool handleEvents()
 int main(int /*argc*/, char** /*argv*/)
 {
     printf("SDL_Init\n");
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) < 0) {
+    if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK | SDL_INIT_GAMEPAD)) {
         printf("SDL_Init failed: %s\n", SDL_GetError());
         return 0;
     }
@@ -95,7 +92,7 @@ int main(int /*argc*/, char** /*argv*/)
         flags |= SDL_WINDOW_FULLSCREEN;
     }
 
-    window = SDL_CreateWindow("OpenGL SDL2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+    window = SDL_CreateWindow("OpenGL SDL3",
                               settings::get().displayWidth, settings::get().displayHeight, flags);
 
     if (window) {
@@ -133,11 +130,11 @@ static void OGLCreate()
     // Do stuff with the context here if needed...
     createOffscreens();
 
-    if (SDL_GL_SetSwapInterval(0) == -1) {
+    if (!SDL_GL_SetSwapInterval(0)) {
         printf("SDL_GL_SetSwapInterval failed: %s\n", SDL_GetError());
     }
 
-    if (SDL_GL_MakeCurrent(window, context) < 0) {
+    if (!SDL_GL_MakeCurrent(window, context)) {
         printf("SDL_GL_MakeCurrent failed: %s\n", SDL_GetError());
     }
 
@@ -148,8 +145,8 @@ static void OGLDestroy()
 {
     oglInited = false;
 
-    SDL_GL_MakeCurrent(nullptr, 0);
-    SDL_GL_DeleteContext(context);
+    SDL_GL_MakeCurrent(nullptr, nullptr);
+    SDL_GL_DestroyContext(context);
 }
 
 static void OGLSize(int cx, int cy)
@@ -270,7 +267,7 @@ static void updateFps(Uint32 now)
         frameCount = 0;
 
         char buf[32];
-        snprintf(buf, sizeof(buf), "OpenGW SDL2 - FPS %d", fps);
+        snprintf(buf, sizeof(buf), "OpenGW SDL3 - FPS %d", fps);
         SDL_SetWindowTitle(window, buf);
     }
 }

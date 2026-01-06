@@ -20,7 +20,7 @@
 #include "particle.hpp"
 #include "players.hpp"
 
-#include "SDL_opengl.h"
+#include <SDL3/SDL_opengl.h>
 
 entity::entity()
     : mType(ENTITY_TYPE_UNDEF)

@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "SDL2/SDL_types.h"
+#include <SDL3/SDL.h>
 
 class profiler
 {
