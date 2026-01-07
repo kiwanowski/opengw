@@ -2,7 +2,6 @@
 
 #include <cstdio>
 
-constexpr std::size_t SAMPLE_SIZE = 512;
 constexpr std::size_t NUM_TRACKS = 200;
 
 sound::sound()
@@ -24,9 +23,6 @@ sound::sound()
         track.paused = false;
         track.speed = 1;
     }
-
-    mLeftSamples.resize(SAMPLE_SIZE * 4);
-    mRightSamples.resize(SAMPLE_SIZE * 4);
 }
 
 sound::~sound()
@@ -62,10 +58,15 @@ void sound::bufferCallback(void* userdata, Uint8* stream, int len)
 
     memset(buf, 0, len);
 
-    memset(thisPtr->mLeftSamples.data(), 0, len * sizeof(float));
-    memset(thisPtr->mRightSamples.data(), 0, len * sizeof(float));
+    const std::size_t samplesPerChannel = len / sizeof(Sint16) / 2;
 
-    len /= 2;
+    if (samplesPerChannel > thisPtr->mLeftSamples.size()) {
+        thisPtr->mLeftSamples.resize(samplesPerChannel);
+        thisPtr->mRightSamples.resize(samplesPerChannel);
+    }
+
+    memset(thisPtr->mLeftSamples.data(), 0, samplesPerChannel * sizeof(float));
+    memset(thisPtr->mRightSamples.data(), 0, samplesPerChannel * sizeof(float));
 
     constexpr int max_int_val = (1 << 16);
 
@@ -76,22 +77,17 @@ void sound::bufferCallback(void* userdata, Uint8* stream, int len)
         int lIndex = 0;
 
         if (track.playing && !track.paused) {
-            auto data = track.data.data();
-            const auto halfVolume = track.vol / 2.0f;
+            const auto volume = track.vol / 2.0f / max_int_val;
 
-            for (int s = 0; s < len; s += 2) {
+            for (std::size_t s = 0; s < samplesPerChannel; s++) {
                 // Stream the audio data
-                const float fPos = track.pos;
-                const int iPos = static_cast<int>(fPos);
+                const int iPos = static_cast<int>(track.pos);
 
-                const float left = data[iPos] * halfVolume;
-                const float right = data[iPos + 1] * halfVolume;
+                const float left = track.data[iPos] * volume;
+                const float right = track.data[iPos + 1] * volume;
 
-                const float fLeft = left / max_int_val;
-                const float fRight = right / max_int_val;
-
-                thisPtr->mLeftSamples[lIndex] += fLeft;
-                thisPtr->mRightSamples[rIndex] += fRight;
+                thisPtr->mLeftSamples[lIndex] += left;
+                thisPtr->mRightSamples[rIndex] += right;
 
                 ++lIndex;
                 ++rIndex;
@@ -114,7 +110,7 @@ void sound::bufferCallback(void* userdata, Uint8* stream, int len)
     }
 
     // Fill the output buffer
-    for (int i = 0, b = 0; i < len / 2; i++) {
+    for (std::size_t i = 0, b = 0; i < samplesPerChannel; i++) {
         const Sint16 left = thisPtr->mLeftSamples[i] * max_int_val;
         const Sint16 right = thisPtr->mRightSamples[i] * max_int_val;
         buf[b++] = left;
