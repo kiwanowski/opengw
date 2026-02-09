@@ -185,7 +185,7 @@ void highscore::drawEnterScore()
         pen = defaultFontPen;
 
         char format[512];
-        sprintf(format, "%d", mScore);
+        snprintf(format, sizeof(format), "%d", mScore);
         char* s = font::formatStringWithCommas(format);
 
         font::AlphanumericsPrint(font::ALIGN_CENTER, .048, 0, .3, &pen, s);
@@ -272,7 +272,7 @@ void highscore::drawTable()
     y = .35;
     for (int i = 0; i < 10; i++) {
         char format[512];
-        sprintf(format, "%d", mEntries[i].score);
+        snprintf(format, sizeof(format), "%d", mEntries[i].score);
         char* s = font::formatStringWithCommas(format);
 
         vector::pen pen = defaultFontPen;

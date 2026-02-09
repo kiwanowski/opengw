@@ -795,13 +795,13 @@ void player::addKillAtLocation(int points, Point3d pos)
     if (showMultiplier) {
         // Show the multiplier message
         char message[256];
-        sprintf(message, "Multiplier x%d", mMultiplier);
+        snprintf(message, sizeof(message), "Multiplier x%d", mMultiplier);
         game::showMessageAtLocation(message, pos, pen);
         theGame->mSound->playTrack(SOUNDID_MULTIPLIERADVANCE);
     } else {
         // Just display the point value
         char message[128];
-        sprintf(message, "%d", pointsEarned);
+        snprintf(message, sizeof(message), "%d", pointsEarned);
         game::showMessageAtLocation(message, pos, pen);
     }
 }

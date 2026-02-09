@@ -474,7 +474,7 @@ void scene::drawScores()
         // Player 1 score display
         {
             char format[512];
-            sprintf(format, "%d", theGame->getPlayer1()->mScore);
+            snprintf(format, sizeof(format), "%d", theGame->getPlayer1()->mScore);
             char* s = font::formatStringWithCommas(format);
 
             vector::pen pen = defaultFontPen;
@@ -519,7 +519,7 @@ void scene::drawScores()
 
             if (player->mJoined) {
                 char format[512];
-                sprintf(format, "%d", player->mScore);
+                snprintf(format, sizeof(format), "%d", player->mScore);
                 char* s = font::formatStringWithCommas(format);
 
                 vector::pen pen(player->getFontPen(), .75, 3);

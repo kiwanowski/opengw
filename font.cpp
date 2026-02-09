@@ -842,7 +842,7 @@ void AlphanumericsPrint(int alignment, float scale, float x, float y, vector::pe
     va_list ap;
 
     va_start(ap, fmt);
-    vsprintf(text, fmt, ap);
+    vsnprintf(text, sizeof(text), fmt, ap);
     va_end(ap);
 
     // Initial alignment
