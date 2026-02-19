@@ -1,6 +1,7 @@
-LIBS = -F /Library/Frameworks -framework SDL3 -framework OpenGL -rpath /Library/Frameworks
+FRAMEWORK_PATH = /Library/Frameworks
+LIBS = -F $(FRAMEWORK_PATH) -framework SDL3 -framework OpenGL -rpath $(FRAMEWORK_PATH)
 OWN_PATHS = -I.
-HEADERS = $(OWN_PATHS) -F /Library/Frameworks
+HEADERS = $(OWN_PATHS) -F $(FRAMEWORK_PATH)
 CFLAGS = -std=c++20 -Wall -Wextra -O3 -ggdb
 NAME = opengw
 OBJDIR = obj
